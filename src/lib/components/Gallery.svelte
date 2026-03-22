@@ -9,6 +9,10 @@ import PudleCoverSrc from "$/assets/pudle-cover.png";
         href="/pudle"
         imageSrc={PudleCoverSrc}
         imageAlt="Pudle"
+        tags={[
+            "web(spa)",
+            "game",
+        ]}
     />
 </project-gallery>
 

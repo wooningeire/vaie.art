@@ -1,12 +1,16 @@
 <script lang="ts">
+import GalleryEntryTag from "./GalleryEntryTag.svelte";
+
 let {
     href,
     imageSrc,
     imageAlt = "",
+    tags = [],
 }: {
     href: string,
     imageSrc: string,
     imageAlt?: string,
+    tags?: string[],
 } = $props();
 </script>
 
@@ -16,6 +20,12 @@ let {
             src={imageSrc}
             alt={imageAlt}
         />
+
+        <gallery-entry-tags>
+            {#each tags as tag}
+                <GalleryEntryTag label={tag} />
+            {/each}
+        </gallery-entry-tags>
     </button>
 </a>
 
@@ -52,12 +62,31 @@ button {
         }
     }
 
-    img {
+    > * {
+        grid-area: 1/1;
+    }
+
+    > img {
         width: 100%;
         height: 100%;
         object-fit: cover;
 
-        opacity: 0.35;
+        opacity: 0.5;
+
+        z-index: -1;
     }
+
+}
+
+gallery-entry-tags {
+    align-self: flex-end;
+    justify-self: flex-start;
+
+    display: flex;
+    gap: 0.25em;
+
+    margin: 0.25em;
+
+    font-size: 0.6666666em;
 }
 </style>
