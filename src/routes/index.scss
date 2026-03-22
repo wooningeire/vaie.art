@@ -18,13 +18,13 @@
 
 body {
     background: oklch(0.2 0.02 190);
-    color: oklch(0.9 0.008 210);
+    color: oklch(0.9 0.008 210 / 0.6);
 
     font-family: "Belanosima", sans-serif;
 }
 
 a {
-    color: oklch(0.7 0.01 200);
+    color: oklch(0.9 0.01 200 / 0.7);
     text-decoration: none;
 
     &:hover,
@@ -40,5 +40,6 @@ a {
 h1 {
     font-weight: 600;
     font-size: 3em;
-    line-height: 1.5;
+
+    color: oklch(0.9 0.008 210);
 }

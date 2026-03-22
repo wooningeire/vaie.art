@@ -1,10 +1,19 @@
-<gallery-tags>
+<script lang="ts">
+import GalleryButton from "./GalleryButton.svelte";
 
+import PudleCoverSrc from "$/assets/pudle-cover.png";
+</script>
 
-</gallery-tags>
+<project-gallery>
+    <GalleryButton
+        href="/pudle"
+        imageSrc={PudleCoverSrc}
+        imageAlt="Pudle"
+    />
+</project-gallery>
 
 <style lang="scss">
-gallery-tags {
+project-gallery {
     display: flex;
     flex-direction: column;
 }
