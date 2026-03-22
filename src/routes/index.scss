@@ -1,0 +1,14 @@
+@use "$/fonts/CommitMono.scss";
+@use "$/fonts/Belanosima.scss";
+
+* {
+    box-sizing: border-box;
+
+    margin: 0;
+    padding: 0;
+    font-weight: inherit;
+}
+
+body {
+    font-family: "Belanosima";
+}
