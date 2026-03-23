@@ -5,13 +5,13 @@ let { taskId }: { taskId: string } = $props();
 
 const store = getPbStore();
 
-// Re-evaluates every second because `store.elapsed` changes.
-let totalMs = $derived((store.elapsed, store.totalTime(taskId)));
+// Automatically tracks `store.now` because `totalTime` uses it internally
+let totalMs = $derived(store.totalTime(taskId));
 
 let activePeriod = $derived(store.timePeriods.find(p => p.task === taskId && !p.end));
 
 // Session duration
-let sessionMs = $derived((store.elapsed, activePeriod ? Date.now() - new Date(activePeriod.start).getTime() : 0));
+let sessionMs = $derived(activePeriod ? store.now - new Date(activePeriod.start).getTime() : 0);
 </script>
 
 <button onclick={() => store.toggleClock(taskId)}>

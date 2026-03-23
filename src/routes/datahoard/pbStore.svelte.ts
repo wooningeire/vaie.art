@@ -9,8 +9,8 @@ export class PbStore {
 	timePeriods = $state<TimePeriod[]>([]);
 
 	activeTimePeriod = $state<TimePeriod | null>(null);
-	elapsed = $state(0);
-	tickInterval: ReturnType<typeof setInterval> | undefined;
+	now = $state(Date.now());
+	reqFrame: number | undefined;
 
 	async loadAll() {
 		const [tasksRes, prioritiesRes, completionsRes, periodsRes] = await Promise.all([
@@ -32,7 +32,7 @@ export class PbStore {
 	}
 
 	destroy() {
-		clearInterval(this.tickInterval);
+		if (this.reqFrame !== undefined) cancelAnimationFrame(this.reqFrame);
 	}
 
 	rootTasks(): Task[] {
@@ -47,17 +47,19 @@ export class PbStore {
 		let total = 0;
 		for (const p of this.timePeriods.filter(tp => tp.task === taskId)) {
 			const start = new Date(p.start).getTime();
-			const end = p.end ? new Date(p.end).getTime() : Date.now();
+			const end = p.end ? new Date(p.end).getTime() : this.now;
 			total += end - start;
 		}
 		return total;
 	}
 
 	startTicking() {
-		clearInterval(this.tickInterval);
-		this.tickInterval = setInterval(() => {
-			this.elapsed++;
-		}, 1000);
+		if (this.reqFrame !== undefined) cancelAnimationFrame(this.reqFrame);
+		const tick = () => {
+			this.now = Date.now();
+			this.reqFrame = requestAnimationFrame(tick);
+		};
+		this.reqFrame = requestAnimationFrame(tick);
 	}
 
 	async toggleClock(taskId: string) {
@@ -70,8 +72,7 @@ export class PbStore {
 
 			const wasActiveTask = this.activeTimePeriod.task;
 			this.activeTimePeriod = null;
-			clearInterval(this.tickInterval);
-			this.elapsed = 0;
+			if (this.reqFrame !== undefined) cancelAnimationFrame(this.reqFrame);
 
 			if (wasActiveTask === taskId) return;
 		}
@@ -98,8 +99,7 @@ export class PbStore {
 		this.timePeriods = this.timePeriods.filter(p => p.task !== id);
 		if (this.activeTimePeriod?.task === id) {
 			this.activeTimePeriod = null;
-			clearInterval(this.tickInterval);
-			this.elapsed = 0;
+			if (this.reqFrame !== undefined) cancelAnimationFrame(this.reqFrame);
 		}
 	}
 
