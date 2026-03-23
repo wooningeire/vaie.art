@@ -20,19 +20,22 @@
 	}
 </script>
 
-<div style="margin-left: {depth * 24}px">
-	<span>
+<div style="display: contents;">
+	<div style="padding-left: {depth * 24}px; display: flex; align-items: center;">
 		{#if editingTaskId === task.id}
 			<input
 				type="text"
 				bind:value={editingLabel}
 				onkeydown={(e) => e.key === "Enter" && saveEdit()}
 				onblur={() => saveEdit()}
+				style="width: 100%;"
 			/>
 		{:else}
-			<span role="button" tabindex="0" ondblclick={startEdit}>{task.label || "(untitled)"}</span>
+			<span role="button" tabindex="0" ondblclick={startEdit} style="cursor: pointer; width: 100%;">
+				{task.label || "(untitled)"}
+			</span>
 		{/if}
-	</span>
+	</div>
 
 	<select
 		value={task.priority}
@@ -64,23 +67,17 @@
 		{/each}
 	</select>
 
-	<label>
-		Target: 
-		<input 
-			type="datetime-local"
-			value={toDatetimeLocal(task.target_due)}
-			onchange={(e) => store.setTargetDue(task.id, (e.target as HTMLInputElement).value)}
-		/>
-	</label>
+	<input 
+		type="datetime-local"
+		value={toDatetimeLocal(task.target_due)}
+		onchange={(e) => store.setTargetDue(task.id, (e.target as HTMLInputElement).value)}
+	/>
 
-	<label>
-		Hard: 
-		<input 
-			type="datetime-local"
-			value={toDatetimeLocal(task.hard_due)}
-			onchange={(e) => store.setHardDue(task.id, (e.target as HTMLInputElement).value)}
-		/>
-	</label>
+	<input 
+		type="datetime-local"
+		value={toDatetimeLocal(task.hard_due)}
+		onchange={(e) => store.setHardDue(task.id, (e.target as HTMLInputElement).value)}
+	/>
 
 	<button onclick={() => store.toggleClock(task.id)}>
 		{store.activeTimePeriod?.task === task.id ? "⏹" : "▶"}
