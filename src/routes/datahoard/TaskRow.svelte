@@ -1,7 +1,8 @@
 <script lang="ts">
 	import type { Task } from "$lib/pb";
 	import TaskRow from "./TaskRow.svelte";
-	import { getPbStore, formatMs, toDatetimeLocal } from "./PbStore.svelte";
+	import TaskClock from "./TaskClock.svelte";
+	import { getPbStore, toDatetimeLocal } from "./PbStore.svelte";
 
 	let { task, depth }: { task: Task; depth: number } = $props();
 
@@ -79,11 +80,7 @@
 		onchange={(e) => store.setHardDue(task.id, (e.target as HTMLInputElement).value)}
 	/>
 
-	<button onclick={() => store.toggleClock(task.id)}>
-		{store.activeTimePeriod?.task === task.id ? "⏹" : "▶"}
-	</button>
-
-	<span>{formatMs(store.totalTime(task.id))}</span>
+	<TaskClock taskId={task.id} />
 
 	<button onclick={() => store.deleteTask(task.id)}>✕</button>
 
