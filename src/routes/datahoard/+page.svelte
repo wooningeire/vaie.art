@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount, onDestroy } from "svelte";
 	import TaskRow from "./TaskRow.svelte";
+	import TaskCalendar from "./TaskCalendar.svelte";
 	import { setPbStore } from "./PbStore.svelte";
 
 	const store = setPbStore();
@@ -28,6 +29,8 @@
 		/>
 		<button onclick={addTask}>Add</button>
 	</div>
+
+	<TaskCalendar />
 
     <task-grid>
 		<task-grid-header>Task</task-grid-header>
