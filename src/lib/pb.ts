@@ -16,6 +16,36 @@ export interface PbRecord {
 	updated: string;
 }
 
+export interface PriorityEnum extends PbRecord {
+	label: string;
+	value: number;
+}
+
+export interface CompletionEnum extends PbRecord {
+	label: string;
+}
+
+export interface Task extends PbRecord {
+	label: string;
+	priority: string;
+	parent_task: string;
+	target_start: string;
+	target_due: string;
+	hard_due: string;
+	completion: string;
+	n_extra_hours: number;
+	expand?: {
+		priority?: PriorityEnum;
+		completion?: CompletionEnum;
+	};
+}
+
+export interface TimePeriod extends PbRecord {
+	start: string;
+	end: string;
+	task: string;
+}
+
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
 	const res = await fetch(`${BASE}${path}`, init);
 	if (!res.ok) throw new Error(`PB ${res.status}: ${await res.text()}`);

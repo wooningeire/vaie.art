@@ -1,36 +1,8 @@
 <script lang="ts">
 	import { onMount, onDestroy } from "svelte";
-	import { list, create, update, remove, type PbRecord } from "$lib/pb";
-
-	interface PriorityEnum extends PbRecord {
-		label: string;
-		value: number;
-	}
-
-	interface CompletionEnum extends PbRecord {
-		label: string;
-	}
-
-	interface Task extends PbRecord {
-		label: string;
-		priority: string;
-		parent_task: string;
-		target_start: string;
-		target_due: string;
-		hard_due: string;
-		completion: string;
-		n_extra_hours: number;
-		expand?: {
-			priority?: PriorityEnum;
-			completion?: CompletionEnum;
-		};
-	}
-
-	interface TimePeriod extends PbRecord {
-		start: string;
-		end: string;
-		task: string;
-	}
+	import { list, create, update, remove } from "$lib/pb";
+	import type { Task, PriorityEnum, CompletionEnum, TimePeriod } from "$lib/pb";
+	import TaskRow from "./TaskRow.svelte";
 
 	let tasks = $state<Task[]>([]);
 	let priorities = $state<PriorityEnum[]>([]);
@@ -101,6 +73,13 @@
 	function formatDate(iso: string): string {
 		if (!iso) return "";
 		return new Date(iso).toLocaleDateString();
+	}
+
+	function toDatetimeLocal(iso: string): string {
+		if (!iso) return "";
+		const d = new Date(iso);
+		d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+		return d.toISOString().slice(0, 16);
 	}
 
 	// --- clock ---
@@ -186,6 +165,26 @@
 		const idx = tasks.findIndex(t => t.id === taskId);
 		if (idx >= 0) tasks[idx] = { ...tasks[idx], completion: updated.completion };
 	}
+
+	async function setParentTask(taskId: string, parentId: string) {
+		const updated = await update<Task>("tasks", taskId, { parent_task: parentId || "" });
+		const idx = tasks.findIndex(t => t.id === taskId);
+		if (idx >= 0) tasks[idx] = { ...tasks[idx], parent_task: updated.parent_task };
+	}
+
+	async function setTargetDue(taskId: string, dateStr: string) {
+		const iso = dateStr ? new Date(dateStr).toISOString() : "";
+		const updated = await update<Task>("tasks", taskId, { target_due: iso });
+		const idx = tasks.findIndex(t => t.id === taskId);
+		if (idx >= 0) tasks[idx] = { ...tasks[idx], target_due: updated.target_due };
+	}
+
+	async function setHardDue(taskId: string, dateStr: string) {
+		const iso = dateStr ? new Date(dateStr).toISOString() : "";
+		const updated = await update<Task>("tasks", taskId, { hard_due: iso });
+		const idx = tasks.findIndex(t => t.id === taskId);
+		if (idx >= 0) tasks[idx] = { ...tasks[idx], hard_due: updated.hard_due };
+	}
 </script>
 
 <datahoard-page>
@@ -201,66 +200,21 @@
 		<button onclick={addTask}>Add</button>
 	</div>
 
-	{#each rootTasks() as task (task.id)}
-		{@render taskRow(task, 0)}
-	{/each}
+    <tasks-list>
+        {#each rootTasks() as task (task.id)}
+            <TaskRow 
+                {task} 
+                depth={0}
+                {tasks} {priorities} {completions} {activeTimePeriod}
+                {editingTaskId} bind:editingLabel
+                {startEdit} {saveEdit} {setPriority} {setCompletion}
+                {setParentTask} {setTargetDue} {setHardDue}
+                {toggleClock} {deleteTask}
+                {toDatetimeLocal} {formatMs} {totalTime} {childTasks}
+            />
+        {/each}
+    </tasks-list>
 </datahoard-page>
-
-{#snippet taskRow(task: Task, depth: number)}
-	<div style="margin-left: {depth * 24}px">
-		<span>
-			{#if editingTaskId === task.id}
-				<input
-					type="text"
-					bind:value={editingLabel}
-					onkeydown={(e) => e.key === "Enter" && saveEdit(task)}
-					onblur={() => saveEdit(task)}
-				/>
-			{:else}
-				<span ondblclick={() => startEdit(task)}>{task.label || "(untitled)"}</span>
-			{/if}
-		</span>
-
-		<select
-			value={task.priority}
-			onchange={(e) => setPriority(task.id, (e.target as HTMLSelectElement).value)}
-		>
-			<option value="">—</option>
-			{#each priorities as p (p.id)}
-				<option value={p.id}>{p.label}</option>
-			{/each}
-		</select>
-
-		<select
-			value={task.completion}
-			onchange={(e) => setCompletion(task.id, (e.target as HTMLSelectElement).value)}
-		>
-			<option value="">—</option>
-			{#each completions as c (c.id)}
-				<option value={c.id}>{c.label}</option>
-			{/each}
-		</select>
-
-		{#if task.target_due}
-			<span>due {formatDate(task.target_due)}</span>
-		{/if}
-		{#if task.hard_due}
-			<span>hard due {formatDate(task.hard_due)}</span>
-		{/if}
-
-		<button onclick={() => toggleClock(task.id)}>
-			{activeTimePeriod?.task === task.id ? "⏹" : "▶"}
-		</button>
-
-		<span>{formatMs(totalTime(task.id))}</span>
-
-		<button onclick={() => deleteTask(task.id)}>✕</button>
-
-		{#each childTasks(task.id) as child (child.id)}
-			{@render taskRow(child, depth + 1)}
-		{/each}
-	</div>
-{/snippet}
 
 <style lang="scss">
 </style>
