@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount, onDestroy } from "svelte";
 	import TaskRow from "./TaskRow.svelte";
 	import TaskCalendar from "./TaskCalendar.svelte";
 	import { setPbStore } from "./PbStore.svelte";
@@ -7,9 +6,6 @@
 	const store = setPbStore();
 
 	let newTaskLabel = $state("");
-
-	onMount(() => store.loadAll());
-	onDestroy(() => store.destroy());
 
 	function addTask() {
 		store.addTask(newTaskLabel);

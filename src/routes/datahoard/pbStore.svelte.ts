@@ -1,6 +1,6 @@
 import { list, create, update, remove } from "$lib/pb";
 import type { Task, PriorityEnum, CompletionEnum, TimePeriod } from "$lib/pb";
-import { setContext, getContext } from "svelte";
+import { setContext, getContext, onMount, onDestroy } from "svelte";
 
 export class PbStore {
 	tasks = $state<Task[]>([]);
@@ -27,7 +27,6 @@ export class PbStore {
 		const active = this.timePeriods.find(p => !p.end);
 		if (active) {
 			this.activeTimePeriod = active;
-			this.startTicking();
 		}
 	}
 
@@ -72,7 +71,6 @@ export class PbStore {
 
 			const wasActiveTask = this.activeTimePeriod.task;
 			this.activeTimePeriod = null;
-			if (this.reqFrame !== undefined) cancelAnimationFrame(this.reqFrame);
 
 			if (wasActiveTask === taskId) return;
 		}
@@ -84,7 +82,6 @@ export class PbStore {
 		});
 		this.timePeriods = [period, ...this.timePeriods];
 		this.activeTimePeriod = period;
-		this.startTicking();
 	}
 
 	async addTask(label: string) {
@@ -99,7 +96,6 @@ export class PbStore {
 		this.timePeriods = this.timePeriods.filter(p => p.task !== id);
 		if (this.activeTimePeriod?.task === id) {
 			this.activeTimePeriod = null;
-			if (this.reqFrame !== undefined) cancelAnimationFrame(this.reqFrame);
 		}
 	}
 
@@ -147,7 +143,18 @@ export class PbStore {
 export const PB_CONTEXT_KEY = Symbol("pb_store");
 
 export function setPbStore() {
-    return setContext(PB_CONTEXT_KEY, new PbStore());
+	const store = new PbStore();
+	
+	onMount(() => {
+		store.loadAll();
+		store.startTicking();
+	});
+
+	onDestroy(() => {
+		store.destroy();
+	});
+
+	return setContext(PB_CONTEXT_KEY, store);
 }
 
 export function getPbStore() {

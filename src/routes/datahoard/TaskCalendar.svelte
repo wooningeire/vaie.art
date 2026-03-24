@@ -3,6 +3,7 @@
 
 	const store = getPbStore();
 
+
 	function getMonday(d: Date) {
 		const date = new Date(d);
 		const day = date.getDay();
@@ -34,6 +35,9 @@
 			return dueMs >= startMs && dueMs < endMs;
 		});
 	}
+
+    const nowDate = $derived(new Date(store.now));
+    const nowPct = $derived(((nowDate.getHours() + nowDate.getMinutes() / 60) / 24) * 100);
 </script>
 
 <div class="calendar-wrapper">
@@ -62,9 +66,7 @@
 					{/each}
 
 					<!-- Current time indicator if today -->
-					{#if day.toDateString() === new Date(store.now).toDateString()}
-						{@const nowD = new Date(store.now)}
-						{@const nowPct = ((nowD.getHours() + nowD.getMinutes() / 60) / 24) * 100}
+					{#if day.toDateString() === nowDate.toDateString()}
 						<div class="current-time-line" style="top: {nowPct}%"></div>
 					{/if}
 
