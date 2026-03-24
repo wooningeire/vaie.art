@@ -26,14 +26,33 @@
 		});
 	});
 
-	function getTasksForDay(day: Date) {
+	function getGroupedTasksForDay(day: Date) {
 		const startMs = day.getTime();
 		const endMs = startMs + 24 * 60 * 60 * 1000;
-		return store.tasks.filter((t) => {
+		const tasksForDay = store.tasks.filter((t) => {
 			if (!t.hard_due) return false;
 			const dueMs = new Date(t.hard_due).getTime();
 			return dueMs >= startMs && dueMs < endMs;
 		});
+
+		// Sort chronologically
+		tasksForDay.sort((a, b) => new Date(a.hard_due).getTime() - new Date(b.hard_due).getTime());
+
+		// Group tasks within 15 minutes (900000 ms) of each other
+		const groups: { dueMs: number; labels: string[] }[] = [];
+		for (const t of tasksForDay) {
+			const dueMs = new Date(t.hard_due).getTime();
+			const label = t.label || "(untitled)";
+			if (groups.length > 0) {
+				const lastGroup = groups[groups.length - 1];
+				if (dueMs - lastGroup.dueMs <= 900000) {
+					lastGroup.labels.push(label);
+					continue;
+				}
+			}
+			groups.push({ dueMs, labels: [label] });
+		}
+		return groups;
 	}
 
     const nowDate = $derived(new Date(store.now));
@@ -71,14 +90,14 @@
 					{/if}
 
 					<!-- Tasks -->
-					{#each getTasksForDay(day) as task (task.id)}
-						{@const date = new Date(task.hard_due)}
+					{#each getGroupedTasksForDay(day) as group}
+						{@const date = new Date(group.dueMs)}
 						{@const hours = date.getHours() + date.getMinutes() / 60}
 						{@const topPercent = (hours / 24) * 100}
 						
 						<div class="task-line" style="top: {topPercent}%">
 							<div class="fade-up"></div>
-							<span class="task-label">{task.label || "(untitled)"}</span>
+							<span class="task-label">{group.labels.join(", ")}</span>
 						</div>
 					{/each}
 				</div>
