@@ -40,7 +40,7 @@
     const nowPct = $derived(((nowDate.getHours() + nowDate.getMinutes() / 60) / 24) * 100);
 </script>
 
-<div class="calendar-wrapper">
+<task-calendar>
 	<h2>Weekly Calendar (Hard Due)</h2>
 	<div class="calendar-grid">
 		<div class="time-axis-col">
@@ -57,7 +57,7 @@
 		{#each days() as day}
 			<div class="day-col">
 				<div class="day-header">
-					{day.toLocaleDateString(undefined, { weekday: "short", month: "numeric", day: "numeric" })}
+					{day.toLocaleDateString(undefined, { weekday: "short", year: "numeric", month: "2-digit", day: "2-digit",  })}
 				</div>
 				<div class="day-body">
 					<!-- Time grid lines -->
@@ -85,52 +85,40 @@
 			</div>
 		{/each}
 	</div>
-</div>
+</task-calendar>
 
 <style lang="scss">
-	.calendar-wrapper {
-		margin-bottom: 2rem;
-
-		h2 {
-			margin-bottom: 1rem;
-		}
-	}
 
 	.calendar-grid {
 		display: grid;
 		grid-template-columns: 50px repeat(7, 1fr);
-		gap: 4px;
-		height: 600px;
-		background: #f9f9f9;
-		border: 1px solid #ddd;
+
+		height: 50em;
+		padding: 0 1em;
+		margin: 2em 0;
 	}
 
 	.time-axis-col {
 		display: flex;
 		flex-direction: column;
-		border-right: 1px solid #ddd;
-		background: #fff;
+		border-right: 2px solid oklch(1 0 0 / 0.5);
 	}
 
 	.time-axis {
 		flex: 1;
 		position: relative;
-		margin: 12px 0;
 
 		.time-label {
 			position: absolute;
 			transform: translateY(-50%);
-			right: 8px;
-			font-size: 0.75rem;
-			color: #666;
+			right: 0.5em;
 		}
 	}
 
 	.day-col {
 		display: flex;
 		flex-direction: column;
-		border-right: 1px solid #eaeaea;
-		background: #fff;
+		border-right: 1px solid oklch(1 0 0 / 0.5);
 
 		&:last-child {
 			border-right: none;
@@ -138,25 +126,20 @@
 	}
 
 	.day-header {
-		text-align: center;
-		padding: 8px 4px;
-		font-weight: bold;
-		border-bottom: 1px solid #ddd;
-		background: #f1f1f1;
-		font-size: 0.9rem;
+		padding: 0.5em;
+		border-bottom: 1px solid oklch(1 0 0 / 0.5);
 	}
 
 	.day-body {
 		flex: 1;
 		position: relative;
-		margin: 12px 0;
 
 		.grid-line {
 			position: absolute;
 			left: 0;
 			right: 0;
 			height: 1px;
-			background: #f0f0f0;
+			background: oklch(1 0 0 / 0.15);
 			z-index: 0;
 		}
 
@@ -165,7 +148,7 @@
 			left: 0;
 			right: 0;
 			height: 2px;
-			background: rgba(0, 0, 255, 0.4);
+			background: oklch(0.9 0.2 160);
 			z-index: 10;
 		}
 
@@ -173,7 +156,7 @@
 			position: absolute;
 			left: 0;
 			right: 0;
-			border-top: 2px solid red;
+			border-top: 2px solid oklch(0.9 0.2 350);
 			z-index: 5;
 
 			.fade-up {
@@ -182,20 +165,17 @@
 				left: 0;
 				right: 0;
 				height: 60px; // roughly ~2.4 hours visually in a 600px grid
-				background: linear-gradient(to top, rgba(255, 0, 0, 0.3), transparent);
+				background: linear-gradient(to top, oklch(0.9 0.2 350 / 0.3), oklch(0 0 0 / 0));
 				pointer-events: none;
 			}
 
 			.task-label {
 				position: absolute;
 				top: 0;
-				left: 4px;
-				font-size: 0.75rem;
-				color: #a00;
-				font-weight: bold;
-				background: rgba(255, 255, 255, 0.8);
 				padding: 0 4px;
 				border-radius: 0 0 4px 4px;
+
+				color: oklch(0.9 0.2 350 / 0.7);
 			}
 		}
 	}
