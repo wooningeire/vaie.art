@@ -1,7 +1,7 @@
 <script lang="ts">
 import Background from "@/Background.svelte";
 import Gallery from "@/Gallery.svelte";
-import SocialLink from "@/SocialLink.svelte";
+import SocialLink from "@/SocialButton.svelte";
 import BareLink from "@/BareLink.svelte";
 
 import GithubSvg from "@/social-icons/Github.svg.svelte";
