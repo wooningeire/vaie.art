@@ -105,7 +105,6 @@
 	align-items: center;
 	margin-top: 1rem;
 	margin-bottom: 1rem;
-	font-size: 0.9em;
 
 	.control-group {
 		display: flex;
@@ -113,8 +112,7 @@
 		align-items: center;
 
 		select {
-			@include mixins.glass-button;
-			padding: 0.25rem 0.5rem;
+			@include mixins.glass-button-small;
 			cursor: pointer;
 		}
 	}

@@ -100,3 +100,29 @@
 		/>
 	{/each}
 </div>
+
+<style lang="scss">
+@use "$/styles/mixins";
+@use "$/styles/fonts";
+
+div {
+	display: contents;
+}
+
+input[type="checkbox"] {
+	width: 1em;
+	height: 1em;
+}
+
+input[type="text"],
+input[type="datetime-local"],
+select,
+button {
+	@include mixins.glass-button-small;
+}
+
+input[type="datetime-local"] {
+	font-family: fonts.$font-mono;
+	font-size: 0.85em;
+}
+</style>

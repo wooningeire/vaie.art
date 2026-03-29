@@ -30,14 +30,11 @@ let {
 @use "$/styles/mixins";
 
 button {
-    @include mixins.glass-button;
+    @include mixins.glass-button-small;
 
     display: flex;
     gap: 0.5em;
     align-items: center;
-
-    padding: 0.125em 0.5em;
-    border-radius: 0.125em;
 
     > social-button-icon {
         width: 1.25em;

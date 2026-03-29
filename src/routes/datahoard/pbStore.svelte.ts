@@ -148,7 +148,7 @@ export class PbStore {
 
 export const PB_CONTEXT_KEY = Symbol("pb_store");
 
-export function setPbStore() {
+export const setPbStore = () => {
 	const store = new PbStore();
 	
 	onMount(() => {
@@ -161,23 +161,23 @@ export function setPbStore() {
 	});
 
 	return setContext(PB_CONTEXT_KEY, store);
-}
+};
 
-export function getPbStore() {
+export const getPbStore = () => {
     return getContext<PbStore>(PB_CONTEXT_KEY);
-}
+};
 
-export function formatMs(ms: number): string {
+export const formatMs = (ms: number): string => {
     const secs = Math.floor(ms / 1000);
     const h = Math.floor(secs / 3600);
     const m = Math.floor((secs % 3600) / 60);
     const s = secs % 60;
-    return `${h}h ${m}m ${s}s`;
-}
+    return `${h.toString().padStart(2, "0")}:${m.toString().padStart(2, "0")}:${s.toString().padStart(2, "0")}`;
+};
 
-export function toDatetimeLocal(iso: string): string {
+export const toDatetimeLocal = (iso: string): string => {
     if (!iso) return "";
     const d = new Date(iso);
     d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
     return d.toISOString().slice(0, 16);
-}
+};

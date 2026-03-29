@@ -96,7 +96,6 @@
         <task-grid-header>Parent Task</task-grid-header>
         <task-grid-header>Target Due</task-grid-header>
         <task-grid-header>Hard Due</task-grid-header>
-        <task-grid-header>Clock</task-grid-header>
         <task-grid-header>Time</task-grid-header>
         <task-grid-header></task-grid-header>
 
@@ -115,7 +114,6 @@
     padding: 0 1rem;
     align-items: center;
     margin-top: 1rem;
-    font-size: 0.9em;
 
     .control-group {
         display: flex;
@@ -123,15 +121,13 @@
         align-items: center;
 
         select {
-            @include mixins.glass-button;
-            padding: 0.25rem 0.5rem;
+            @include mixins.glass-button-small;
             cursor: pointer;
         }
     }
 
     button.sort-dir-btn {
-        @include mixins.glass-button;
-        padding: 0.25rem 0.5rem;
+        @include mixins.glass-button-small;
         cursor: pointer;
     }
 }
@@ -139,7 +135,7 @@
 task-grid {
     overflow-x: auto;
     display: grid;
-    grid-template-columns: repeat(10, auto);
+    grid-template-columns: repeat(9, auto);
     gap: 0.5em 1em;
     align-items: center;
 
