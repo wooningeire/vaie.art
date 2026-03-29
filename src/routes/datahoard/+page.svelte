@@ -3,11 +3,12 @@
 	import TaskCalendar from "./TaskCalendar.svelte";
 	import { setPbStore } from "./PbStore.svelte";
     import TaskGrid from "./TaskGrid.svelte";
+	import TaskKanban from "./TaskKanban.svelte";
 
 	const store = setPbStore();
 
 	let newTaskLabel = $state("");
-	let viewMode = $state<"grid" | "calendar">("grid");
+	let viewMode = $state<"grid" | "calendar" | "kanban">("grid");
 
 	function addTask() {
 		store.addTask(newTaskLabel);
@@ -32,11 +33,14 @@
 		<div class="tabs">
 			<button class:active={viewMode === 'grid'} onclick={() => viewMode = 'grid'}>Grid</button>
 			<button class:active={viewMode === 'calendar'} onclick={() => viewMode = 'calendar'}>Calendar</button>
+			<button class:active={viewMode === 'kanban'} onclick={() => viewMode = 'kanban'}>Kanban</button>
 		</div>
 	</div>
 
 	{#if viewMode === 'calendar'}
 		<TaskCalendar />
+	{:else if viewMode === 'kanban'}
+		<TaskKanban />
 	{:else}
 		<TaskGrid />
 	{/if}
