@@ -84,7 +84,6 @@
 </script>
 
 <task-calendar>
-	<h2>Weekly Calendar (Hard Due)</h2>
 	<div class="calendar-grid">
 		<div class="time-axis-col">
 			<div class="day-header" style="visibility: hidden;">Time</div>
