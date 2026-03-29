@@ -57,6 +57,30 @@
 
     const nowDate = $derived(new Date(store.now));
     const nowPct = $derived(((nowDate.getHours() + nowDate.getMinutes() / 60) / 24) * 100);
+
+	function getPeriodsForDay(day: Date) {
+		const dayStartMs = day.getTime();
+		const dayEndMs = dayStartMs + 24 * 60 * 60 * 1000;
+
+		return store.timePeriods
+			.filter((p) => {
+				const startMs = new Date(p.start).getTime();
+				const endMs = p.end ? new Date(p.end).getTime() : store.now;
+				return startMs < dayEndMs && endMs > dayStartMs;
+			})
+			.map((p) => {
+				const startMs = Math.max(new Date(p.start).getTime(), dayStartMs);
+				const endMs = Math.min(p.end ? new Date(p.end).getTime() : store.now, dayEndMs);
+				const task = store.tasks.find((t) => t.id === p.task);
+				return {
+					id: p.id,
+					topPct: ((startMs - dayStartMs) / (24 * 60 * 60 * 1000)) * 100,
+					heightPct: ((endMs - startMs) / (24 * 60 * 60 * 1000)) * 100,
+					label: task?.label || "(untitled)",
+					active: !p.end,
+				};
+			});
+	}
 </script>
 
 <task-calendar>
@@ -98,6 +122,17 @@
 						<div class="task-line" style="top: {topPercent}%">
 							<div class="fade-up"></div>
 							<span class="task-label">{group.labels.join(", ")}</span>
+						</div>
+					{/each}
+
+					<!-- Time periods -->
+					{#each getPeriodsForDay(day) as period (period.id)}
+						<div
+							class="time-period"
+							class:active={period.active}
+							style="top: {period.topPct}%; height: {period.heightPct}%"
+						>
+							<span class="period-label">{period.label}</span>
 						</div>
 					{/each}
 				</div>
@@ -195,6 +230,30 @@
 				border-radius: 0 0 4px 4px;
 
 				color: oklch(0.9 0.2 350 / 0.7);
+			}
+		}
+
+		.time-period {
+			position: absolute;
+			left: 2px;
+			right: 2px;
+			min-height: 2px;
+			background: oklch(0.7 0.15 250 / 0.25);
+			border-left: 3px solid oklch(0.7 0.15 250);
+			border-radius: 2px;
+			z-index: 3;
+			overflow: hidden;
+
+			&.active {
+				background: oklch(0.7 0.15 160 / 0.25);
+				border-left-color: oklch(0.7 0.15 160);
+			}
+
+			.period-label {
+				padding: 1px 4px;
+				font-size: 0.7em;
+				white-space: nowrap;
+				color: oklch(0.7 0.1 250);
 			}
 		}
 	}
