@@ -3,89 +3,29 @@
     import { getPbStore } from "./PbStore.svelte";
     import TaskRow from "./TaskRow.svelte";
 
+    import { TaskFilterSort } from "./taskFilterSort.svelte";
+    import TaskControls from "./TaskControls.svelte";
+
     const store = getPbStore();
-
-    let filterArchive = $state("active"); // 'active', 'archived', 'all'
-    let sortBy = $state("created"); // 'created', 'priority', 'target_due', 'hard_due'
-    let sortDesc = $state(true);
-
-    let isVisible = $derived((t: Task) => {
-        if (filterArchive === "active") return !t.archive;
-        if (filterArchive === "archived") return t.archive;
-        return true;
-    });
-
-    let processTasks = $derived((tasks: Task[]) => {
-        let result = tasks.filter(isVisible);
-
-        // Sort
-        result.sort((a, b) => {
-            let valA: any;
-            let valB: any;
-
-            if (sortBy === "priority") {
-                valA = a.expand?.priority?.value ?? Number.MAX_SAFE_INTEGER;
-                valB = b.expand?.priority?.value ?? Number.MAX_SAFE_INTEGER;
-            } else if (sortBy === "target_due") {
-                valA = a.target_due ? new Date(a.target_due).getTime() : Number.MAX_SAFE_INTEGER;
-                valB = b.target_due ? new Date(b.target_due).getTime() : Number.MAX_SAFE_INTEGER;
-            } else if (sortBy === "hard_due") {
-                valA = a.hard_due ? new Date(a.hard_due).getTime() : Number.MAX_SAFE_INTEGER;
-                valB = b.hard_due ? new Date(b.hard_due).getTime() : Number.MAX_SAFE_INTEGER;
-            } else {
-                valA = new Date(a.created).getTime();
-                valB = new Date(b.created).getTime();
-            }
-
-            if (valA < valB) return sortDesc ? 1 : -1;
-            if (valA > valB) return sortDesc ? -1 : 1;
-            // Fallback to creation date if values are equal
-            const createA = new Date(a.created).getTime();
-            const createB = new Date(b.created).getTime();
-            return sortDesc ? (createB - createA) : (createA - createB);
-        });
-
-        return result;
-    });
+    const filterSort = new TaskFilterSort();
 
     let filteredTasks = $derived.by(() => {
         const visibleRoots = store.tasks.filter(t => {
-            if (!isVisible(t)) return false;
+            if (!filterSort.isVisible(t)) return false;
             
             if (!t.parent_task) return true;
             
             const parent = store.tasks.find(p => p.id === t.parent_task);
-            return !parent || !isVisible(parent);
+            return !parent || !filterSort.isVisible(parent);
         });
 
-        return processTasks(visibleRoots);
+        return filterSort.processTasks(visibleRoots);
     });
 </script>
 
 <div class="task-grid-container">
     <div class="grid-controls">
-        <label class="control-group">
-            <span>Show:</span>
-            <select bind:value={filterArchive}>
-                <option value="active">Active</option>
-                <option value="archived">Archived</option>
-                <option value="all">All</option>
-            </select>
-        </label>
-
-        <label class="control-group">
-            <span>Sort:</span>
-            <select bind:value={sortBy}>
-                <option value="created">Created</option>
-                <option value="priority">Priority</option>
-                <option value="target_due">Target Due</option>
-                <option value="hard_due">Hard Due</option>
-            </select>
-        </label>
-
-        <button onclick={() => sortDesc = !sortDesc} class="sort-dir-btn" title="Toggle Direction">
-            {sortDesc ? 'Descending ▼' : 'Ascending ▲'}
-        </button>
+        <TaskControls {filterSort} />
     </div>
 
     <task-grid>
@@ -100,7 +40,7 @@
         <task-grid-header></task-grid-header>
 
         {#each filteredTasks as task (task.id)}
-            <TaskRow {task} depth={0} {processTasks} />
+            <TaskRow {task} depth={0} processTasks={filterSort.processTasks} />
         {/each}
     </task-grid>
 </div>
@@ -114,22 +54,6 @@
     padding: 0 1rem;
     align-items: center;
     margin-top: 1rem;
-
-    .control-group {
-        display: flex;
-        gap: 0.5rem;
-        align-items: center;
-
-        select {
-            @include mixins.glass-button-small;
-            cursor: pointer;
-        }
-    }
-
-    button.sort-dir-btn {
-        @include mixins.glass-button-small;
-        cursor: pointer;
-    }
 }
 
 task-grid {

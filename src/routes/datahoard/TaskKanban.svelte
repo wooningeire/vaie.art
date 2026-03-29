@@ -2,8 +2,11 @@
 	import type { Task } from "$lib/pb";
 	import { getPbStore } from "./PbStore.svelte";
 	import TaskCard from "./TaskCard.svelte";
+	import { TaskFilterSort } from "./taskFilterSort.svelte";
+	import TaskControls from "./TaskControls.svelte";
 
 	const store = getPbStore();
+	const filterSort = new TaskFilterSort();
 
 	let groupBy = $state<"completion" | "priority">("completion");
 
@@ -22,12 +25,12 @@
 	});
 
 	let leafTasks = $derived.by(() => {
-		// Get all tasks that are active
-		const activeTasks = store.tasks.filter(t => !t.archive);
+		// Get all tasks that match the current filter (active vs archived)
+		const visibleTasks = store.tasks.filter(filterSort.isVisible);
 		
 		// Find leaf nodes (tasks that are not a parent_task to any other active task)
-		const parentIds = new Set(activeTasks.map(t => t.parent_task).filter(Boolean));
-		return activeTasks.filter(t => !parentIds.has(t.id));
+		const parentIds = new Set(visibleTasks.map(t => t.parent_task).filter(Boolean));
+		return visibleTasks.filter(t => !parentIds.has(t.id));
 	});
 
 	let groupedTasks = $derived.by(() => {
@@ -47,12 +50,7 @@
 
 		// Sort tasks within groups if needed (e.g. by target_due or created)
 		for (const key in groups) {
-			groups[key].sort((a, b) => {
-				const dueA = a.target_due ? new Date(a.target_due).getTime() : Number.MAX_SAFE_INTEGER;
-				const dueB = b.target_due ? new Date(b.target_due).getTime() : Number.MAX_SAFE_INTEGER;
-				if (dueA !== dueB) return dueA - dueB;
-				return new Date(a.created).getTime() - new Date(b.created).getTime();
-			});
+			groups[key] = filterSort.processTasks(groups[key]);
 		}
 
 		return groups;
@@ -61,14 +59,16 @@
 
 <div class="kanban-container">
 	<div class="kanban-controls">
-		<label class="control-group">
+		<TaskControls {filterSort} />
+
+		<label class="control-group" style="margin-left: 1rem; border-left: 1px solid rgba(255,255,255,0.2); padding-left: 1rem;">
 			<span>Group by:</span>
 			<select bind:value={groupBy}>
 				<option value="completion">Completion</option>
 				<option value="priority">Priority</option>
 			</select>
 		</label>
-		<span class="leaf-notice">Showing active leaf tasks only</span>
+		<span class="leaf-notice">Showing {filterSort.filterArchive === 'active' ? 'active ' : ''}leaf tasks only</span>
 	</div>
 
 	<div class="kanban-board">
