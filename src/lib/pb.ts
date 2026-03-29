@@ -34,6 +34,7 @@ export interface Task extends PbRecord {
 	hard_due: string;
 	completion: string;
 	n_extra_hours: number;
+	archive: boolean,
 	expand?: {
 		priority?: PriorityEnum;
 		completion?: CompletionEnum;

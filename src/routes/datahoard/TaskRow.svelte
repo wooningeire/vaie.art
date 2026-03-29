@@ -4,7 +4,7 @@
 	import TaskClock from "./TaskClock.svelte";
 	import { getPbStore, toDatetimeLocal } from "./PbStore.svelte";
 
-	let { task, depth }: { task: Task; depth: number } = $props();
+	let { task, depth, processTasks }: { task: Task; depth: number; processTasks?: (tasks: Task[]) => Task[] } = $props();
 
 	const store = getPbStore();
 	let editingTaskId = $state<string | null>(null);
@@ -22,6 +22,14 @@
 </script>
 
 <div style="display: contents;">
+	<div>
+		<input
+			type="checkbox"
+			bind:checked={task.archive}
+			onchange={(e) => store.setArchive(task.id, (e.target as HTMLInputElement).checked)}
+		/>
+	</div>
+
 	<div style="padding-left: {depth * 24}px; display: flex; align-items: center;">
 		{#if editingTaskId === task.id}
 			<input
@@ -84,10 +92,11 @@
 
 	<button onclick={() => store.deleteTask(task.id)}>✕</button>
 
-	{#each store.childTasks(task.id) as child (child.id)}
+	{#each processTasks ? processTasks(store.childTasks(task.id)) : store.childTasks(task.id) as child (child.id)}
 		<TaskRow 
 			task={child} 
 			depth={depth + 1}
+			{processTasks}
 		/>
 	{/each}
 </div>

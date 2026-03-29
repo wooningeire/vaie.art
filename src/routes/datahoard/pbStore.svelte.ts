@@ -107,6 +107,12 @@ export class PbStore {
 		}
 	}
 
+	async setArchive(taskId: string, archive: boolean) {
+		const updated = await update<Task>("tasks", taskId, { archive });
+		const idx = this.tasks.findIndex(t => t.id === taskId);
+		if (idx >= 0) this.tasks[idx] = { ...this.tasks[idx], archive: updated.archive };
+	}
+
 	async setPriority(taskId: string, priorityId: string) {
 		const updated = await update<Task>("tasks", taskId, { priority: priorityId || "" });
 		const idx = this.tasks.findIndex(t => t.id === taskId);
