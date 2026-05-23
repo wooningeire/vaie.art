@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Task } from "$lib/pb";
-    import { getPbStore } from "./PbStore.svelte";
+    import { getPbStore } from "./PbStore.svelte.ts";
     import TaskRow from "./TaskRow.svelte";
 
     import { TaskFilterSort } from "./taskFilterSort.svelte";

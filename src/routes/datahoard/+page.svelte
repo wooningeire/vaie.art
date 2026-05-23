@@ -1,19 +1,18 @@
 <script lang="ts">
-	import TaskRow from "./TaskRow.svelte";
-	import TaskCalendar from "./TaskCalendar.svelte";
-	import { setPbStore } from "./PbStore.svelte";
-    import TaskGrid from "./TaskGrid.svelte";
-	import TaskKanban from "./TaskKanban.svelte";
+import TaskCalendar from "./TaskCalendar.svelte";
+import { setPbStore } from "./PbStore.svelte.ts";
+import TaskGrid from "./TaskGrid.svelte";
+import TaskKanban from "./TaskKanban.svelte";
 
-	const store = setPbStore();
+const store = setPbStore();
 
-	let newTaskLabel = $state("");
-	let viewMode = $state<"grid" | "calendar" | "kanban">("grid");
+let newTaskLabel = $state("");
+let viewMode = $state<"grid" | "calendar" | "kanban">("grid");
 
-	function addTask() {
-		store.addTask(newTaskLabel);
-		newTaskLabel = "";
-	}
+function addTask() {
+	store.addTask(newTaskLabel);
+	newTaskLabel = "";
+}
 </script>
 
 <datahoard-page>

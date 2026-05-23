@@ -1,5 +1,5 @@
 <script lang="ts">
-import { getPbStore, formatMs } from "./PbStore.svelte";
+import { getPbStore, formatMs } from "./PbStore.svelte.ts";
 
 let { taskId }: { taskId: string } = $props();
 

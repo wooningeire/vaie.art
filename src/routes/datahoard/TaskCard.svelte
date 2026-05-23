@@ -1,7 +1,7 @@
 <script lang="ts">
 	import type { Task } from "$lib/pb";
 	import TaskClock from "./TaskClock.svelte";
-	import { getPbStore, toDatetimeLocal } from "./PbStore.svelte";
+	import { getPbStore, toDatetimeLocal } from "./PbStore.svelte.ts";
 
 	let { task }: { task: Task } = $props();
 
