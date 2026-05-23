@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getPbStore } from "./PbStore.svelte.ts";
+	import { getPbStore } from "./pbStore.svelte.ts";
 
 	const store = getPbStore();
 

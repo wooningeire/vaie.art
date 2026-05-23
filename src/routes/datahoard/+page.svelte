@@ -1,6 +1,6 @@
 <script lang="ts">
 import TaskCalendar from "./TaskCalendar.svelte";
-import { setPbStore } from "./PbStore.svelte.ts";
+import { setPbStore } from "./pbStore.svelte.ts";
 import TaskGrid from "./TaskGrid.svelte";
 import TaskKanban from "./TaskKanban.svelte";
 

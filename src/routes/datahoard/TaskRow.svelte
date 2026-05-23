@@ -2,7 +2,7 @@
 import type { Task } from "$lib/pb";
 import TaskRow from "./TaskRow.svelte";
 import TaskClock from "./TaskClock.svelte";
-import { getPbStore, toDatetimeLocal } from "./PbStore.svelte.ts";
+import { getPbStore, toDatetimeLocal } from "./pbStore.svelte.ts";
 
 let {
     task,

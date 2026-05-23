@@ -14,7 +14,10 @@ let {
 } = $props();
 </script>
 
-<a {href}>
+<a
+    {href}
+    rel="external"
+>
     <button>
         <img
             src={imageSrc}
