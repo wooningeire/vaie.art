@@ -26,7 +26,7 @@ jobs:
         run: "deno install"
 
       - name: Build
-        run: "deno task build:relative"
+        run: "deno task build"
 
       - name: Configure SSH
         run: |
