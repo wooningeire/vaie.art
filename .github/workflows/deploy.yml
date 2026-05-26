@@ -12,7 +12,6 @@ concurrency:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: server-1
 
     steps:
       - name: Clone repository
@@ -28,6 +27,8 @@ jobs:
 
       - name: Build
         run: "deno task build"
+        env:
+          PUBLIC__POCKETBASE_API: ${{ vars.PUBLIC__POCKETBASE_API }}
 
       - name: Configure SSH
         run: |
