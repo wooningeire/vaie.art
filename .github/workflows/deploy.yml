@@ -40,5 +40,5 @@ jobs:
 
       - name: Deploy
         run: |
-          rsync -az --delete -e "ssh -i ~/.ssh/deploy_key" ./build/ \
-            "${{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:${{ secrets.SERVER_ARTIFACT_PATH }}"
+          rsync -az --delete -e "ssh -6 -i ~/.ssh/deploy_key" ./build/ \
+            "${{ secrets.SERVER_USER }}@[${{ secrets.SERVER_HOST }}]:${{ secrets.SERVER_ARTIFACT_PATH }}"
