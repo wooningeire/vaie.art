@@ -1,19 +1,12 @@
 <script lang="ts">
 import GalleryButton from "./GalleryButton.svelte";
-
-import PudleCoverSrc from "$/assets/pudle-cover.png";
+import { galleryEntries } from "$/gallery-entries";
 </script>
 
 <project-gallery>
-    <GalleryButton
-        href="/pudle"
-        imageSrc={PudleCoverSrc}
-        imageAlt="Pudle"
-        tags={[
-            "web(spa)",
-            "game",
-        ]}
-    />
+    {#each galleryEntries as entry (entry.href)}
+        <GalleryButton {...entry} />
+    {/each}
 </project-gallery>
 
 <style lang="scss">

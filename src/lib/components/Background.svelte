@@ -1,10 +1,6 @@
-<script lang="ts">
-import BackgroundSrc from "$/assets/home-bg-sapphi.png";
-</script>
-
 <img
-    src={BackgroundSrc}
-    alt="background image by Sapphi"
+    src="/media/misc/home-bg-sapphi.webp"
+    alt="Artwork by Sapphi"
 />
 
 <style lang="scss">

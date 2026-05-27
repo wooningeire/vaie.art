@@ -22,6 +22,8 @@ let {
         <img
             src={imageSrc}
             alt={imageAlt}
+            loading="lazy"
+            decoding="async"
         />
 
         <gallery-entry-tags>
