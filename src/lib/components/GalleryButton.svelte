@@ -37,13 +37,17 @@ let {
 <style lang="scss">
 @use "$/styles/mixins";
 
+a {
+    display: contents;
+}
+
 button {
     @include mixins.glass-button;
 
     display: grid;
     place-items: center;
-    max-width: 30em;
 
+    
     border-radius: 0.5em;
     overflow: hidden;
 

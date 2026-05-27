@@ -84,6 +84,7 @@ page-contents {
 main {
     display: grid;
     grid-template-rows: 1fr auto;
+    gap: 1rem;
 
     padding: 2rem;
 

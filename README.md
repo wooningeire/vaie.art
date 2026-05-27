@@ -10,7 +10,9 @@ deno task dev  # for local development
 deno task build  # to generate a Deno/Node.js bundle
 ```
 
-## Gallery hosting
+But before you do that:
+
+## Media hosting
 Host original images in `/media`.
 
 ```bash
