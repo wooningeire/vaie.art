@@ -47,10 +47,11 @@ button {
     display: grid;
     place-items: center;
 
-    
+    max-width: min(100%, 30em);
+    height: 6.5em;
+
     border-radius: 0.5em;
     overflow: hidden;
-
 
     &:hover,
     &:focus-within {
@@ -67,9 +68,13 @@ button {
 
     > * {
         grid-area: 1/1;
+        min-width: 0;
+        min-height: 0;
     }
 
     > img {
+        display: block;
+
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -86,9 +91,12 @@ gallery-entry-tags {
     justify-self: flex-start;
 
     display: flex;
+    flex-wrap: wrap;
     gap: 0.25em;
 
     margin: 0.25em;
+    max-width: calc(100% - 0.5em);
+    min-width: 0;
 
     font-size: 0.6666666em;
 }

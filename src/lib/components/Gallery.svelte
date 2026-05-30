@@ -15,14 +15,10 @@ project-gallery {
 
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
     gap: 1rem;
 
     padding: 2rem 0;
-    mask-image: linear-gradient(
-        oklch(0 0 0 / 0) 0,
-        oklch(0 0 0) 2rem,
-        oklch(0 0 0) calc(100% - 2rem),
-        oklch(0 0 0 / 0) 100%
-    );
 }
 </style>

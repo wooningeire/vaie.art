@@ -86,10 +86,10 @@ page-contents {
 main {
     display: grid;
     grid-template-rows: 1fr auto;
-    grid-template-columns: 1fr 20rem;
-    gap: 1rem;
+    grid-template-columns: 1fr 15em;
+    gap: 1em;
 
-    padding: 0 2rem;
+    padding: 0 1em;
 
     width: 100vw;
     height: 100vh;
@@ -116,20 +116,24 @@ biography-section {
     display: flex;
     flex-direction: column-reverse;
     align-items: flex-end;
-    gap: 2rem;
+    gap: 1em;
 
-    padding-bottom: 2rem;
+    padding-bottom: 1em;
 }
 
 biography-title {
     display: flex;
     flex-direction: column-reverse;
     align-items: flex-end;
-    gap: 0.5rem;
+    gap: 0.25em;
 }
 
 title-headline {
     color: colors.$emph;
+}
+
+background-credit {
+    font-size: 0.75em;
 }
 
 social-links {
