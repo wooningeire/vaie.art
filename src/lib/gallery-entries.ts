@@ -1,4 +1,6 @@
 import type { Component } from "svelte";
+import type { GalleryCharacterId } from "$/gallery-characters";
+import type { GalleryTag } from "$/gallery-tags";
 
 export type GalleryInfoComponent = Component;
 
@@ -7,7 +9,9 @@ export type GalleryEntry = {
     href: string,
     imageSrc: string,
     imageAlt: string,
-    tags?: string[],
+    tags?: readonly GalleryTag[],
+    characters?: readonly GalleryCharacterId[],
+    displayTags?: readonly GalleryTag[],
     info?: GalleryInfoComponent,
     infoTitle?: string,
 };
@@ -20,6 +24,55 @@ type GalleryEntryDefinition = Omit<GalleryEntry, "info"> & {
      */
     info?: string | GalleryInfoComponent | false,
 };
+
+const pudleTags = [
+    {
+        kind: "medium",
+        path: ["web", "spa"],
+        label: "Web SPA",
+    },
+    {
+        kind: "purpose",
+        path: ["game"],
+        label: "Game",
+    },
+] satisfies readonly GalleryTag[];
+
+const digitalIllustrationTags = [
+    {
+        kind: "medium",
+        path: ["art", "2d", "digital"],
+        label: "Digital 2D",
+    },
+    {
+        kind: "purpose",
+        path: ["illustration"],
+        label: "Illustration",
+    },
+    {
+        kind: "tool",
+        path: ["krita"],
+        label: "Krita",
+    },
+] satisfies readonly GalleryTag[];
+
+const digitalReferenceTags = [
+    ...digitalIllustrationTags,
+    {
+        kind: "purpose",
+        path: ["reference"],
+        label: "Reference",
+    },
+] satisfies readonly GalleryTag[];
+
+const digitalEnvironmentTags = [
+    ...digitalIllustrationTags,
+    {
+        kind: "subject",
+        path: ["environment"],
+        label: "Environment",
+    },
+] satisfies readonly GalleryTag[];
 
 const galleryInfoDocuments = import.meta.glob<GalleryInfoComponent>(
     "./gallery-info/*.{svelte,svx}",
@@ -66,17 +119,14 @@ export type GalleryEntryWithInfo = GalleryEntry & {
     info: GalleryInfoComponent,
 };
 
-export const galleryEntries: GalleryEntry[] = [
+const galleryEntryDefinitions: GalleryEntryDefinition[] = [
     {
         id: "pudle",
         href: "/pudle",
         imageSrc: "/media/misc/pudle-cover.webp",
         imageAlt: "Pudle",
         infoTitle: "Pudle",
-        tags: [
-            "web(spa)",
-            "game",
-        ],
+        tags: pudleTags,
     },
     
     {
@@ -84,9 +134,7 @@ export const galleryEntries: GalleryEntry[] = [
         href: "/media/gallery/wires-airport.webp",
         imageSrc: "/media/gallery/wires-airport.thumb.webp",
         imageAlt: "wires airport",
-        tags: [
-            "art(2d, digital, illustration, krita)",
-        ],
+        tags: digitalEnvironmentTags,
     },
     
     {
@@ -94,9 +142,8 @@ export const galleryEntries: GalleryEntry[] = [
         href: "/media/gallery/spax-dragon.webp",
         imageSrc: "/media/gallery/spax-dragon.thumb.webp",
         imageAlt: "Spax dragon",
-        tags: [
-            "art(2d, digital, illustration, krita)",
-        ],
+        tags: digitalIllustrationTags,
+        characters: ["spax"],
     },
     
     {
@@ -104,9 +151,8 @@ export const galleryEntries: GalleryEntry[] = [
         href: "/media/gallery/pretbath.webp",
         imageSrc: "/media/gallery/pretbath.thumb.webp",
         imageAlt: "Pret bath",
-        tags: [
-            "art(2d, digital, illustration, krita)",
-        ],
+        tags: digitalIllustrationTags,
+        characters: ["pret"],
     },
     
     {
@@ -114,9 +160,8 @@ export const galleryEntries: GalleryEntry[] = [
         href: "/media/gallery/curi.webp",
         imageSrc: "/media/gallery/curi.thumb.webp",
         imageAlt: "Curi ref",
-        tags: [
-            "art(2d, digital, illustration, krita)",
-        ],
+        tags: digitalReferenceTags,
+        characters: ["curi"],
     },
     
     {
@@ -124,9 +169,8 @@ export const galleryEntries: GalleryEntry[] = [
         href: "/media/gallery/pyrinth.webp",
         imageSrc: "/media/gallery/pyrinth.thumb.webp",
         imageAlt: "Pyrinth ref",
-        tags: [
-            "art(2d, digital, illustration, krita)",
-        ],
+        tags: digitalReferenceTags,
+        characters: ["pyrinth"],
     },
     
     {
@@ -134,9 +178,8 @@ export const galleryEntries: GalleryEntry[] = [
         href: "/media/gallery/staaria.webp",
         imageSrc: "/media/gallery/staaria.thumb.webp",
         imageAlt: "Staaria ref",
-        tags: [
-            "art(2d, digital, illustration, krita)",
-        ],
+        tags: digitalReferenceTags,
+        characters: ["staaria"],
     },
     
     {
@@ -144,9 +187,8 @@ export const galleryEntries: GalleryEntry[] = [
         href: "/media/gallery/iywralyx.webp",
         imageSrc: "/media/gallery/iywralyx.thumb.webp",
         imageAlt: "Iywralyx ref",
-        tags: [
-            "art(2d, digital, illustration, krita)",
-        ],
+        tags: digitalReferenceTags,
+        characters: ["iywralyx"],
     },
     
     {
@@ -154,9 +196,8 @@ export const galleryEntries: GalleryEntry[] = [
         href: "/media/gallery/vaiezzell-ref.webp",
         imageSrc: "/media/gallery/vaiezzell-ref.thumb.webp",
         imageAlt: "vaiezzell ref",
-        tags: [
-            "art(2d, digital, illustration, krita)",
-        ],
+        tags: digitalReferenceTags,
+        characters: ["vaiezzell"],
     },
     
     {
@@ -164,8 +205,9 @@ export const galleryEntries: GalleryEntry[] = [
         href: "/media/gallery/silver-vaie.webp",
         imageSrc: "/media/gallery/silver-vaie.thumb.webp",
         imageAlt: "An appropriately sized nest",
-        tags: [
-            "art(2d, digital, illustration, krita)",
-        ],
+        tags: digitalIllustrationTags,
+        characters: ["vaiezzell"],
     },
-].map(defineGalleryEntry);
+];
+
+export const galleryEntries: GalleryEntry[] = galleryEntryDefinitions.map(defineGalleryEntry);

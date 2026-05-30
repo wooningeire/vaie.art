@@ -1,19 +1,20 @@
 <script lang="ts">
 import type { GalleryInfoComponent } from "$/gallery-entries";
+import type { NormalizedTag } from "$/gallery-tags";
 import GalleryEntryTag from "./GalleryEntryTag.svelte";
 
 let {
     href,
     imageSrc,
     imageAlt = "",
-    tags = [],
+    displayTags = [],
     info,
     onInfoClick,
 }: {
     href: string,
     imageSrc: string,
     imageAlt?: string,
-    tags?: string[],
+    displayTags?: readonly NormalizedTag[],
     info?: GalleryInfoComponent,
     onInfoClick?: () => void,
 } = $props();
@@ -50,8 +51,8 @@ function handleInfoClick(event: MouseEvent) {
         />
 
         <gallery-entry-tags>
-            {#each tags as tag}
-                <GalleryEntryTag label={tag} />
+            {#each displayTags as tag (tag.id)}
+                <GalleryEntryTag label={tag.label} />
             {/each}
         </gallery-entry-tags>
     </a>
@@ -80,7 +81,6 @@ gallery-button {
     display: grid;
     place-items: stretch;
 
-    width: min(100%, 20em);
     max-width: 30em;
     height: 8em;
     
@@ -107,6 +107,11 @@ a {
         gallery-entry-tags {
             opacity: 1;
         }
+
+        > img.bg {
+            filter: blur(8px) brightness(0.75);
+            transform: scale(1.25);
+        }
     }
 
     &:active {
@@ -125,24 +130,27 @@ a {
         width: 100%;
         height: 100%;
 
-        z-index: -1;
-
         &.thumb {
             object-fit: contain;
 
-            filter: drop-shadow(0 0 2em oklch(0 0 0));
+            filter: drop-shadow(0 0 0.25em oklch(0 0 0));
         }
 
         &.bg {
             object-fit: cover;
 
             filter: blur(8px) brightness(0.5);
+            transform: scale(1.15);
+
+            transition:
+                blur 0.2s cubic-bezier(0, 0.5, 0.4, 1),
+                transform 0.2s cubic-bezier(0, 0.5, 0.4, 1);
         }
     }
 }
 
 button.info-button {
-    @include mixins.glass-button-exterior;
+    @include mixins.glass-button;
     @include gallery.gallery-entry-overlay;
 
     align-self: flex-start;
@@ -153,23 +161,13 @@ button.info-button {
     place-items: center;
 
     width: 1.5em;
-    aspect-ratio: 1;
+    height: 1.5em;
 
     border-radius: 0.125em;
     border-top-right-radius: 0.25em;
 
 
     color: oklch(0.95 0.05 180 / 0.85);
-    font-family: "Belanosima", "Averia Libre", sans-serif;
-    font-weight: 600;
-    line-height: 1;
-
-    opacity: 0.5;
-
-    &:hover,
-    &:focus-visible {
-        opacity: 1;
-    }
 }
 
 gallery-entry-tags {
