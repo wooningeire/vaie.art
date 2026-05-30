@@ -16,10 +16,6 @@ import BlueskySvg from "@/social-icons/Bluesky.svg.svelte";
     <main>
         <Gallery />
 
-        <background-credit>
-            Background art by <BareLink href="https://www.furaffinity.net/view/61807537/">Sapphi</BareLink>
-        </background-credit>
-
         <biography-section>
             <biography-title>
                 <h1>vaiezzell</h1>
@@ -28,6 +24,10 @@ import BlueskySvg from "@/social-icons/Bluesky.svg.svelte";
                 <title-headline>digital media generalist!</title-headline>
                 <title-headline>macro dragon enjoyer!</title-headline>
             </biography-title>
+
+            <background-credit>
+                Background art by <BareLink href="https://www.furaffinity.net/view/61807537/">Sapphi</BareLink>
+            </background-credit>
 
             <social-links>
                 <SocialLink
@@ -72,6 +72,8 @@ import BlueskySvg from "@/social-icons/Bluesky.svg.svelte";
 
 
 <style lang="scss">
+@use "./colors.scss";
+
 page-contents {
     display: grid;
     place-items: center;
@@ -84,9 +86,10 @@ page-contents {
 main {
     display: grid;
     grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr 20rem;
     gap: 1rem;
 
-    padding: 2rem;
+    padding: 0 2rem;
 
     width: 100vw;
     height: 100vh;
@@ -96,17 +99,14 @@ main {
     @media (min-width: 720px) {
         font-size: 1.5rem;
     }
+
+    > biography-section {
+        grid-area: 2/2;
+    }
     
     > :global(project-gallery) {
-        grid-area: 1/1 / 2/3;
+        grid-area: 1/1 / 3/2;
     }
-}
-
-background-credit {
-    grid-area: 2/1;
-
-    align-self: flex-end;
-    justify-self: flex-start;
 }
 
 biography-section {
@@ -116,19 +116,27 @@ biography-section {
     display: flex;
     flex-direction: column-reverse;
     align-items: flex-end;
+    gap: 2rem;
+
+    padding-bottom: 2rem;
 }
 
 biography-title {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     align-items: flex-end;
+    gap: 0.5rem;
+}
+
+title-headline {
+    color: colors.$emph;
 }
 
 social-links {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 0.5em;
-    align-items: flex-end;
+    justify-content: flex-end;
 
     :global(path) {
         fill: currentcolor;
