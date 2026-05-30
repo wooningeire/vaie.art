@@ -1,4 +1,5 @@
 <script lang="ts">
+import type { GalleryInfoComponent } from "$/gallery-entries";
 import GalleryEntryTag from "./GalleryEntryTag.svelte";
 
 let {
@@ -6,22 +7,44 @@ let {
     imageSrc,
     imageAlt = "",
     tags = [],
+    info,
+    onInfoClick,
 }: {
     href: string,
     imageSrc: string,
     imageAlt?: string,
     tags?: string[],
+    info?: GalleryInfoComponent,
+    onInfoClick?: () => void,
 } = $props();
+
+let infoLabel = $derived(`Open info card for ${imageAlt || href}`);
+
+function handleInfoClick(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+    onInfoClick?.();
+}
 </script>
 
-<a
-    {href}
-    rel="external"
->
-    <button>
+<gallery-button>
+    <a
+        {href}
+        rel="external"
+    >
+
         <img
             src={imageSrc}
             alt={imageAlt}
+            class="bg"
+            loading="lazy"
+            decoding="async"
+        />
+        
+        <img
+            src={imageSrc}
+            alt={imageAlt}
+            class="thumb"
             loading="lazy"
             decoding="async"
         />
@@ -31,43 +54,63 @@ let {
                 <GalleryEntryTag label={tag} />
             {/each}
         </gallery-entry-tags>
-    </button>
-</a>
+    </a>
+
+    {#if info}
+        <button
+            type="button"
+            class="info-button"
+            aria-label={infoLabel}
+            aria-haspopup="dialog"
+            title="Info"
+            onclick={handleInfoClick}
+        >
+            <span aria-hidden="true">i</span>
+        </button>
+    {/if}
+</gallery-button>
 
 <style lang="scss">
 @use "$/styles/mixins";
+@use "./gallery.scss";
 
-a {
-    display: contents;
+gallery-button {
+    position: relative;
+
+    display: grid;
+    place-items: stretch;
+
+    width: min(100%, 20em);
+    max-width: 30em;
+    height: 8em;
+    
+    > * {
+        grid-area: 1/1;
+    }
 }
 
-button {
+a {
     @include mixins.glass-button;
 
     display: grid;
     place-items: center;
 
-    max-width: min(100%, 30em);
-    height: 6.5em;
-
     border-radius: 0.5em;
     overflow: hidden;
 
+    opacity: 0.75;
+
     &:hover,
     &:focus-within {
-        img {
-            opacity: 1;
-        }
-
+        opacity: 1;
+        
         gallery-entry-tags {
             opacity: 1;
         }
     }
 
     &:active {
-        img {
-            opacity: 0.15;
-        }
+        opacity: 0.15;
     }
 
     > * {
@@ -81,13 +124,52 @@ button {
 
         width: 100%;
         height: 100%;
-        object-fit: cover;
-
-        opacity: 0.5;
 
         z-index: -1;
-    }
 
+        &.thumb {
+            object-fit: contain;
+
+            filter: drop-shadow(0 0 2em oklch(0 0 0));
+        }
+
+        &.bg {
+            object-fit: cover;
+
+            filter: blur(8px) brightness(0.5);
+        }
+    }
+}
+
+button.info-button {
+    @include mixins.glass-button-exterior;
+    @include gallery.gallery-entry-overlay;
+
+    align-self: flex-start;
+    justify-self: flex-end;
+    margin: 0.25em;
+
+    display: grid;
+    place-items: center;
+
+    width: 1.5em;
+    aspect-ratio: 1;
+
+    border-radius: 0.125em;
+    border-top-right-radius: 0.25em;
+
+
+    color: oklch(0.95 0.05 180 / 0.85);
+    font-family: "Belanosima", "Averia Libre", sans-serif;
+    font-weight: 600;
+    line-height: 1;
+
+    opacity: 0.5;
+
+    &:hover,
+    &:focus-visible {
+        opacity: 1;
+    }
 }
 
 gallery-entry-tags {
@@ -103,7 +185,5 @@ gallery-entry-tags {
     min-width: 0;
 
     font-size: 0.6666666em;
-    
-    opacity: 0.5;
 }
 </style>

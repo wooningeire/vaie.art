@@ -11,13 +11,14 @@ let {
 </gallery-entry-tag>
 
 <style lang="scss">
+@use "./gallery.scss";
+
 gallery-entry-tag {
+    @include gallery.gallery-entry-overlay;
+
     display: block;
 
-    background-color: oklch(0.2 0.02 190 / 0.75);
     border-radius: 0.25em;
     padding: 0.125em 0.5em;
-
-    backdrop-filter: blur(8px);
 }
 </style>

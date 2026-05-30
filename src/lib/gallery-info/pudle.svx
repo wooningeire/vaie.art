@@ -1,0 +1,8 @@
+# Pudle
+
+A compact browser game presented as a single-page web app.
+
+It is packaged as a small, self-contained play space: quick to enter, light enough to replay, and built for the browser rather than as a static artwork.
+
+- Format: web SPA
+- Category: game

@@ -1,0 +1,5 @@
+@mixin gallery-entry-overlay {
+    background-color: oklch(0.2 0.02 190 / 0.75);
+    backdrop-filter: blur(8px);
+
+}
