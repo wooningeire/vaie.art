@@ -58,6 +58,10 @@ button {
         img {
             opacity: 1;
         }
+
+        gallery-entry-tags {
+            opacity: 1;
+        }
     }
 
     &:active {
@@ -99,5 +103,7 @@ gallery-entry-tags {
     min-width: 0;
 
     font-size: 0.6666666em;
+    
+    opacity: 0.5;
 }
 </style>

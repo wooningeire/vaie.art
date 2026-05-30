@@ -42,4 +42,58 @@ export const galleryEntries: GalleryEntry[] = [
             "art(2d, digital, illustration, krita)",
         ],
     },
+    
+    {
+        href: "/media/gallery/curi.webp",
+        imageSrc: "/media/gallery/curi.thumb.webp",
+        imageAlt: "Curi ref",
+        tags: [
+            "art(2d, digital, illustration, krita)",
+        ],
+    },
+    
+    {
+        href: "/media/gallery/pyrinth.webp",
+        imageSrc: "/media/gallery/pyrinth.thumb.webp",
+        imageAlt: "Pyrinth ref",
+        tags: [
+            "art(2d, digital, illustration, krita)",
+        ],
+    },
+    
+    {
+        href: "/media/gallery/staaria.webp",
+        imageSrc: "/media/gallery/staaria.thumb.webp",
+        imageAlt: "Staaria ref",
+        tags: [
+            "art(2d, digital, illustration, krita)",
+        ],
+    },
+    
+    {
+        href: "/media/gallery/iywralyx.webp",
+        imageSrc: "/media/gallery/iywralyx.thumb.webp",
+        imageAlt: "Iywralyx ref",
+        tags: [
+            "art(2d, digital, illustration, krita)",
+        ],
+    },
+    
+    {
+        href: "/media/gallery/vaiezzell-ref.webp",
+        imageSrc: "/media/gallery/vaiezzell-ref.thumb.webp",
+        imageAlt: "vaiezzell ref",
+        tags: [
+            "art(2d, digital, illustration, krita)",
+        ],
+    },
+    
+    {
+        href: "/media/gallery/silver-vaie.webp",
+        imageSrc: "/media/gallery/silver-vaie.thumb.webp",
+        imageAlt: "An appropriately sized nest",
+        tags: [
+            "art(2d, digital, illustration, krita)",
+        ],
+    },
 ];
