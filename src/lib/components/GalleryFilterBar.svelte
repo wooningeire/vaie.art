@@ -41,17 +41,16 @@ let hasActiveFilters = $derived(activeQuery.include.length > 0 || activeQuery.ex
         </gallery-filter-group>
     {/each}
 
-    {#if hasActiveFilters}
-        <button
-            type="button"
-            class="clear-filter-button"
-            aria-label="Clear gallery filters"
-            title="Clear filters"
-            onclick={onClearFilters}
-        >
-            <span aria-hidden="true">&times;</span>
-        </button>
-    {/if}
+    <button
+        type="button"
+        class="clear-filter-button"
+        aria-label="Clear gallery filters"
+        title={hasActiveFilters ? "Clear filters" : "No filters selected"}
+        disabled={!hasActiveFilters}
+        onclick={onClearFilters}
+    >
+        <span aria-hidden="true">&times;</span>
+    </button>
 </gallery-filter-bar>
 
 <style lang="scss">
@@ -146,5 +145,10 @@ button.clear-filter-button {
     width: 1.65em;
     height: 1.65em;
     padding: 0;
+
+    &:disabled {
+        cursor: default;
+        opacity: 0.35;
+    }
 }
 </style>
