@@ -1,6 +1,6 @@
 import type { Component } from "svelte";
 import type { GalleryCharacterId } from "$/gallery-characters";
-import type { GalleryTag } from "$/gallery-tags";
+import type { GalleryEntryRelationship, GalleryTag } from "$/gallery-tags";
 
 export type GalleryInfoComponent = Component;
 
@@ -11,6 +11,7 @@ export type GalleryEntry = {
     imageAlt: string,
     tags?: readonly GalleryTag[],
     characters?: readonly GalleryCharacterId[],
+    relationships?: readonly GalleryEntryRelationship[],
     displayTags?: readonly GalleryTag[],
     info?: GalleryInfoComponent,
     infoTitle?: string,
@@ -73,6 +74,15 @@ const digitalEnvironmentTags = [
         label: "Environment",
     },
 ] satisfies readonly GalleryTag[];
+
+function characterReferenceSeries(order: number): GalleryEntryRelationship {
+    return {
+        kind: "series",
+        id: "character-reference-sheets",
+        label: "Character Refs",
+        order,
+    };
+}
 
 const galleryInfoDocuments = import.meta.glob<GalleryInfoComponent>(
     "./gallery-info/*.{svelte,svx}",
@@ -162,6 +172,7 @@ const galleryEntryDefinitions: GalleryEntryDefinition[] = [
         imageAlt: "Curi ref",
         tags: digitalReferenceTags,
         characters: ["curi"],
+        relationships: [characterReferenceSeries(1)],
     },
     
     {
@@ -171,6 +182,7 @@ const galleryEntryDefinitions: GalleryEntryDefinition[] = [
         imageAlt: "Pyrinth ref",
         tags: digitalReferenceTags,
         characters: ["pyrinth"],
+        relationships: [characterReferenceSeries(2)],
     },
     
     {
@@ -180,6 +192,7 @@ const galleryEntryDefinitions: GalleryEntryDefinition[] = [
         imageAlt: "Staaria ref",
         tags: digitalReferenceTags,
         characters: ["staaria"],
+        relationships: [characterReferenceSeries(3)],
     },
     
     {
@@ -189,6 +202,7 @@ const galleryEntryDefinitions: GalleryEntryDefinition[] = [
         imageAlt: "Iywralyx ref",
         tags: digitalReferenceTags,
         characters: ["iywralyx"],
+        relationships: [characterReferenceSeries(4)],
     },
     
     {
@@ -198,6 +212,7 @@ const galleryEntryDefinitions: GalleryEntryDefinition[] = [
         imageAlt: "vaiezzell ref",
         tags: digitalReferenceTags,
         characters: ["vaiezzell"],
+        relationships: [characterReferenceSeries(5)],
     },
     
     {

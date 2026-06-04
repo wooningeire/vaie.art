@@ -5,6 +5,31 @@ export type GalleryTag = {
     searchOnly?: boolean,
 };
 
+export type GalleryEntryRelationship =
+    | {
+        kind: "series",
+        id: string,
+        label?: string,
+        order?: number,
+        searchOnly?: boolean,
+    }
+    | {
+        kind: "progress",
+        of: string,
+        stage?: string,
+        order?: number,
+        label?: string,
+        searchOnly?: boolean,
+    }
+    | {
+        kind: "version",
+        of: string,
+        status?: "older" | "current" | "alternate",
+        version?: string,
+        label?: string,
+        searchOnly?: boolean,
+    };
+
 export type CharacterDefinition = {
     id: string,
     name: string,
@@ -16,7 +41,7 @@ export type CharacterDefinition = {
 
 export type CharacterRegistry = Record<string, CharacterDefinition>;
 
-export type NormalizedTagSource = "tag" | "character";
+export type NormalizedTagSource = "tag" | "character" | "relationship";
 
 export type NormalizedTag = {
     id: string,
@@ -35,6 +60,7 @@ export type GalleryQuery = {
 export type GalleryTaggableEntry = {
     tags?: readonly GalleryTag[],
     characters?: readonly string[],
+    relationships?: readonly GalleryEntryRelationship[],
     displayTags?: readonly GalleryTag[],
 };
 
@@ -62,13 +88,17 @@ export const galleryQueryParameters = {
 const facetLabels: Record<string, string> = {
     character: "Character",
     medium: "Medium",
+    process: "Process",
     purpose: "Purpose",
+    series: "Series",
     style: "Style",
     subject: "Subject",
     tool: "Tool",
 };
 
 const facetOrder = [
+    "Series",
+    "Process",
     "Purpose",
     "Medium",
     "Character",
@@ -254,6 +284,10 @@ function normalizeEntryTags(
         }
     }
 
+    for (const relationship of entry.relationships ?? []) {
+        tags.push(...normalizeRelationshipTags(relationship));
+    }
+
     return dedupeNormalizedTags(tags);
 }
 
@@ -308,6 +342,65 @@ function normalizeCharacterTag(
     };
 }
 
+function normalizeRelationshipTags(relationship: GalleryEntryRelationship): NormalizedTag[] {
+    switch (relationship.kind) {
+        case "series":
+            return [
+                {
+                    id: `series:${slugTagPart(relationship.id)}`,
+                    facet: facetLabels.series,
+                    label: relationship.label ?? createPathLabel([relationship.id]),
+                    path: [relationship.id],
+                    source: "relationship",
+                    searchOnly: relationship.searchOnly,
+                },
+            ];
+
+        case "progress":
+            return [
+                {
+                    id: "process:progress-shot",
+                    facet: facetLabels.process,
+                    label: relationship.label ?? "Progress Shot",
+                    path: ["progress-shot"],
+                    source: "relationship",
+                    searchOnly: relationship.searchOnly,
+                },
+                {
+                    id: createRelatedEntryTagId("progress", relationship.of, relationship.stage ?? relationship.order),
+                    facet: "Progress Of",
+                    label: relationship.label ?? createRelatedEntryLabel("Progress", relationship.of),
+                    path: createRelationshipPath(relationship.of, relationship.stage ?? relationship.order),
+                    source: "relationship",
+                    searchOnly: true,
+                },
+            ];
+
+        case "version": {
+            const status = relationship.status ?? "older";
+
+            return [
+                {
+                    id: `process:${slugTagPart(status)}-version`,
+                    facet: facetLabels.process,
+                    label: relationship.label ?? createVersionLabel(status),
+                    path: [status, "version"],
+                    source: "relationship",
+                    searchOnly: relationship.searchOnly,
+                },
+                {
+                    id: createRelatedEntryTagId("version", relationship.of, relationship.version ?? status),
+                    facet: "Version Of",
+                    label: relationship.label ?? createRelatedEntryLabel("Version", relationship.of),
+                    path: createRelationshipPath(relationship.of, relationship.version ?? status),
+                    source: "relationship",
+                    searchOnly: true,
+                },
+            ];
+        }
+    }
+}
+
 function dedupeNormalizedTags(tags: readonly NormalizedTag[]): NormalizedTag[] {
     const tagsById = new Map<string, NormalizedTag>();
 
@@ -359,6 +452,42 @@ function createPartLabel(part: string): string {
         .filter(Boolean)
         .map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1).toLowerCase()}`)
         .join(" ");
+}
+
+function createVersionLabel(status: "older" | "current" | "alternate"): string {
+    switch (status) {
+        case "alternate":
+            return "Alternate Version";
+
+        case "current":
+            return "Current Version";
+
+        case "older":
+            return "Older Version";
+    }
+}
+
+function createRelatedEntryLabel(prefix: string, entryId: string): string {
+    return `${prefix}: ${createPartLabel(entryId)}`;
+}
+
+function createRelatedEntryTagId(
+    kind: "progress" | "version",
+    entryId: string,
+    detail?: string | number,
+): string {
+    const detailSuffix = detail === undefined ? "" : `/${slugTagPart(String(detail))}`;
+
+    return `${kind}:${slugTagPart(entryId)}${detailSuffix}`;
+}
+
+function createRelationshipPath(
+    entryId: string,
+    detail?: string | number,
+): readonly string[] {
+    return detail === undefined
+        ? [entryId]
+        : [entryId, String(detail)];
 }
 
 function slugTagPart(value: string): string {
