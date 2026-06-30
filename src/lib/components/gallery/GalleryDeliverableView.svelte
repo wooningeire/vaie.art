@@ -9,7 +9,24 @@ let {
 } = $props();
 </script>
 
-<GalleryButton
-    href={deliverable.href}
-    image={deliverable.image}
-/>
+<gallery-deliverable>
+    <gallery-deliverable-title>{deliverable.label}</gallery-deliverable-title>
+
+    <GalleryButton
+        href={deliverable.href}
+        image={deliverable.image}
+    />
+</gallery-deliverable>
+
+<style lang="scss">
+@use "$/styles/fonts.scss";
+
+gallery-deliverable {
+    @include fonts.heading;
+
+    display: flex;
+    flex-direction: column;
+
+    font-size: 1rem;
+}
+</style>
