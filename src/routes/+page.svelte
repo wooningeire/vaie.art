@@ -3,6 +3,7 @@ import { galleryProjects } from "$/gallery-models/GalleryProject";
 import Background from "@/Background.svelte";
 import Gallery from "@/gallery/Gallery.svelte";
 import Biography from "@/Biography.svelte";
+import GalleryControls from "@/gallery/GalleryControls.svelte";
 </script>
 
 <page-contents>
@@ -12,6 +13,8 @@ import Biography from "@/Biography.svelte";
         <Gallery projects={galleryProjects} />
 
         <Biography />
+
+        <GalleryControls />
     </main>
 </page-contents>
 
@@ -28,8 +31,8 @@ page-contents {
 
 main {
     display: grid;
-    grid-template-rows: auto minmax(0, 1fr) auto;
-    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr auto;
     gap: 1em;
 
     padding: 1em;
@@ -39,18 +42,17 @@ main {
     min-width: 300px;
     min-height: 300px;
 
-    > :global(gallery-filter-bar) {
-        grid-area: 1/1;
-        align-self: flex-start;
-        justify-self: center;
+    > :global(gallery-controls) {
+        grid-area: 1/2;
+        align-self: flex-end;
     }
 
     > :global(project-gallery) {
-        grid-area: 2/1;
+        grid-area: 1/1 / 4/2;
     }
 
     > :global(biography-section) {
-        grid-area: 3/1;
+        grid-area: 2/2;
     }
 
     @media (min-width: 720px) {
