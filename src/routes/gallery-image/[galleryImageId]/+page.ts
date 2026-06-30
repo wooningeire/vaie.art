@@ -3,9 +3,10 @@ import {
     getGalleryImagePage,
     getGalleryImagePageIds,
 } from "$/gallery-models/GalleryImagePage";
-import { galleryImageHrefOf } from "$/gallery-models/GalleryImageRoute";
+import { galleryImageHrefOf } from "$/gallery-models/galleryImageRoute";
 import type { EntryGenerator, PageLoad } from "./$types";
 
+const siteName = "vaiezzell";
 const siteOrigin = "https://vaie.art";
 
 const toAbsoluteUrl = (path: string) => new URL(path, siteOrigin).href;
@@ -26,6 +27,7 @@ export const load: PageLoad = ({ params }) => {
     return {
         title,
         description,
+        siteName,
         canonicalUrl: toAbsoluteUrl(galleryImageHrefOf(params.galleryImageId)),
         image: page.image,
         imageUrl: toAbsoluteUrl(page.image.display.src),

@@ -19,5 +19,8 @@ let {
 nav {
     display: flex;
     flex-direction: column-reverse;
+
+    width: 100%;
+    min-width: 0;
 }
 </style>

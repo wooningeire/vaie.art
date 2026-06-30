@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Sidenav from "@/sidenav/Sidenav.svelte";
 import type { PageData } from "./$types";
 
 let {
@@ -32,7 +31,7 @@ let {
     <meta property="og:image:height" content={data.image.display.height.toString()} />
 </svelte:head>
 
-<main aria-labelledby="gallery-image-title">
+<gallery-image-view aria-labelledby="gallery-image-title">
     <gallery-image-page>
         <gallery-image-container>
             <img
@@ -51,18 +50,18 @@ let {
             </gallery-image-title>
         </gallery-image-details>
     </gallery-image-page>
-
-    <Sidenav />
-</main>
+</gallery-image-view>
 
 <style lang="scss">
 @use "$/styles/fonts.scss";
 
-main {
-    display: flex;
-    align-items: stretch;
+gallery-image-view {
+    display: grid;
 
-    background: oklch(0.18 0.018 205);
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
 }
 
 gallery-image-page {
@@ -70,22 +69,28 @@ gallery-image-page {
     flex-direction: column;
     align-items: stretch;
 
-    min-height: 100vh;
-    min-height: 100svh;
-
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
 }
 
 gallery-image-container {
-    max-width: 100vw;
-    max-height: min(100svh, calc(100svh - 8rem));
+    flex: 1 1 0;
+
+    overflow: hidden;
 
     display: grid;
     place-items: center;
+
+    min-width: 0;
+    min-height: 0;
 }
 
 gallery-image-details {
-    width: 100%;
+    flex: 0 0 auto;
 
+    width: 100%;
     padding: 2em;
 
     border-top: 1px solid oklch(0.9 0.05 150 / 0.5);
@@ -93,8 +98,9 @@ gallery-image-details {
 
 gallery-image-title {
     @include fonts.heading;
-    
+
     font-size: 3rem;
+    overflow-wrap: anywhere;
 }
 
 img {
@@ -110,20 +116,5 @@ img {
     object-fit: contain;
 
     filter: drop-shadow(0 0 1rem oklch(0 0 0 / 0.5));
-}
-
-figcaption {
-    @include fonts.heading;
-
-    max-width: min(100%, 60rem);
-
-    font-size: 2rem;
-    line-height: 1.1;
-    text-align: center;
-    overflow-wrap: anywhere;
-
-    @media (min-width: 48rem) {
-        font-size: 3rem;
-    }
 }
 </style>
