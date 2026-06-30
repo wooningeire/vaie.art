@@ -12,33 +12,35 @@ let {
 } = $props();
 </script>
 
-<gallery-button
-    style:--aspect="{image.width} / {image.height}"
->
+<gallery-button>
     <a
         {href}
         rel="external"
     >
-        <img
-            src={image.src}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
-            class="bg"
-            loading="lazy"
-            decoding="async"
-        />
-        
-        <img
-            src={image.src}
-            alt={image.alt}
-            width={image.width}
-            height={image.height}
-            class="thumb"
-            loading="lazy"
-            decoding="async"
-            bind:this={imageElement}
-        />
+        <gallery-button-media
+            style:--aspect="{image.thumb.width} / {image.thumb.height}"
+        >
+            <img
+                src={image.thumb.src}
+                alt={image.alt}
+                width={image.thumb.width}
+                height={image.thumb.height}
+                class="bg"
+                loading="lazy"
+                decoding="async"
+            />
+
+            <img
+                src={image.thumb.src}
+                alt={image.alt}
+                width={image.thumb.width}
+                height={image.thumb.height}
+                class="thumb"
+                loading="lazy"
+                decoding="async"
+                bind:this={imageElement}
+            />
+        </gallery-button-media>
     </a>
 </gallery-button>
 
@@ -49,15 +51,11 @@ let {
 gallery-button {
     position: relative;
 
-    display: inline grid;
+    display: inline-grid;
     place-items: stretch;
 
-    aspect-ratio: var(--aspect);
     height: 6.5em;
 
-
-    --aspect: 1 / 1;
-    
     > * {
         grid-area: 1/1;
     }
@@ -69,6 +67,9 @@ a {
     display: grid;
     place-items: center;
 
+    box-sizing: border-box;
+    height: 100%;
+
     border-radius: 0.5em;
     overflow: hidden;
 
@@ -77,12 +78,12 @@ a {
     &:hover,
     &:focus-within {
         opacity: 1;
-        
+
         gallery-entry-tags {
             opacity: 1;
         }
 
-        > img.bg {
+        gallery-button-media > img.bg {
             filter: blur(8px) brightness(0.75);
             transform: scale(1.25);
         }
@@ -91,6 +92,17 @@ a {
     &:active {
         opacity: 0.15;
     }
+}
+
+gallery-button-media {
+    display: grid;
+
+    height: 100%;
+    aspect-ratio: var(--aspect);
+    min-width: 0;
+    min-height: 0;
+
+    --aspect: 1 / 1;
 
     > * {
         grid-area: 1/1;

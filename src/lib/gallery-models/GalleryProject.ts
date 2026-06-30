@@ -54,27 +54,27 @@ export const galleryProjects = {
         deliverables: {
             curi: new GalleryDeliverable({
                 label: "Curi",
-                href: generatedGalleryImages["gallery/astra-refs/curi"].src,
+                href: generatedGalleryImages["gallery/astra-refs/curi"].display.src,
                 image: {
-                    ...generatedGalleryImages["gallery/astra-refs/curi.thumb"],
+                    ...generatedGalleryImages["gallery/astra-refs/curi"],
                     alt: "Curi",
                 },
                 medium: galleryMediums.illustration2d,
             }),
             staaria: new GalleryDeliverable({
                 label: "Staaria",
-                href: generatedGalleryImages["gallery/astra-refs/staaria"].src,
+                href: generatedGalleryImages["gallery/astra-refs/staaria"].display.src,
                 image: {
-                    ...generatedGalleryImages["gallery/astra-refs/staaria.thumb"],
+                    ...generatedGalleryImages["gallery/astra-refs/staaria"],
                     alt: "Staaria",
                 },
                 medium: galleryMediums.illustration2d,
             }),
             pyrinth: new GalleryDeliverable({
                 label: "Pyrinth",
-                href: generatedGalleryImages["gallery/astra-refs/pyrinth"].src,
+                href: generatedGalleryImages["gallery/astra-refs/pyrinth"].display.src,
                 image: {
-                    ...generatedGalleryImages["gallery/astra-refs/pyrinth.thumb"],
+                    ...generatedGalleryImages["gallery/astra-refs/pyrinth"],
                     alt: "Pyrinth",
                 },
                 medium: galleryMediums.illustration2d,

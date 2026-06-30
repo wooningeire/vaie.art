@@ -4,9 +4,11 @@ export type GalleryImageAsset = {
     height: number,
 };
 
-export type GalleryImage = {
-    src: string,
+export type GeneratedGalleryImage = {
+    display: GalleryImageAsset,
+    thumb: GalleryImageAsset,
+};
+
+export type GalleryImage = GeneratedGalleryImage & {
     alt: string,
-    width: number,
-    height: number,
 };
