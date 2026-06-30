@@ -2,8 +2,7 @@
 import { galleryProjects } from "$/gallery-models/GalleryProject";
 import Background from "@/Background.svelte";
 import Gallery from "@/gallery/Gallery.svelte";
-import Biography from "@/Biography.svelte";
-import GalleryControls from "@/gallery/GalleryControls.svelte";
+import Sidenav from "@/sidenav/Sidenav.svelte";
 </script>
 
 <page-contents>
@@ -12,7 +11,7 @@ import GalleryControls from "@/gallery/GalleryControls.svelte";
     <main>
         <Gallery projects={galleryProjects} />
 
-        <Biography />
+        <Sidenav />
 
         <!-- <GalleryControls /> -->
     </main>

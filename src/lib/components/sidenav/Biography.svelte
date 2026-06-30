@@ -10,7 +10,9 @@ import BlueskySvg from "@/social-icons/Bluesky.svg.svelte";
 
 <biography-section>
     <biography-title>
-        <h1>vaiezzell</h1>
+        <h1>
+            <a href="/">vaiezzell</a>
+        </h1>
 
         <title-headline>software dragon ΘΔ!</title-headline>
         <title-headline>digital media generalist!</title-headline>

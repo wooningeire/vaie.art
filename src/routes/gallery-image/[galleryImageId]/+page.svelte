@@ -1,4 +1,5 @@
 <script lang="ts">
+    import Sidenav from "@/sidenav/Sidenav.svelte";
 import type { PageData } from "./$types";
 
 let {
@@ -32,22 +33,26 @@ let {
 </svelte:head>
 
 <main aria-labelledby="gallery-image-title">
-    <gallery-image-container>
-        <img
-            src={data.image.display.src}
-            alt={data.image.alt}
-            width={data.image.display.width}
-            height={data.image.display.height}
-            decoding="async"
-            fetchpriority="high"
-        />
-    </gallery-image-container>
+    <gallery-image-page>
+        <gallery-image-container>
+            <img
+                src={data.image.display.src}
+                alt={data.image.alt}
+                width={data.image.display.width}
+                height={data.image.display.height}
+                decoding="async"
+                fetchpriority="high"
+            />
+        </gallery-image-container>
 
-    <gallery-image-details>
-        <gallery-image-title id="gallery-image-title">
-            {data.title}
-        </gallery-image-title>
-    </gallery-image-details>
+        <gallery-image-details>
+            <gallery-image-title id="gallery-image-title">
+                {data.title}
+            </gallery-image-title>
+        </gallery-image-details>
+    </gallery-image-page>
+
+    <Sidenav />
 </main>
 
 <style lang="scss">
@@ -55,19 +60,24 @@ let {
 
 main {
     display: flex;
+    align-items: stretch;
+
+    background: oklch(0.18 0.018 205);
+}
+
+gallery-image-page {
+    display: flex;
     flex-direction: column;
     align-items: stretch;
 
     min-height: 100vh;
     min-height: 100svh;
 
-    background: oklch(0.18 0.018 205);
 }
 
 gallery-image-container {
     max-width: 100vw;
-    max-height: 100vh;
-    max-height: 100svh;
+    max-height: min(100svh, calc(100svh - 8rem));
 
     display: grid;
     place-items: center;
@@ -76,7 +86,7 @@ gallery-image-container {
 gallery-image-details {
     width: 100%;
 
-    padding: 1em;
+    padding: 2em;
 
     border-top: 1px solid oklch(0.9 0.05 150 / 0.5);
 }
@@ -93,6 +103,7 @@ img {
     width: auto;
     height: auto;
     max-width: 100%;
+    max-height: 100%;
     min-width: 0;
     min-height: 0;
 
