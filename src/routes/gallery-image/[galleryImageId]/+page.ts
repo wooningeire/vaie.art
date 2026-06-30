@@ -6,7 +6,6 @@ import {
 import { galleryImageHrefOf } from "$/gallery-models/GalleryImageRoute";
 import type { EntryGenerator, PageLoad } from "./$types";
 
-const siteName = "vaie.art";
 const siteOrigin = "https://vaie.art";
 
 const toAbsoluteUrl = (path: string) => new URL(path, siteOrigin).href;
@@ -22,12 +21,11 @@ export const load: PageLoad = ({ params }) => {
     }
 
     const title = page.label;
-    const description = `${title} by vaiezzell.`;
+    const description = `${title} by vaiezzell`;
 
     return {
         title,
         description,
-        siteName,
         canonicalUrl: toAbsoluteUrl(galleryImageHrefOf(params.galleryImageId)),
         image: page.image,
         imageUrl: toAbsoluteUrl(page.image.display.src),

@@ -9,7 +9,7 @@ let {
 </script>
 
 <svelte:head>
-    <title>{data.title} | {data.siteName}</title>
+    <title>{data.title} | vaiezzell</title>
     <link rel="canonical" href={data.canonicalUrl} />
 
     <meta name="description" content={data.description} />
@@ -32,7 +32,7 @@ let {
 </svelte:head>
 
 <main aria-labelledby="gallery-image-title">
-    <figure>
+    <gallery-image-container>
         <img
             src={data.image.display.src}
             alt={data.image.alt}
@@ -41,39 +41,50 @@ let {
             decoding="async"
             fetchpriority="high"
         />
+    </gallery-image-container>
 
-        <figcaption id="gallery-image-title">
+    <gallery-image-details>
+        <gallery-image-title id="gallery-image-title">
             {data.title}
-        </figcaption>
-    </figure>
+        </gallery-image-title>
+    </gallery-image-details>
 </main>
 
 <style lang="scss">
 @use "$/styles/fonts.scss";
 
 main {
-    display: grid;
-    place-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
 
-    min-width: 18.75rem;
     min-height: 100vh;
     min-height: 100svh;
-    padding: 1rem;
 
     background: oklch(0.18 0.018 205);
 }
 
-figure {
-    display: grid;
-    align-content: center;
-    justify-items: center;
-    gap: 1rem;
+gallery-image-container {
+    max-width: 100vw;
+    max-height: 100vh;
+    max-height: 100svh;
 
+    display: grid;
+    place-items: center;
+}
+
+gallery-image-details {
     width: 100%;
-    max-width: 100rem;
-    min-height: calc(100vh - 2rem);
-    min-height: calc(100svh - 2rem);
-    min-width: 0;
+
+    padding: 1em;
+
+    border-top: 1px solid oklch(0.9 0.05 150 / 0.5);
+}
+
+gallery-image-title {
+    @include fonts.heading;
+    
+    font-size: 3rem;
 }
 
 img {
@@ -82,14 +93,12 @@ img {
     width: auto;
     height: auto;
     max-width: 100%;
-    max-height: calc(100vh - 8rem);
-    max-height: calc(100svh - 8rem);
     min-width: 0;
     min-height: 0;
 
     object-fit: contain;
 
-    filter: drop-shadow(0 0 1rem oklch(0 0 0 / 0.35));
+    filter: drop-shadow(0 0 1rem oklch(0 0 0 / 0.5));
 }
 
 figcaption {
