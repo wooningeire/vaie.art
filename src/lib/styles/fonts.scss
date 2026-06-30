@@ -1,1 +1,11 @@
+@use "./colors.scss";
+
 $font-mono: "CommitMono", "Ubuntu Mono", monospace;
+$font-title: "Belanosima", "Averia Libre", sans-serif;
+
+
+@mixin heading {
+    font-weight: 600;
+    font-family: $font-title;
+    color: colors.$emph;
+}

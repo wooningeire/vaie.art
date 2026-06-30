@@ -1,6 +1,6 @@
 <script lang="ts">
-import type { GalleryProject } from "$/gallery-models/GalleryProject";
-import GalleryButton from "./GalleryButton.svelte";
+import { GalleryProject } from "$/gallery-models/GalleryProject";
+import GalleryProjectView from "./GalleryProjectView.svelte";
 
 let {
     projects,
@@ -11,11 +11,8 @@ let {
 
 <project-gallery>
     <gallery-entry-list aria-live="polite">
-        {#each Object.entries(projects) as [id, project] (id)}
-            <GalleryButton
-                href={project.href}
-                imageSrc={project.imageSrc}
-            />
+        {#each Object.entries(projects) as [projectId, project] (projectId)}
+            <GalleryProjectView {project} />
         {:else}
             <gallery-empty>No matches</gallery-empty>
         {/each}
@@ -36,9 +33,7 @@ gallery-entry-list {
     overflow-y: auto;
 
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-content: safe center;
+    flex-direction: column;
     gap: 1em;
 
     min-height: 0;

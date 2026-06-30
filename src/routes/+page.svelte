@@ -58,7 +58,6 @@ main {
         grid-template-columns: minmax(0, 1fr) 15em;
 
         padding: 0 1em;
-        font-size: 1.5rem;
 
         > :global(gallery-filter-bar) {
             grid-area: 1/2;

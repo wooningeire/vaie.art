@@ -74,6 +74,8 @@ biography-section {
 
     padding-bottom: 1em;
 
+    font-size: 1.5rem;
+
     @media (min-width: 720px) {
         width: 100%;
         padding-top: 1em;

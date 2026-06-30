@@ -2,7 +2,7 @@
 @use "$/fonts/Belanosima.scss";
 @use "$/fonts/AveriaLibre.scss";
 
-@use "$/styles/colors.scss";
+@use "$/styles/fonts.scss";
 
 * {
     box-sizing: border-box;
@@ -42,9 +42,7 @@ a {
 }
 
 h1 {
-    font-weight: 600;
+    @include fonts.heading;
+    
     font-size: 3em;
-    font-family: "Belanosima", "Averia Libre", sans-serif;
-
-    color: colors.$emph;
 }

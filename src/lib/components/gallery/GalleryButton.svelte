@@ -41,11 +41,10 @@ let {
 gallery-button {
     position: relative;
 
-    display: grid;
+    display: inline grid;
     place-items: stretch;
 
-    max-width: 25em;
-    height: 5em;
+    height: 6.5em;
     
     > * {
         grid-area: 1/1;
