@@ -3,10 +3,13 @@ let {
     href,
     imageSrc,
     imageAlt = "",
+    image = $bindable(),
+    shrinkwrapImage = false,
 }: {
     href: string,
     imageSrc: string,
     imageAlt?: string,
+    shrinkwrapImage: boolean,
 } = $props();
 </script>
 
@@ -15,14 +18,15 @@ let {
         {href}
         rel="external"
     >
-
-        <img
-            src={imageSrc}
-            alt={imageAlt}
-            class="bg"
-            loading="lazy"
-            decoding="async"
-        />
+        {#if !shrinkwrapImage}
+            <img
+                src={imageSrc}
+                alt={imageAlt}
+                class="bg"
+                loading="lazy"
+                decoding="async"
+            />
+        {/if}
         
         <img
             src={imageSrc}
@@ -30,6 +34,7 @@ let {
             class="thumb"
             loading="lazy"
             decoding="async"
+            bind:this={image}
         />
     </a>
 </gallery-button>

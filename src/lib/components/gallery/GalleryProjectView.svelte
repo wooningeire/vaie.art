@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { GalleryProject } from "$/gallery-models/GalleryProject";
-import GalleryButton from "./GalleryButton.svelte";
+import GalleryDeliverableView from "./GalleryDeliverableView.svelte";
 
 let {
     project,
@@ -17,10 +17,7 @@ let {
 
     <gallery-project-view-deliverables>
         {#each Object.entries(project.deliverables) as [deliverableId, deliverable] (deliverableId)}
-            <GalleryButton
-                href={deliverable.href}
-                imageSrc={deliverable.imageSrc}
-            />
+            <GalleryDeliverableView {deliverable} />
         {/each}
     </gallery-project-view-deliverables>
 </gallery-project-view>
