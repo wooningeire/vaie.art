@@ -83,7 +83,7 @@ function handleBackdropClick(event: MouseEvent) {
 
 <style lang="scss">
 @use "$/styles/mixins";
-@use "#/routes/colors.scss" as colors;
+@use "$/styles/colors";
 
 dialog {
     margin: auto;

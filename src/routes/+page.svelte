@@ -16,9 +16,9 @@ import { galleryCharacters } from "$/gallery-characters";
 import { galleryEntries } from "$/gallery-entries";
 import { onMount } from "svelte";
 import Background from "@/Background.svelte";
-import Gallery from "@/Gallery.svelte";
-import GalleryFilterBar from "@/GalleryFilterBar.svelte";
-    import Biography from "@/Biography.svelte";
+import Gallery from "@/gallery/Gallery.svelte";
+import GalleryFilterBar from "@/gallery/GalleryFilterBar.svelte";
+import Biography from "@/Biography.svelte";
 
 const indexedGalleryEntries = createGalleryIndex(galleryEntries, galleryCharacters);
 const facetGroups = createGalleryFacetGroups(indexedGalleryEntries);
