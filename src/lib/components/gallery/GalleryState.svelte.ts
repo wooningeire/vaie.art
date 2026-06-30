@@ -1,5 +1,5 @@
 export class GalleryState {
-    groupDeliverablesByProject = $state(false);
+    groupDeliverablesByProject = $state(true);
 }
 
 export const galleryState = new GalleryState();

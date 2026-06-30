@@ -53,29 +53,54 @@ export const galleryProjects = {
         label: "Astra refs",
         deliverables: {
             curi: new GalleryDeliverable({
-                label: "Curi",
+                label: "Curi reference sheet",
                 href: generatedGalleryImages["gallery/astra-refs/curi"].display.src,
                 image: {
                     ...generatedGalleryImages["gallery/astra-refs/curi"],
-                    alt: "Curi",
+                    alt: "Curi reference sheet",
                 },
                 medium: galleryMediums.illustration2d,
             }),
             staaria: new GalleryDeliverable({
-                label: "Staaria",
+                label: "Staaria reference sheet",
                 href: generatedGalleryImages["gallery/astra-refs/staaria"].display.src,
                 image: {
                     ...generatedGalleryImages["gallery/astra-refs/staaria"],
-                    alt: "Staaria",
+                    alt: "Staaria reference sheet",
                 },
                 medium: galleryMediums.illustration2d,
             }),
             pyrinth: new GalleryDeliverable({
-                label: "Pyrinth",
+                label: "Pyrinth reference sheet",
                 href: generatedGalleryImages["gallery/astra-refs/pyrinth"].display.src,
                 image: {
                     ...generatedGalleryImages["gallery/astra-refs/pyrinth"],
-                    alt: "Pyrinth",
+                    alt: "Pyrinth reference sheet",
+                },
+                medium: galleryMediums.illustration2d,
+            }),
+        },
+    }),
+
+    artfight2026: new GalleryProject({
+        label: "Art Fight 2026",
+        deliverables: {
+            vaiezzellThumb: new GalleryDeliverable({
+                label: "vaiezzell character thumbnail",
+                href: generatedGalleryImages["gallery/art-fight-2026/vaiezzell-2026-thumb"].display.src,
+                image: {
+                    ...generatedGalleryImages["gallery/art-fight-2026/vaiezzell-2026-thumb"],
+                    alt: "vaiezzell character thumbnail",
+                },
+                medium: galleryMediums.illustration2d,
+            }),
+
+            iywralyxThumb: new GalleryDeliverable({
+                label: "Iywralyx character thumbnail",
+                href: generatedGalleryImages["gallery/art-fight-2026/iywralyx-2026-thumb"].display.src,
+                image: {
+                    ...generatedGalleryImages["gallery/art-fight-2026/iywralyx-2026-thumb"],
+                    alt: "Iywralyx character thumbnail",
                 },
                 medium: galleryMediums.illustration2d,
             }),

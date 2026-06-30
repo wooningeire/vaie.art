@@ -29,6 +29,13 @@ gallery-project-view {
     display: flex;
     align-items: center;
     gap: 1em;
+
+    padding: 0.5em;
+
+    background: oklch(0.7 0.05 150 / 0.2);
+    
+    backdrop-filter: blur(8px);
+    border-radius: 1em;
 }
 
 gallery-project-view-title {
