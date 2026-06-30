@@ -50,7 +50,7 @@ import BlueskySvg from "@/social-icons/Bluesky.svg.svelte";
         </SocialLink>
 
         <SocialLink
-            href="https://bsky.app/profile/vaiezzell.bsky.social"
+            href="https://bsky.app/profile/vaie.art"
             label="Bluesky"
         >
             {#snippet icon()}
