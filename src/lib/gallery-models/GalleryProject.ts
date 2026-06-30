@@ -1,5 +1,7 @@
 import type { Component } from "svelte";
 import { GalleryDeliverable } from "./GalleryDeliverable";
+import { generatedGalleryImages } from "./generatedGalleryImages";
+import type { GalleryImage } from "./GalleryImage";
 import { galleryMediums } from "./GalleryMedium";
 
 export class GalleryProject {
@@ -7,26 +9,26 @@ export class GalleryProject {
     readonly deliverables: Record<string, GalleryDeliverable>;
 
     readonly href: string | null;
-    readonly imageSrc: string | null;
+    readonly image: GalleryImage | null;
     readonly infoComponent: Component | null;
 
     constructor({
         label,
         deliverables,
         href = null,
-        imageSrc = null,
+        image = null,
         infoComponent = null,
     }: {
         label: string,
         deliverables: Record<string, GalleryDeliverable>,
         href?: string | null,
-        imageSrc?: string | null,
+        image?: GalleryImage | null,
         infoComponent?: Component | null,
     }) {
         this.label = label;
         this.deliverables = deliverables;
         this.href = href;
-        this.imageSrc = imageSrc;
+        this.image = image;
         this.infoComponent = infoComponent;
     }
 }
@@ -38,7 +40,10 @@ export const galleryProjects = {
             pudle: new GalleryDeliverable({
                 label: "Pudle",
                 href: "/pudle",
-                imageSrc: "/media/misc/pudle-cover.webp",
+                image: {
+                    ...generatedGalleryImages["misc/pudle-cover"],
+                    alt: "Pudle",
+                },
                 medium: galleryMediums.webSpa,
             }),
         },
@@ -49,20 +54,29 @@ export const galleryProjects = {
         deliverables: {
             curi: new GalleryDeliverable({
                 label: "Curi",
-                href: "/media/gallery/curi.webp",
-                imageSrc: "/media/gallery/curi.thumb.webp",
+                href: generatedGalleryImages["gallery/astra-refs/curi"].src,
+                image: {
+                    ...generatedGalleryImages["gallery/astra-refs/curi.thumb"],
+                    alt: "Curi",
+                },
                 medium: galleryMediums.illustration2d,
             }),
             staaria: new GalleryDeliverable({
                 label: "Staaria",
-                href: "/media/gallery/staaria.webp",
-                imageSrc: "/media/gallery/staaria.thumb.webp",
+                href: generatedGalleryImages["gallery/astra-refs/staaria"].src,
+                image: {
+                    ...generatedGalleryImages["gallery/astra-refs/staaria.thumb"],
+                    alt: "Staaria",
+                },
                 medium: galleryMediums.illustration2d,
             }),
             pyrinth: new GalleryDeliverable({
                 label: "Pyrinth",
-                href: "/media/gallery/pyrinth.webp",
-                imageSrc: "/media/gallery/pyrinth.thumb.webp",
+                href: generatedGalleryImages["gallery/astra-refs/pyrinth"].src,
+                image: {
+                    ...generatedGalleryImages["gallery/astra-refs/pyrinth.thumb"],
+                    alt: "Pyrinth",
+                },
                 medium: galleryMediums.illustration2d,
             }),
         },

@@ -11,6 +11,5 @@ let {
 
 <GalleryButton
     href={deliverable.href}
-    imageSrc={deliverable.imageSrc}
-    shrinkwrapImage
+    image={deliverable.image}
 />

@@ -1,17 +1,42 @@
 #!/usr/bin/env -S deno run -A
 
-import { mkdir, readdir, stat} from "node:fs/promises";
+import { mkdir, readdir, stat, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
 type Options = {
-    input: string;
-    output: string;
-    displaySize: number;
-    thumbSize: number;
-    quality: number;
-    thumbQuality: number;
-    force: boolean;
+    input: string,
+    output: string,
+    staticRoot: string,
+    metadataOutput: string,
+    displaySize: number,
+    thumbSize: number,
+    quality: number,
+    thumbQuality: number,
+    force: boolean,
+};
+
+type OutputPaths = {
+    outputDirectory: string,
+    display: string,
+    thumb: string,
+};
+
+type ConversionResult = {
+    status: "converted" | "skipped",
+    file: string,
+    outputPaths: OutputPaths,
+};
+
+type GeneratedGalleryImage = {
+    src: string,
+    width: number,
+    height: number,
+};
+
+type GeneratedGalleryImageEntry = {
+    key: string,
+    image: GeneratedGalleryImage,
 };
 
 const imageExtensions = new Set<string>([
@@ -28,6 +53,8 @@ const imageExtensions = new Set<string>([
 const constants: Options = {
     input: "media/",
     output: "static/media/",
+    staticRoot: "static/",
+    metadataOutput: "src/lib/gallery-models/generatedGalleryImages.ts",
     displaySize: 1600,
     thumbSize: 480,
     quality: 90,
@@ -35,8 +62,7 @@ const constants: Options = {
     force: false,
 };
 
-
-function outputPathsOf(inputFile: string, options: Options) {
+const outputPathsOf = (inputFile: string, options: Options): OutputPaths => {
     const relativeInputPath = path.relative(options.input, inputFile);
     const parsed = path.parse(relativeInputPath);
     const relativeOutputDir = parsed.dir
@@ -52,9 +78,9 @@ function outputPathsOf(inputFile: string, options: Options) {
         display: path.join(outputDirectory, `${basename}.webp`),
         thumb: path.join(outputDirectory, `${basename}.thumb.webp`),
     };
-}
+};
 
-function createSlugFromPathSegment(value: string): string {
+const createSlugFromPathSegment = (value: string): string => {
     const slug = value
         .normalize("NFKD")
         .replace(/[\u0300-\u036f]/g, "")
@@ -68,7 +94,11 @@ function createSlugFromPathSegment(value: string): string {
     }
     
     return slug;
-}
+};
+
+const hasErrorCode = (error: unknown): error is Error & { code: string } => {
+    return error instanceof Error && typeof (error as { code?: unknown }).code === "string";
+};
 
 const shouldRegenerate = async (source: string, targets: string[], force: boolean) => {
     if (force) {
@@ -96,8 +126,7 @@ const shouldRegenerate = async (source: string, targets: string[], force: boolea
     return false;
 };
 
-
-const convertImage = async (file: string, options: Options) => {
+const convertImage = async (file: string, options: Options): Promise<ConversionResult> => {
     const outputPaths = outputPathsOf(file, options);
     const targets = [outputPaths.display, outputPaths.thumb];
 
@@ -138,27 +167,93 @@ const convertImage = async (file: string, options: Options) => {
     return { status: "converted", file, outputPaths };
 };
 
-const main = async () => {
-    let nFilesConverted = 0;
-    let nFilesSkipped = 0;
+const toPosixPath = (value: string) => {
+    return value.split(path.sep).join("/");
+};
 
-    const convertImageTracked = async (file: string, options: Options) => {
-        const result = await convertImage(file, options);
+const publicSrcOf = (outputFile: string, options: Options) => {
+    return `/${toPosixPath(path.relative(options.staticRoot, outputFile))}`;
+};
 
-        switch (result.status) {
-            case "converted":
-                nFilesConverted += 1;
-                break;
+const metadataKeyOf = (outputFile: string, options: Options) => {
+    const relativePath = path.relative(options.output, outputFile);
+    const parsed = path.parse(relativePath);
 
-            case "skipped":
-                nFilesSkipped += 1;
-                break;
-        }
+    return toPosixPath(path.join(parsed.dir, parsed.name));
+};
+
+const readGeneratedGalleryImage = async (
+    outputFile: string,
+    options: Options,
+): Promise<GeneratedGalleryImageEntry> => {
+    const metadata = await sharp(outputFile).metadata();
+
+    if (metadata.width == null || metadata.height == null) {
+        throw new Error(`Missing image dimensions for ${outputFile}`);
+    }
+
+    return {
+        key: metadataKeyOf(outputFile, options),
+        image: {
+            src: publicSrcOf(outputFile, options),
+            width: metadata.width,
+            height: metadata.height,
+        },
     };
+};
 
+const outputFilesOf = (conversionResults: ConversionResult[]) => {
+    const outputFiles: string[] = [];
+    const seenOutputFiles = new Set<string>();
 
-    
-    const convertImagePromises: Promise<void>[] = [];
+    for (const result of conversionResults) {
+        for (const outputFile of [result.outputPaths.display, result.outputPaths.thumb]) {
+            if (seenOutputFiles.has(outputFile)) {
+                continue;
+            }
+
+            seenOutputFiles.add(outputFile);
+            outputFiles.push(outputFile);
+        }
+    }
+
+    return outputFiles;
+};
+
+const writeGeneratedGalleryImages = async (conversionResults: ConversionResult[], options: Options) => {
+    const outputFiles = outputFilesOf(conversionResults);
+    const entries = await Promise.all(
+        outputFiles.map((outputFile) => readGeneratedGalleryImage(outputFile, options)),
+    );
+    const sortedEntries = entries.sort((a, b) => a.key.localeCompare(b.key));
+    const lines = [
+        "import type { GalleryImageAsset } from \"./GalleryImage\";",
+        "",
+        "// Generated by media/convert-media.ts. Do not edit by hand.",
+        "export const generatedGalleryImages = {",
+    ];
+
+    for (const { key, image } of sortedEntries) {
+        lines.push(
+            `    ${JSON.stringify(key)}: {`,
+            `        src: ${JSON.stringify(image.src)},`,
+            `        width: ${image.width},`,
+            `        height: ${image.height},`,
+            "    },",
+        );
+    }
+
+    lines.push(
+        "} satisfies Record<string, GalleryImageAsset>;",
+        "",
+    );
+
+    await mkdir(path.dirname(options.metadataOutput), { recursive: true });
+    await writeFile(options.metadataOutput, lines.join("\n"));
+};
+
+const main = async () => {
+    const convertImagePromises: Promise<ConversionResult>[] = [];
 
     const convertImagesInDirectory = async (directory: string) => {
         const entries = await readdir(directory, { withFileTypes: true });
@@ -172,30 +267,24 @@ const main = async () => {
             }
 
             if (entry.isFile() && imageExtensions.has(path.extname(entry.name).toLowerCase())) {
-                convertImagePromises.push(convertImageTracked(fullPath, constants));
+                convertImagePromises.push(convertImage(fullPath, constants));
             }
         }
     };
 
-
-
     await convertImagesInDirectory(constants.input);
-    await Promise.all(convertImagePromises);
+    const conversionResults = await Promise.all(convertImagePromises);
+    await writeGeneratedGalleryImages(conversionResults, constants);
 
+    const nFilesConverted = conversionResults.filter((result) => result.status === "converted").length;
+    const nFilesSkipped = conversionResults.filter((result) => result.status === "skipped").length;
 
     console.log(`finished :: ${nFilesConverted} converted, ${nFilesSkipped} skipped`);
-}
-
-function hasErrorCode(error: unknown): error is Error & { code: string } {
-    return error instanceof Error && typeof (error as { code?: unknown }).code === "string";
-}
-
-
+};
 
 try {
     await main();
-}
-catch (error) {
+} catch (error) {
     console.error(error instanceof Error ? error.message : error);
     Deno.exitCode = 1;
 }

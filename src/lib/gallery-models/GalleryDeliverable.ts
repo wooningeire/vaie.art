@@ -1,29 +1,25 @@
 import type { GalleryMedium } from "./GalleryMedium";
-
-export type GalleryDeliverableImage = {
-    src: string,
-    alt: string,
-}
+import type { GalleryImage } from "./GalleryImage";
 
 export class GalleryDeliverable {
     readonly label: string;
-    readonly imageSrc: string;
-    readonly href: string; 
+    readonly image: GalleryImage;
+    readonly href: string;
     readonly medium: GalleryMedium;
 
     constructor({
         label,
-        imageSrc,
+        image,
         href,
         medium,
     }: {
         label: string,
-        imageSrc: string,
+        image: GalleryImage,
         href: string,
         medium: GalleryMedium,
     }) {
         this.label = label;
-        this.imageSrc = imageSrc;
+        this.image = image;
         this.href = href;
         this.medium = medium;
     }

@@ -1,40 +1,43 @@
 <script lang="ts">
+import type { GalleryImage } from "$/gallery-models/GalleryImage";
+
 let {
     href,
-    imageSrc,
-    imageAlt = "",
-    image = $bindable(),
-    shrinkwrapImage = false,
+    image,
+    imageElement = $bindable(),
 }: {
     href: string,
-    imageSrc: string,
-    imageAlt?: string,
-    shrinkwrapImage: boolean,
+    image: GalleryImage,
+    imageElement?: HTMLImageElement,
 } = $props();
 </script>
 
-<gallery-button>
+<gallery-button
+    style:--aspect="{image.width} / {image.height}"
+>
     <a
         {href}
         rel="external"
     >
-        {#if !shrinkwrapImage}
-            <img
-                src={imageSrc}
-                alt={imageAlt}
-                class="bg"
-                loading="lazy"
-                decoding="async"
-            />
-        {/if}
+        <img
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            class="bg"
+            loading="lazy"
+            decoding="async"
+        />
         
         <img
-            src={imageSrc}
-            alt={imageAlt}
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
             class="thumb"
             loading="lazy"
             decoding="async"
-            bind:this={image}
+            bind:this={imageElement}
         />
     </a>
 </gallery-button>
@@ -49,7 +52,11 @@ gallery-button {
     display: inline grid;
     place-items: stretch;
 
+    aspect-ratio: var(--aspect);
     height: 6.5em;
+
+
+    --aspect: 1 / 1;
     
     > * {
         grid-area: 1/1;
