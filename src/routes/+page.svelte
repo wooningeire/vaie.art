@@ -1,96 +1,15 @@
 <script lang="ts">
-import {
-    applyGalleryQueryToSearchParams,
-    clearGalleryQuery,
-    createEmptyGalleryQuery,
-    createGalleryFacetGroups,
-    createGalleryIndex,
-    filterGalleryEntries,
-    parseGalleryQuerySearchParams,
-    toggleGalleryQueryInclude,
-    type GalleryFacetValue,
-    type GalleryQuery,
-} from "$/gallery-tags";
-import { browser } from "$app/environment";
-import { galleryCharacters } from "$/gallery-characters";
-import { galleryEntries } from "$/gallery-entries";
-import { onMount } from "svelte";
+import { galleryProjects } from "$/gallery-models/GalleryProject";
 import Background from "@/Background.svelte";
 import Gallery from "@/gallery/Gallery.svelte";
-import GalleryFilterBar from "@/gallery/GalleryFilterBar.svelte";
 import Biography from "@/Biography.svelte";
-
-const indexedGalleryEntries = createGalleryIndex(galleryEntries, galleryCharacters);
-const facetGroups = createGalleryFacetGroups(indexedGalleryEntries);
-
-let activeQuery = $state<GalleryQuery>(createEmptyGalleryQuery());
-let urlStateReady = $state(false);
-let visibleEntries = $derived(filterGalleryEntries(indexedGalleryEntries, activeQuery));
-
-onMount(() => {
-    activeQuery = readGalleryQueryFromLocation();
-    urlStateReady = true;
-
-    const handlePopState = () => {
-        activeQuery = readGalleryQueryFromLocation();
-    };
-
-    window.addEventListener("popstate", handlePopState);
-
-    return () => {
-        window.removeEventListener("popstate", handlePopState);
-    };
-});
-
-$effect(() => {
-    if (!browser || !urlStateReady) {
-        return;
-    }
-
-    writeGalleryQueryToLocation(activeQuery);
-});
-
-function toggleFilter(tag: GalleryFacetValue) {
-    activeQuery = toggleGalleryQueryInclude(activeQuery, tag.id);
-}
-
-function clearFilters() {
-    activeQuery = clearGalleryQuery();
-}
-
-function readGalleryQueryFromLocation(): GalleryQuery {
-    if (!browser) {
-        return createEmptyGalleryQuery();
-    }
-
-    return parseGalleryQuerySearchParams(new URLSearchParams(window.location.search));
-}
-
-function writeGalleryQueryToLocation(query: GalleryQuery) {
-    const url = new URL(window.location.href);
-    applyGalleryQueryToSearchParams(url.searchParams, query);
-
-    const currentPath = `${window.location.pathname}${window.location.search}${window.location.hash}`;
-    const nextPath = `${url.pathname}${url.search}${url.hash}`;
-
-    if (currentPath !== nextPath) {
-        window.history.replaceState(window.history.state, "", nextPath);
-    }
-}
 </script>
 
 <page-contents>
     <Background />
 
     <main>
-        <GalleryFilterBar
-            {facetGroups}
-            {activeQuery}
-            onToggleFilter={toggleFilter}
-            onClearFilters={clearFilters}
-        />
-
-        <Gallery entries={visibleEntries} />
+        <Gallery projects={galleryProjects} />
 
         <Biography />
     </main>

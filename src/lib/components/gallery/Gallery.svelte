@@ -1,52 +1,26 @@
 <script lang="ts">
-import type { GalleryEntry, GalleryEntryWithInfo } from "$/gallery-entries";
-import type { GalleryIndexedEntry } from "$/gallery-tags";
+import type { GalleryProject } from "$/gallery-models/GalleryProject";
 import GalleryButton from "./GalleryButton.svelte";
-import GalleryInfoDialog from "./GalleryInfoDialog.svelte";
 
 let {
-    entries,
+    projects,
 }: {
-    entries: readonly GalleryIndexedEntry<GalleryEntry>[],
+    projects: Record<string, GalleryProject>,
 } = $props();
-
-let selectedEntry = $state<GalleryEntryWithInfo | undefined>();
-
-function hasInfo(entry: GalleryEntry): entry is GalleryEntryWithInfo {
-    return Boolean(entry.info);
-}
-
-function showInfo(entry: GalleryEntry) {
-    if (hasInfo(entry)) {
-        selectedEntry = entry;
-    }
-}
-
-function closeInfo() {
-    selectedEntry = undefined;
-}
 </script>
 
 <project-gallery>
     <gallery-entry-list aria-live="polite">
-        {#each entries as indexedEntry (indexedEntry.entry.id)}
+        {#each Object.entries(projects) as [id, project] (id)}
             <GalleryButton
-                {...indexedEntry.entry}
-                displayTags={indexedEntry.displayTags}
-                onInfoClick={() => showInfo(indexedEntry.entry)}
+                href={project.href}
+                imageSrc={project.imageSrc}
             />
         {:else}
             <gallery-empty>No matches</gallery-empty>
         {/each}
     </gallery-entry-list>
 </project-gallery>
-
-{#if selectedEntry}
-    <GalleryInfoDialog
-        entry={selectedEntry}
-        onClose={closeInfo}
-    />
-{/if}
 
 <style lang="scss">
 @use "$/styles/mixins";

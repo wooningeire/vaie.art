@@ -1,31 +1,13 @@
 <script lang="ts">
-import type { GalleryInfoComponent } from "$/gallery-entries";
-import type { NormalizedTag } from "$/gallery-tags";
-import GalleryEntryTag from "./GalleryEntryTag.svelte";
-
 let {
     href,
     imageSrc,
     imageAlt = "",
-    displayTags = [],
-    info,
-    onInfoClick,
 }: {
     href: string,
     imageSrc: string,
     imageAlt?: string,
-    displayTags?: readonly NormalizedTag[],
-    info?: GalleryInfoComponent,
-    onInfoClick?: () => void,
 } = $props();
-
-let infoLabel = $derived(`Open info card for ${imageAlt || href}`);
-
-function handleInfoClick(event: MouseEvent) {
-    event.preventDefault();
-    event.stopPropagation();
-    onInfoClick?.();
-}
 </script>
 
 <gallery-button>
@@ -49,26 +31,7 @@ function handleInfoClick(event: MouseEvent) {
             loading="lazy"
             decoding="async"
         />
-
-        <gallery-entry-tags>
-            {#each displayTags as tag (tag.id)}
-                <GalleryEntryTag label={tag.label} />
-            {/each}
-        </gallery-entry-tags>
     </a>
-
-    {#if info}
-        <button
-            type="button"
-            class="info-button"
-            aria-label={infoLabel}
-            aria-haspopup="dialog"
-            title="Info"
-            onclick={handleInfoClick}
-        >
-            <span aria-hidden="true">i</span>
-        </button>
-    {/if}
 </gallery-button>
 
 <style lang="scss">
@@ -81,8 +44,8 @@ gallery-button {
     display: grid;
     place-items: stretch;
 
-    max-width: 30em;
-    height: 8em;
+    max-width: 25em;
+    height: 5em;
     
     > * {
         grid-area: 1/1;
