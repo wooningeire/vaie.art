@@ -3,6 +3,18 @@ import { GalleryDeliverable } from "./GalleryDeliverable";
 import { generatedGalleryImages } from "./generatedGalleryImages";
 import type { GalleryImage } from "./GalleryImage";
 import { galleryMediums } from "./GalleryMedium";
+import { galleryImageHrefOf } from "./galleryImageRoute";
+
+const resolveDeliverableHrefs = (
+    deliverables: Record<string, GalleryDeliverable>,
+): Record<string, GalleryDeliverable> => Object.fromEntries(
+    Object.entries(deliverables).map(([id, deliverable]) => [
+        id,
+        deliverable.hasGalleryImagePage
+            ? deliverable.withHref(galleryImageHrefOf(id))
+            : deliverable,
+    ]),
+);
 
 export class GalleryProject {
     readonly label: string;
@@ -26,7 +38,7 @@ export class GalleryProject {
         infoComponent?: Component | null,
     }) {
         this.label = label;
-        this.deliverables = deliverables;
+        this.deliverables = resolveDeliverableHrefs(deliverables);
         this.href = href;
         this.image = image;
         this.infoComponent = infoComponent;

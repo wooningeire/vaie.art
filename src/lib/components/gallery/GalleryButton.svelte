@@ -15,7 +15,6 @@ let {
 <gallery-button>
     <a
         {href}
-        rel="external"
     >
         <gallery-button-media
             style:--aspect="{image.thumb.width} / {image.thumb.height}"
