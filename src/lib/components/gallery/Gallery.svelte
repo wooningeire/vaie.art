@@ -33,7 +33,7 @@ gallery-entry-list {
     overflow-y: auto;
 
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     gap: 0.5em;
 
     min-height: 0;

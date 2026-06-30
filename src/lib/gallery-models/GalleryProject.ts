@@ -82,6 +82,36 @@ export const galleryProjects = {
         },
     }),
 
+    vaieDragnEmoji: new GalleryProject({
+        label: "vaie dragn emoji",
+        deliverables: {
+            dragnbratty: GalleryDeliverable.ofGalleryImage({
+                label: "dragnbratty",
+                key: "gallery/vaie-dragn-emoji/dragnbrattynew",
+            }),
+            
+            dragnmelting: GalleryDeliverable.ofGalleryImage({
+                label: "dragnmelting",
+                key: "gallery/vaie-dragn-emoji/dragnmeltingweak",
+            }),
+            
+            dragnskull: GalleryDeliverable.ofGalleryImage({
+                label: "dragnskull",
+                key: "gallery/vaie-dragn-emoji/dragnskull",
+            }),
+            
+            dragnwinghug: GalleryDeliverable.ofGalleryImage({
+                label: "dragnwinghug",
+                key: "gallery/vaie-dragn-emoji/dragnwinghug",
+            }),
+            
+            zanayell: GalleryDeliverable.ofGalleryImage({
+                label: "zanayell",
+                key: "gallery/vaie-dragn-emoji/zanayell",
+            }),
+        },
+    }),
+
     dragonraffle: new GalleryProject({
         label: "Dragonraffle",
         deliverables: {

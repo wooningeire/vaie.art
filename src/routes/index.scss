@@ -3,6 +3,7 @@
 @use "$/fonts/AveriaLibre.scss";
 
 @use "$/styles/fonts.scss";
+@use "$/styles/responsive.scss";
 
 * {
     box-sizing: border-box;
@@ -25,6 +26,11 @@ body {
 
     font-family: "Averia Libre", sans-serif;
     font-weight: 200;
+    font-size: 0.8rem;
+    
+    @media screen and (min-width: responsive.$resize-threshold) {
+        font-size: 1rem;
+    }
 }
 
 a {
