@@ -34,7 +34,7 @@ gallery-entry-list {
 
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 0.5em;
 
     min-height: 0;
     padding: 2em 0;

@@ -1,5 +1,6 @@
-import type { GalleryMedium } from "./GalleryMedium";
+import { galleryMediums, type GalleryMedium } from "./GalleryMedium";
 import type { GalleryImage } from "./GalleryImage";
+import { generatedGalleryImages } from "./generatedGalleryImages";
 
 export class GalleryDeliverable {
     readonly label: string;
@@ -22,5 +23,27 @@ export class GalleryDeliverable {
         this.image = image;
         this.href = href;
         this.medium = medium;
+    }
+
+    static ofGalleryImage(
+        {
+            label,
+            key,
+        }: {
+            label: string,
+            key: keyof typeof generatedGalleryImages,
+        },
+        rest: Partial<ConstructorParameters<typeof GalleryDeliverable>[0]>={},
+    ) {
+        return new GalleryDeliverable({
+            ...rest,
+            label,
+            href: generatedGalleryImages[key].display.src,
+            image: {
+                ...generatedGalleryImages[key],
+                alt: label,
+            },
+            medium: galleryMediums.illustration2d,
+        });
     }
 }

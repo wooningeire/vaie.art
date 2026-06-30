@@ -62,6 +62,7 @@ import BlueskySvg from "@/social-icons/Bluesky.svg.svelte";
 
 <style lang="scss">
 @use "$/styles/colors.scss";
+@use "$/styles/responsive.scss";
 
 biography-section {
     align-self: flex-end;
@@ -74,12 +75,12 @@ biography-section {
 
     padding-bottom: 1em;
 
-    font-size: 1.5rem;
 
-    @media (min-width: 720px) {
-        width: 100%;
+    @media (min-width: responsive.$resize-threshold) {
         padding-top: 1em;
         border-top: 1px solid oklch(0.9 0.02 200 / 0.25);
+    
+        font-size: 1.5rem;
     }
 }
 

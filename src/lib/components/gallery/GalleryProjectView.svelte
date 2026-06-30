@@ -24,27 +24,28 @@ let {
 
 <style lang="scss">
 @use "$/styles/fonts.scss";
+@use "$/styles/responsive.scss";
 
 gallery-project-view {
     display: flex;
-    align-items: center;
-    gap: 1em;
+    flex-direction: column;
+    gap: 0.5em;
 
-    padding: 0.5em;
+    padding: 0.5em 1em;
 
-    background: oklch(0.7 0.05 150 / 0.2);
+    background: oklch(0.7 0.05 150 / 0.05);
+    box-shadow: 0 0 64px oklch(0.8 0.04 140 / 0.25) inset;
     
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(4px);
     border-radius: 1em;
+
+    @media screen and (min-width: responsive.$resize-threshold) {
+        font-size: 1.25rem;
+    }
 }
 
 gallery-project-view-title {
     @include fonts.heading;
-
-    width: 10ch;
-    font-size: 1.5rem;
-
-    text-align: right;
 }
 
 gallery-project-view-deliverables {
@@ -54,6 +55,6 @@ gallery-project-view-deliverables {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1em;
+    gap: 0.5em;
 }
 </style>

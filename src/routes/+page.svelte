@@ -20,6 +20,8 @@ import GalleryControls from "@/gallery/GalleryControls.svelte";
 
 
 <style lang="scss">
+@use "$/styles/responsive.scss";
+
 page-contents {
     display: grid;
     place-items: center;
@@ -43,32 +45,27 @@ main {
     min-height: 300px;
 
     > :global(gallery-controls) {
-        grid-area: 1/2;
+        grid-area: 2/1;
         align-self: flex-end;
+        justify-self: flex-end;
     }
 
     > :global(project-gallery) {
-        grid-area: 1/1 / 4/2;
+        grid-area: 1/1;
     }
 
     > :global(biography-section) {
-        grid-area: 2/2;
+        grid-area: 3/1;
     }
 
-    @media (min-width: 720px) {
+    @media (min-width: responsive.$resize-threshold) {
         grid-template-rows: minmax(0, 1fr) auto;
-        grid-template-columns: minmax(0, 1fr) 15em;
+        grid-template-columns: minmax(0, 1fr) 25em;
 
         padding: 0 1em;
 
-        > :global(gallery-filter-bar) {
+        > :global(gallery-controls) {
             grid-area: 1/2;
-            align-self: flex-end;
-            justify-self: flex-end;
-
-            max-height: calc(100vh - 16rem);
-            padding: 1rem 0 0;
-            overflow-y: auto;
         }
 
         > :global(biography-section) {

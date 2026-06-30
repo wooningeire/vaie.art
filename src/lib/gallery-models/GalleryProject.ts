@@ -52,32 +52,17 @@ export const galleryProjects = {
     astraRefs: new GalleryProject({
         label: "Astra refs",
         deliverables: {
-            curi: new GalleryDeliverable({
+            curi: GalleryDeliverable.ofGalleryImage({
                 label: "Curi reference sheet",
-                href: generatedGalleryImages["gallery/astra-refs/curi"].display.src,
-                image: {
-                    ...generatedGalleryImages["gallery/astra-refs/curi"],
-                    alt: "Curi reference sheet",
-                },
-                medium: galleryMediums.illustration2d,
+                key: "gallery/astra-refs/curi",
             }),
-            staaria: new GalleryDeliverable({
+            staaria: GalleryDeliverable.ofGalleryImage({
                 label: "Staaria reference sheet",
-                href: generatedGalleryImages["gallery/astra-refs/staaria"].display.src,
-                image: {
-                    ...generatedGalleryImages["gallery/astra-refs/staaria"],
-                    alt: "Staaria reference sheet",
-                },
-                medium: galleryMediums.illustration2d,
+                key: "gallery/astra-refs/staaria",
             }),
-            pyrinth: new GalleryDeliverable({
+            pyrinth: GalleryDeliverable.ofGalleryImage({
                 label: "Pyrinth reference sheet",
-                href: generatedGalleryImages["gallery/astra-refs/pyrinth"].display.src,
-                image: {
-                    ...generatedGalleryImages["gallery/astra-refs/pyrinth"],
-                    alt: "Pyrinth reference sheet",
-                },
-                medium: galleryMediums.illustration2d,
+                key: "gallery/astra-refs/pyrinth",
             }),
         },
     }),
@@ -85,25 +70,60 @@ export const galleryProjects = {
     artfight2026: new GalleryProject({
         label: "Art Fight 2026",
         deliverables: {
-            vaiezzellThumb: new GalleryDeliverable({
+            vaiezzellThumb: GalleryDeliverable.ofGalleryImage({
                 label: "vaiezzell character thumbnail",
-                href: generatedGalleryImages["gallery/art-fight-2026/vaiezzell-2026-thumb"].display.src,
-                image: {
-                    ...generatedGalleryImages["gallery/art-fight-2026/vaiezzell-2026-thumb"],
-                    alt: "vaiezzell character thumbnail",
-                },
-                medium: galleryMediums.illustration2d,
+                key: "gallery/art-fight-2026/vaiezzell-2026-thumb",
             }),
 
-            iywralyxThumb: new GalleryDeliverable({
+            iywralyxThumb: GalleryDeliverable.ofGalleryImage({
                 label: "Iywralyx character thumbnail",
-                href: generatedGalleryImages["gallery/art-fight-2026/iywralyx-2026-thumb"].display.src,
-                image: {
-                    ...generatedGalleryImages["gallery/art-fight-2026/iywralyx-2026-thumb"],
-                    alt: "Iywralyx character thumbnail",
-                },
-                medium: galleryMediums.illustration2d,
+                key: "gallery/art-fight-2026/iywralyx-2026-thumb",
             }),
         },
+    }),
+
+    dragonraffle: new GalleryProject({
+        label: "Dragonraffle",
+        deliverables: {
+            automaton: GalleryDeliverable.ofGalleryImage({
+                label: "Automaton dragon",
+                key: "gallery/dragonraffle/automaton",
+            }),
+
+            dragonInRuralMiddleAmerica: GalleryDeliverable.ofGalleryImage({
+                label: "Dragon in rural middle america",
+                key: "gallery/dragonraffle/dragon-in-rural-middle-america",
+            }),
+
+            dragonOnLawn: GalleryDeliverable.ofGalleryImage({
+                label: "Dragon on lawn",
+                key: "gallery/dragonraffle/dragon-on-lawn",
+            }),
+
+            spacefarer: GalleryDeliverable.ofGalleryImage({
+                label: "Spacefarer",
+                key: "gallery/dragonraffle/lexi",
+            }),
+
+            cherryBlossom: GalleryDeliverable.ofGalleryImage({
+                label: "Cherry blossom",
+                key: "gallery/dragonraffle/milli",
+            }),
+
+            tradeOffer: GalleryDeliverable.ofGalleryImage({
+                label: "Trade offer",
+                key: "gallery/dragonraffle/nuts",
+            }),
+
+            unnickDragonKiss: GalleryDeliverable.ofGalleryImage({
+                label: "unnick dragon kiss",
+                key: "gallery/dragonraffle/unnick-dragon-kiss",
+            }),
+        },
+    }),
+
+    discordBioEasterEgg: new GalleryProject({
+        label: "Discord bio easter egg",
+        deliverables: {},
     }),
 };
