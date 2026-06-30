@@ -14,7 +14,7 @@ import GalleryControls from "@/gallery/GalleryControls.svelte";
 
         <Biography />
 
-        <GalleryControls />
+        <!-- <GalleryControls /> -->
     </main>
 </page-contents>
 

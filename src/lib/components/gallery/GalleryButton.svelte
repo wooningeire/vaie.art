@@ -70,7 +70,7 @@ a {
     box-sizing: border-box;
     height: 100%;
 
-    border-radius: 0.5em;
+    border-radius: 0.25em;
     overflow: hidden;
 
     opacity: 0.75;
