@@ -1,6 +1,7 @@
 <script lang="ts">
 import { Draggable } from "@vaie/hui";
 import { onMount, tick } from "svelte";
+import { on } from "svelte/events";
 import type { ComponentProps } from "svelte";
 import type { GalleryImage } from "$/gallery-models/GalleryImage";
 
@@ -19,9 +20,20 @@ type PanDragState = {
     startScrollTop: number,
 };
 
-const minZoom = 0.25;
-const maxZoom = 4;
+type ZoomAnchor = {
+    viewportX: number,
+    viewportY: number,
+    imageXRatio: number,
+    imageYRatio: number,
+};
+
+const minZoom = 1/16;
+const maxZoom = 16;
 const zoomStep = 0.25;
+const wheelDeltaModeLine = 1;
+const wheelDeltaModePage = 2;
+const wheelLinePixelHeight = 16;
+const wheelPixelsPerZoomDoubling = 600;
 
 let stage: HTMLElement | undefined;
 let imageElement: HTMLImageElement | undefined;
@@ -37,6 +49,65 @@ const zoomedWidth = $derived(`${Math.round(image.full.width * zoom)}px`);
 const zoomedHeight = $derived(`${Math.round(image.full.height * zoom)}px`);
 
 const clampZoom = (value: number) => Math.min(maxZoom, Math.max(minZoom, value));
+
+const getZoomAnchor = (viewportX: number, viewportY: number): ZoomAnchor => {
+    if (stage === undefined) {
+        return {
+            viewportX,
+            viewportY,
+            imageXRatio: 0.5,
+            imageYRatio: 0.5,
+        };
+    }
+
+    const zoomedImageWidth = image.full.width * zoom;
+    const zoomedImageHeight = image.full.height * zoom;
+    const imageLeft = (stage.scrollWidth - zoomedImageWidth) / 2;
+    const imageTop = (stage.scrollHeight - zoomedImageHeight) / 2;
+    const contentX = stage.scrollLeft + viewportX;
+    const contentY = stage.scrollTop + viewportY;
+
+    return {
+        viewportX,
+        viewportY,
+        imageXRatio: (contentX - imageLeft) / zoomedImageWidth,
+        imageYRatio: (contentY - imageTop) / zoomedImageHeight,
+    };
+};
+
+const getCenterZoomAnchor = () => {
+    if (stage === undefined) {
+        return getZoomAnchor(0, 0);
+    }
+
+    return getZoomAnchor(stage.clientWidth / 2, stage.clientHeight / 2);
+};
+
+const scrollToZoomAnchor = (anchor: ZoomAnchor) => {
+    if (stage === undefined) {
+        return;
+    }
+
+    const zoomedImageWidth = image.full.width * zoom;
+    const zoomedImageHeight = image.full.height * zoom;
+    const imageLeft = (stage.scrollWidth - zoomedImageWidth) / 2;
+    const imageTop = (stage.scrollHeight - zoomedImageHeight) / 2;
+
+    stage.scrollLeft = imageLeft + zoomedImageWidth * anchor.imageXRatio - anchor.viewportX;
+    stage.scrollTop = imageTop + zoomedImageHeight * anchor.imageYRatio - anchor.viewportY;
+};
+
+const getWheelDeltaY = (event: WheelEvent) => {
+    if (event.deltaMode === wheelDeltaModeLine) {
+        return event.deltaY * wheelLinePixelHeight;
+    }
+
+    if (event.deltaMode === wheelDeltaModePage) {
+        return event.deltaY * (stage?.clientHeight ?? window.innerHeight);
+    }
+
+    return event.deltaY;
+};
 
 const isImageEventTarget = (target: EventTarget | null) => (
     target instanceof Node
@@ -58,32 +129,18 @@ const centerStageAfterLayout = async () => {
     requestAnimationFrame(centerStage);
 };
 
-const setZoom = async (nextZoom: number) => {
+const setZoom = async (nextZoom: number, anchor = getCenterZoomAnchor()) => {
     const clampedZoom = clampZoom(nextZoom);
 
     if (clampedZoom === zoom) {
         return;
     }
 
-    const centerXRatio = stage === undefined || stage.scrollWidth === 0
-        ? 0.5
-        : (stage.scrollLeft + stage.clientWidth / 2) / stage.scrollWidth;
-    const centerYRatio = stage === undefined || stage.scrollHeight === 0
-        ? 0.5
-        : (stage.scrollTop + stage.clientHeight / 2) / stage.scrollHeight;
-
     zoom = clampedZoom;
 
     await tick();
 
-    requestAnimationFrame(() => {
-        if (stage === undefined) {
-            return;
-        }
-
-        stage.scrollLeft = stage.scrollWidth * centerXRatio - stage.clientWidth / 2;
-        stage.scrollTop = stage.scrollHeight * centerYRatio - stage.clientHeight / 2;
-    });
+    requestAnimationFrame(() => scrollToZoomAnchor(anchor));
 };
 
 const zoomIn = () => {
@@ -102,6 +159,29 @@ const handleKeydown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
         onClose();
     }
+};
+
+const handleWheel = (event: WheelEvent) => {
+    if (stage === undefined) {
+        return;
+    }
+
+    const deltaY = getWheelDeltaY(event);
+
+    if (deltaY === 0) {
+        return;
+    }
+
+    event.preventDefault();
+
+    const stageRect = stage.getBoundingClientRect();
+    const anchor = getZoomAnchor(
+        event.clientX - stageRect.left,
+        event.clientY - stageRect.top,
+    );
+    const zoomMultiplier = 2 ** (-deltaY / wheelPixelsPerZoomDoubling);
+
+    void setZoom(zoom * zoomMultiplier, anchor);
 };
 
 const startDrag: NonNullable<DraggableProps["onDown"]> = ({ button, pointerEvent }) => {
@@ -149,12 +229,21 @@ const stopDrag: NonNullable<DraggableProps["onUp"]> = ({ button }) => {
 };
 
 onMount(() => {
+    const removeWheelListener = on(window, "wheel", handleWheel, {
+        capture: true,
+        passive: false,
+    });
+
     closeButton?.focus({ preventScroll: true });
-    void centerStageAfterLayout();
+    centerStageAfterLayout();
+
+    return removeWheelListener;
 });
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window
+    onkeydown={handleKeydown}
+/>
 
 <gallery-image-viewer-overlay
     role="dialog"
