@@ -4,10 +4,12 @@ import type { GalleryImage } from "$/gallery-models/GalleryImage";
 let {
     href,
     image,
+    external = false,
     imageElement = $bindable(),
 }: {
     href: string,
     image: GalleryImage,
+    external?: boolean,
     imageElement?: HTMLImageElement,
 } = $props();
 </script>
@@ -15,6 +17,7 @@ let {
 <gallery-button>
     <a
         {href}
+        rel={external ? "external" : null}
     >
         <gallery-button-media
             style:--aspect="{image.thumb.width} / {image.thumb.height}"

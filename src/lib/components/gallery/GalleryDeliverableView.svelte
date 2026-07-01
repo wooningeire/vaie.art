@@ -15,6 +15,7 @@ let {
     <GalleryButton
         href={deliverable.href}
         image={deliverable.image}
+        external={deliverable.external}
     />
 </gallery-deliverable>
 

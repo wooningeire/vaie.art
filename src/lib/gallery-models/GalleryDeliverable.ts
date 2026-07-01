@@ -7,6 +7,7 @@ export type GalleryDeliverableOptions = {
     image: GalleryImage,
     href: string,
     medium: GalleryMedium,
+    external?: boolean,
     hasGalleryImagePage?: boolean,
 };
 
@@ -15,6 +16,7 @@ export class GalleryDeliverable {
     readonly image: GalleryImage;
     readonly href: string;
     readonly medium: GalleryMedium;
+    readonly external: boolean;
     readonly hasGalleryImagePage: boolean;
 
     constructor({
@@ -22,12 +24,14 @@ export class GalleryDeliverable {
         image,
         href,
         medium,
+        external = false,
         hasGalleryImagePage = false,
     }: GalleryDeliverableOptions) {
         this.label = label;
         this.image = image;
         this.href = href;
         this.medium = medium;
+        this.external = external;
         this.hasGalleryImagePage = hasGalleryImagePage;
     }
 
@@ -36,6 +40,7 @@ export class GalleryDeliverable {
         image: this.image,
         href,
         medium: this.medium,
+        external: this.external,
         hasGalleryImagePage: this.hasGalleryImagePage,
     });
 
@@ -59,6 +64,7 @@ export class GalleryDeliverable {
                 alt: label,
             },
             medium: rest.medium ?? galleryMediums.illustration2d,
+            external: rest.external,
             hasGalleryImagePage: true,
         });
     }

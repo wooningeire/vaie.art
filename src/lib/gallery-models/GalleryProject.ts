@@ -24,24 +24,29 @@ export class GalleryProject {
     readonly image: GalleryImage | null;
     readonly infoComponent: Component | null;
 
+    readonly childProjects: GalleryProject[];
+
     constructor({
         label,
         deliverables,
         href = null,
         image = null,
         infoComponent = null,
+        childProjects = [],
     }: {
         label: string,
         deliverables: Record<string, GalleryDeliverable>,
         href?: string | null,
         image?: GalleryImage | null,
         infoComponent?: Component | null,
+        childProjects?: GalleryProject[],
     }) {
         this.label = label;
         this.deliverables = resolveDeliverableHrefs(deliverables);
         this.href = href;
         this.image = image;
         this.infoComponent = infoComponent;
+        this.childProjects = childProjects;
     }
 }
 
@@ -57,6 +62,7 @@ export const galleryProjects = {
                     alt: "Pudle",
                 },
                 medium: galleryMediums.webSpa,
+                external: true,
             }),
         },
     }),
