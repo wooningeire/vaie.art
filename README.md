@@ -13,8 +13,7 @@ deno task build  # to generate a Deno/Node.js bundle
 But before you do that:
 
 ## Media hosting
-Host original images in `/media`.
-
+Host original images in `/media`. The following command produces WebPs at preview and thumbnail resolutions (requires Rust):
 ```bash
 deno task convert-media  # to generate full, preview, and thumbnail variants
 ```

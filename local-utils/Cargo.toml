@@ -1,12 +1,21 @@
 [package]
-name = "animated-webp"
+name = "local-utils"
 version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+anyhow = "1.0.100"
+serde_json = "1.0.145"
+unicode-normalization = "0.1.25"
 webp = "0.3.1"
 
 [dependencies.image]
 version = "0.25.10"
 default-features = false
-features = ["png"]
+features = [
+    "gif",
+    "jpeg",
+    "png",
+    "tiff",
+    "webp",
+]
