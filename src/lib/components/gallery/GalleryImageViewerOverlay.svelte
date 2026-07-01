@@ -176,7 +176,7 @@ onMount(() => {
         bind:this={stage}
         role="region"
         aria-label="Full resolution image pan area"
-        data-dragging={dragging}
+        class:dragging={dragging}
         onpointerdown={startDrag}
         onpointermove={drag}
         onpointerup={stopDrag}
@@ -273,7 +273,7 @@ gallery-image-viewer-stage {
     touch-action: none;
     user-select: none;
 
-    &[data-dragging="true"] {
+    &.dragging {
         cursor: grabbing;
     }
 }
@@ -323,6 +323,7 @@ gallery-image-viewer-controls {
 
         border-radius: 0.25rem;
 
+        background: oklch(0.2 0.05 180 / 0.5);
         color: oklch(0.95 0.05 180 / 0.85);
         font-size: 0.875rem;
         line-height: 1;
