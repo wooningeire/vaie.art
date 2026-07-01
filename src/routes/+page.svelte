@@ -3,6 +3,10 @@ import { galleryProjects } from "$/gallery-models/GalleryProject";
 import Gallery from "@/gallery/Gallery.svelte";
 </script>
 
+<svelte:head>
+    <title>vaiezzell&#x2019;s den!</title>
+</svelte:head>
+
 <home-page>
     <Gallery projects={galleryProjects} />
 </home-page>
