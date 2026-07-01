@@ -1,4 +1,5 @@
 <script lang="ts">
+import GalleryImageViewerOverlay from "$/components/gallery/GalleryImageViewerOverlay.svelte";
 import type { PageData } from "./$types";
 
 let {
@@ -6,6 +7,18 @@ let {
 }: {
     data: PageData,
 } = $props();
+
+let fullResolutionViewerOpen = $state(false);
+let previewButton: HTMLButtonElement | undefined;
+
+const openFullResolutionViewer = () => {
+    fullResolutionViewerOpen = true;
+};
+
+const closeFullResolutionViewer = () => {
+    fullResolutionViewerOpen = false;
+    previewButton?.focus({ preventScroll: true });
+};
 </script>
 
 <svelte:head>
@@ -34,14 +47,24 @@ let {
 <gallery-image-view aria-labelledby="gallery-image-title">
     <gallery-image-page>
         <gallery-image-container>
-            <img
-                src={data.image.preview.src}
-                alt={data.image.alt}
-                width={data.image.preview.width}
-                height={data.image.preview.height}
-                decoding="async"
-                fetchpriority="high"
-            />
+            <button
+                bind:this={previewButton}
+                class="gallery-image-preview-button"
+                type="button"
+                aria-label="Open full resolution image viewer"
+                aria-haspopup="dialog"
+                aria-expanded={fullResolutionViewerOpen}
+                onclick={openFullResolutionViewer}
+            >
+                <img
+                    src={data.image.preview.src}
+                    alt={data.image.alt}
+                    width={data.image.preview.width}
+                    height={data.image.preview.height}
+                    decoding="async"
+                    fetchpriority="high"
+                />
+            </button>
         </gallery-image-container>
 
         <gallery-image-details>
@@ -50,6 +73,13 @@ let {
             </gallery-image-title>
         </gallery-image-details>
     </gallery-image-page>
+
+    {#if fullResolutionViewerOpen}
+        <GalleryImageViewerOverlay
+            image={data.image}
+            onClose={closeFullResolutionViewer}
+        />
+    {/if}
 </gallery-image-view>
 
 <style lang="scss">
@@ -87,6 +117,40 @@ gallery-image-container {
     min-height: 0;
 }
 
+button.gallery-image-preview-button {
+    display: grid;
+    place-items: center;
+
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+    min-height: 0;
+
+    color: inherit;
+
+    cursor: zoom-in;
+
+    &:focus-visible > img {
+        outline: 0.125rem solid oklch(0.95 0.05 180 / 0.85);
+        outline-offset: 0.25rem;
+    }
+
+    > img {
+        display: block;
+
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: 100%;
+        min-width: 0;
+        min-height: 0;
+
+        object-fit: contain;
+
+        filter: drop-shadow(0 0 1rem oklch(0 0 0 / 0.5));
+    }
+}
+
 gallery-image-details {
     flex: 0 0 auto;
 
@@ -101,20 +165,5 @@ gallery-image-title {
 
     font-size: 3rem;
     overflow-wrap: anywhere;
-}
-
-img {
-    display: block;
-
-    width: auto;
-    height: auto;
-    max-width: 100%;
-    max-height: 100%;
-    min-width: 0;
-    min-height: 0;
-
-    object-fit: contain;
-
-    filter: drop-shadow(0 0 1rem oklch(0 0 0 / 0.5));
 }
 </style>
