@@ -4,6 +4,8 @@ import { galleryMediums, type GalleryMedium } from "./GalleryMedium";
 import { galleryImageHrefOf } from "./galleryImageRoute";
 import { generatedGalleryImages } from "./generatedGalleryImages";
 
+import BookwyrmDgcCrossoverDescription from "$/gallery-info/BookwyrmDgcCrossoverDescription.svx";
+
 export type GalleryProjectTree = Record<string, GalleryProject>;
 
 export type GalleryProjectOptions = {
@@ -178,6 +180,8 @@ export const galleryProjects = resolveGalleryProjectHrefs({
     bookwyrmDgcCrossover: GalleryProject.ofGalleryImage({
         label: "Bookwyrm DGC crossover",
         key: "gallery/bookwyrm-dgc-crossover-1",
+    }, {
+        descriptionComponent: BookwyrmDgcCrossoverDescription,
     }),
 
     spaxDragon: GalleryProject.ofGalleryImage({

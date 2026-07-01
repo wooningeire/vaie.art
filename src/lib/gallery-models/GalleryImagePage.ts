@@ -1,3 +1,4 @@
+import type { Component } from "svelte";
 import type { GalleryImage } from "./GalleryImage";
 import { galleryProjects, type GalleryProjectTree } from "./GalleryProject";
 
@@ -5,6 +6,7 @@ export type GalleryImagePage = {
     id: string,
     label: string,
     image: GalleryImage,
+    descriptionComponent: Component | null,
 };
 
 const addGalleryImagePages = (
@@ -21,6 +23,7 @@ const addGalleryImagePages = (
                 id,
                 label: project.label,
                 image: project.image,
+                descriptionComponent: project.descriptionComponent,
             };
         }
 

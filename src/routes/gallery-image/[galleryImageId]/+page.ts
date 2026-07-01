@@ -25,6 +25,7 @@ export const load: PageLoad = ({ params }) => {
     const description = `${title} by vaiezzell`;
 
     return {
+        galleryImageId: page.id,
         title,
         description,
         siteName,

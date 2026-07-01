@@ -1,5 +1,6 @@
 <script lang="ts">
-import GalleryImageViewerOverlay from "$/components/gallery/GalleryImageViewerOverlay.svelte";
+import GalleryImageViewerOverlay from "@/gallery/GalleryImageViewerOverlay.svelte";
+import { getGalleryImagePage } from "$/gallery-models/GalleryImagePage";
 import type { PageData } from "./$types";
 
 let {
@@ -7,6 +8,9 @@ let {
 }: {
     data: PageData,
 } = $props();
+
+let galleryImagePage = $derived(getGalleryImagePage(data.galleryImageId));
+let DescriptionComponent = $derived(galleryImagePage?.descriptionComponent ?? null);
 
 let fullResolutionViewerOpen = $state(false);
 let previewButton: HTMLButtonElement | undefined;
@@ -71,6 +75,12 @@ const closeFullResolutionViewer = () => {
             <gallery-image-title id="gallery-image-title">
                 {data.title}
             </gallery-image-title>
+
+            {#if DescriptionComponent}
+                <gallery-image-description>
+                    <DescriptionComponent />
+                </gallery-image-description>
+            {/if}
         </gallery-image-details>
     </gallery-image-page>
 
@@ -154,6 +164,9 @@ button.gallery-image-preview-button {
 gallery-image-details {
     flex: 0 0 auto;
 
+    display: grid;
+    gap: 1rem;
+
     width: 100%;
     padding: 2em;
 
@@ -165,5 +178,19 @@ gallery-image-title {
 
     font-size: 3rem;
     overflow-wrap: anywhere;
+}
+
+gallery-image-description {
+    display: block;
+
+    max-width: 48rem;
+    min-width: 0;
+
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+
+    :global(p) {
+        margin-block: 0;
+    }
 }
 </style>
