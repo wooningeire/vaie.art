@@ -30,6 +30,6 @@ export const load: PageLoad = ({ params }) => {
         siteName,
         canonicalUrl: toAbsoluteUrl(galleryImageHrefOf(params.galleryImageId)),
         image: page.image,
-        imageUrl: toAbsoluteUrl(page.image.display.src),
+        imageUrl: toAbsoluteUrl(page.image.preview.src),
     };
 };

@@ -16,7 +16,7 @@ But before you do that:
 Host original images in `/media`.
 
 ```bash
-deno task convert-media  # to generate display WebPs and thumbnail variants
+deno task convert-media  # to generate full, preview, and thumbnail variants
 ```
 
 Metadata is hardcoded in the SvelteKit project.

@@ -5,7 +5,8 @@ export type GalleryImageAsset = {
 };
 
 export type GeneratedGalleryImage = {
-    display: GalleryImageAsset,
+    full: GalleryImageAsset,
+    preview: GalleryImageAsset,
     thumb: GalleryImageAsset,
 };
 

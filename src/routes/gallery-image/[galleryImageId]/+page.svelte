@@ -27,18 +27,18 @@ let {
     <meta property="og:url" content={data.canonicalUrl} />
     <meta property="og:image" content={data.imageUrl} />
     <meta property="og:image:alt" content={data.image.alt} />
-    <meta property="og:image:width" content={data.image.display.width.toString()} />
-    <meta property="og:image:height" content={data.image.display.height.toString()} />
+    <meta property="og:image:width" content={data.image.preview.width.toString()} />
+    <meta property="og:image:height" content={data.image.preview.height.toString()} />
 </svelte:head>
 
 <gallery-image-view aria-labelledby="gallery-image-title">
     <gallery-image-page>
         <gallery-image-container>
             <img
-                src={data.image.display.src}
+                src={data.image.preview.src}
                 alt={data.image.alt}
-                width={data.image.display.width}
-                height={data.image.display.height}
+                width={data.image.preview.width}
+                height={data.image.preview.height}
                 decoding="async"
                 fetchpriority="high"
             />

@@ -58,7 +58,7 @@ export class GalleryDeliverable {
 
         return new GalleryDeliverable({
             label,
-            href: rest.href ?? generatedImage.display.src,
+            href: rest.href ?? generatedImage.full.src,
             image: rest.image ?? {
                 ...generatedImage,
                 alt: label,

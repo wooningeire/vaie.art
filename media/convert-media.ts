@@ -9,16 +9,23 @@ type Options = {
     output: string,
     staticRoot: string,
     metadataOutput: string,
-    displaySize: number,
+    previewSize: number,
     thumbSize: number,
-    quality: number,
+    previewQuality: number,
     thumbQuality: number,
     force: boolean,
 };
 
+type OutputName = {
+    relativeOutputDir: string,
+    basename: string,
+    extension: string,
+};
+
 type OutputPaths = {
     outputDirectory: string,
-    display: string,
+    full: string,
+    preview: string,
     thumb: string,
 };
 
@@ -35,7 +42,8 @@ type GeneratedGalleryImageAsset = {
 };
 
 type GeneratedGalleryImage = {
-    display: GeneratedGalleryImageAsset,
+    full: GeneratedGalleryImageAsset,
+    preview: GeneratedGalleryImageAsset,
     thumb: GeneratedGalleryImageAsset,
 };
 
@@ -60,14 +68,14 @@ const constants: Options = {
     output: "static/media/",
     staticRoot: "static/",
     metadataOutput: "src/lib/gallery-models/generatedGalleryImages.ts",
-    displaySize: 1600,
+    previewSize: 1600,
     thumbSize: 480,
-    quality: 90,
+    previewQuality: 90,
     thumbQuality: 60,
     force: false,
 };
 
-const outputPathsOf = (inputFile: string, options: Options): OutputPaths => {
+const outputNameOf = (inputFile: string, options: Options): OutputName => {
     const relativeInputPath = path.relative(options.input, inputFile);
     const parsed = path.parse(relativeInputPath);
     const relativeOutputDir = parsed.dir
@@ -76,11 +84,23 @@ const outputPathsOf = (inputFile: string, options: Options): OutputPaths => {
         .map(createSlugFromPathSegment)
         .join(path.sep);
     const basename = createSlugFromPathSegment(parsed.name);
+    const extension = parsed.ext.toLowerCase();
+
+    return {
+        relativeOutputDir,
+        basename,
+        extension,
+    };
+};
+
+const outputPathsOf = (inputFile: string, options: Options): OutputPaths => {
+    const { relativeOutputDir, basename, extension } = outputNameOf(inputFile, options);
     const outputDirectory = path.join(options.output, relativeOutputDir);
 
     return {
         outputDirectory,
-        display: path.join(outputDirectory, `${basename}.webp`),
+        full: path.join(outputDirectory, `${basename}.full${extension}`),
+        preview: path.join(outputDirectory, `${basename}.preview.webp`),
         thumb: path.join(outputDirectory, `${basename}.thumb.webp`),
     };
 };
@@ -131,9 +151,36 @@ const shouldRegenerate = async (source: string, targets: string[], force: boolea
     return false;
 };
 
+const writeFullImage = async (inputFile: string, outputFile: string): Promise<void> => {
+    const image = sharp(inputFile).rotate();
+    const extension = path.extname(outputFile).toLowerCase();
+
+    // Full images keep original dimensions and file extension, but must be re-encoded to strip EXIF.
+    if (extension === ".jpg" || extension === ".jpeg") {
+        await image
+            .jpeg({
+                quality: 100,
+                chromaSubsampling: "4:4:4",
+            })
+            .toFile(outputFile);
+        return;
+    }
+
+    if (extension === ".png") {
+        await image
+            .png({
+                compressionLevel: 9,
+            })
+            .toFile(outputFile);
+        return;
+    }
+
+    await image.toFile(outputFile);
+};
+
 const convertImage = async (file: string, options: Options): Promise<ConversionResult> => {
     const outputPaths = outputPathsOf(file, options);
-    const targets = [outputPaths.display, outputPaths.thumb];
+    const targets = [outputPaths.full, outputPaths.preview, outputPaths.thumb];
 
     if (!await shouldRegenerate(file, targets, options.force)) {
         return { status: "skipped", file, outputPaths };
@@ -141,19 +188,21 @@ const convertImage = async (file: string, options: Options): Promise<ConversionR
 
     await mkdir(outputPaths.outputDirectory, { recursive: true });
 
+    await writeFullImage(file, outputPaths.full);
+
     await sharp(file)
         .rotate()
         .resize({
-            width: options.displaySize,
-            height: options.displaySize,
+            width: options.previewSize,
+            height: options.previewSize,
             fit: "inside",
             withoutEnlargement: true,
         })
         .webp({
-            quality: options.quality,
+            quality: options.previewQuality,
             effort: 5,
         })
-        .toFile(outputPaths.display);
+        .toFile(outputPaths.preview);
 
     await sharp(file)
         .rotate()
@@ -180,11 +229,10 @@ const publicSrcOf = (outputFile: string, options: Options) => {
     return `/${toPosixPath(path.relative(options.staticRoot, outputFile))}`;
 };
 
-const metadataKeyOf = (outputFile: string, options: Options) => {
-    const relativePath = path.relative(options.output, outputFile);
-    const parsed = path.parse(relativePath);
+const metadataKeyOf = (inputFile: string, options: Options) => {
+    const { relativeOutputDir, basename } = outputNameOf(inputFile, options);
 
-    return toPosixPath(path.join(parsed.dir, parsed.name));
+    return toPosixPath(path.join(relativeOutputDir, basename));
 };
 
 const readGeneratedGalleryImageAsset = async (
@@ -208,15 +256,17 @@ const readGeneratedGalleryImage = async (
     conversionResult: ConversionResult,
     options: Options,
 ): Promise<GeneratedGalleryImageEntry> => {
-    const [display, thumb] = await Promise.all([
-        readGeneratedGalleryImageAsset(conversionResult.outputPaths.display, options),
+    const [full, preview, thumb] = await Promise.all([
+        readGeneratedGalleryImageAsset(conversionResult.outputPaths.full, options),
+        readGeneratedGalleryImageAsset(conversionResult.outputPaths.preview, options),
         readGeneratedGalleryImageAsset(conversionResult.outputPaths.thumb, options),
     ]);
 
     return {
-        key: metadataKeyOf(conversionResult.outputPaths.display, options),
+        key: metadataKeyOf(conversionResult.file, options),
         image: {
-            display,
+            full,
+            preview,
             thumb,
         },
     };
@@ -237,10 +287,15 @@ const writeGeneratedGalleryImages = async (conversionResults: ConversionResult[]
     for (const { key, image } of sortedEntries) {
         lines.push(
             `    ${JSON.stringify(key)}: {`,
-            "        display: {",
-            `            src: ${JSON.stringify(image.display.src)},`,
-            `            width: ${image.display.width},`,
-            `            height: ${image.display.height},`,
+            "        full: {",
+            `            src: ${JSON.stringify(image.full.src)},`,
+            `            width: ${image.full.width},`,
+            `            height: ${image.full.height},`,
+            "        },",
+            "        preview: {",
+            `            src: ${JSON.stringify(image.preview.src)},`,
+            `            width: ${image.preview.width},`,
+            `            height: ${image.preview.height},`,
             "        },",
             "        thumb: {",
             `            src: ${JSON.stringify(image.thumb.src)},`,
