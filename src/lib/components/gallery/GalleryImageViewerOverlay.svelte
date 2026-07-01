@@ -1,5 +1,7 @@
 <script lang="ts">
+import { Draggable } from "@vaie/hui";
 import { onMount, tick } from "svelte";
+import type { ComponentProps } from "svelte";
 import type { GalleryImage } from "$/gallery-models/GalleryImage";
 
 let {
@@ -10,10 +12,9 @@ let {
     onClose: () => void,
 } = $props();
 
-type DragState = {
-    pointerId: number,
-    startX: number,
-    startY: number,
+type DraggableProps = ComponentProps<typeof Draggable>;
+
+type PanDragState = {
     startScrollLeft: number,
     startScrollTop: number,
 };
@@ -26,7 +27,7 @@ let stage: HTMLElement | undefined;
 let imageElement: HTMLImageElement | undefined;
 let closeButton: HTMLButtonElement | undefined;
 let zoom = $state(1);
-let dragState: DragState | null = null;
+let dragState: PanDragState | null = null;
 let dragMoved = false;
 let pointerStartedOutsideImage = false;
 let dragging = $state(false);
@@ -103,51 +104,39 @@ const handleKeydown = (event: KeyboardEvent) => {
     }
 };
 
-const startDrag = (event: PointerEvent) => {
-    if (stage === undefined || event.button !== 0) {
+const startDrag: NonNullable<DraggableProps["onDown"]> = ({ button, pointerEvent }) => {
+    if (stage === undefined || button !== 0) {
         return;
     }
 
     dragState = {
-        pointerId: event.pointerId,
-        startX: event.clientX,
-        startY: event.clientY,
         startScrollLeft: stage.scrollLeft,
         startScrollTop: stage.scrollTop,
     };
     dragMoved = false;
-    pointerStartedOutsideImage = !isImageEventTarget(event.target);
+    pointerStartedOutsideImage = !isImageEventTarget(pointerEvent.target);
     dragging = true;
 
-    stage.setPointerCapture(event.pointerId);
-    event.preventDefault();
+    pointerEvent.preventDefault();
 };
 
-const drag = (event: PointerEvent) => {
-    if (stage === undefined || dragState === null || event.pointerId !== dragState.pointerId) {
+const drag: NonNullable<DraggableProps["onDrag"]> = ({ displacement, button }) => {
+    if (stage === undefined || dragState === null || button !== 0) {
         return;
     }
 
-    const xDelta = event.clientX - dragState.startX;
-    const yDelta = event.clientY - dragState.startY;
-
-    dragMoved = dragMoved || Math.abs(xDelta) > 4 || Math.abs(yDelta) > 4;
-    stage.scrollLeft = dragState.startScrollLeft - xDelta;
-    stage.scrollTop = dragState.startScrollTop - yDelta;
+    dragMoved = dragMoved || Math.abs(displacement.x) > 4 || Math.abs(displacement.y) > 4;
+    stage.scrollLeft = dragState.startScrollLeft - displacement.x;
+    stage.scrollTop = dragState.startScrollTop - displacement.y;
 };
 
-const stopDrag = (event: PointerEvent) => {
-    if (stage === undefined || dragState === null || event.pointerId !== dragState.pointerId) {
+const stopDrag: NonNullable<DraggableProps["onUp"]> = ({ button }) => {
+    if (dragState === null || button !== 0) {
         return;
     }
 
-    const shouldClose = event.type === "pointerup"
-        && pointerStartedOutsideImage
+    const shouldClose = pointerStartedOutsideImage
         && !dragMoved;
-
-    if (stage.hasPointerCapture(event.pointerId)) {
-        stage.releasePointerCapture(event.pointerId);
-    }
 
     dragState = null;
     dragMoved = false;
@@ -172,32 +161,37 @@ onMount(() => {
     aria-modal="true"
     aria-label="Full resolution image viewer"
 >
-    <gallery-image-viewer-stage
-        bind:this={stage}
-        role="region"
-        aria-label="Full resolution image pan area"
-        class:dragging={dragging}
-        onpointerdown={startDrag}
-        onpointermove={drag}
-        onpointerup={stopDrag}
-        onpointercancel={stopDrag}
+    <Draggable
+        onDown={startDrag}
+        onDrag={drag}
+        onUp={stopDrag}
     >
-        <gallery-image-viewer-content
-            style:--viewer-image-width={zoomedWidth}
-            style:--viewer-image-height={zoomedHeight}
-        >
-            <img
-                bind:this={imageElement}
-                src={image.full.src}
-                alt={image.alt}
-                width={image.full.width}
-                height={image.full.height}
-                draggable="false"
-                decoding="async"
-                onload={centerStage}
-            />
-        </gallery-image-viewer-content>
-    </gallery-image-viewer-stage>
+        {#snippet dragTarget({ onpointerdown })}
+            <gallery-image-viewer-stage
+                bind:this={stage}
+                role="region"
+                aria-label="Full resolution image pan area"
+                class:dragging={dragging}
+                onpointerdown={onpointerdown}
+            >
+                <gallery-image-viewer-content
+                    style:--viewer-image-width={zoomedWidth}
+                    style:--viewer-image-height={zoomedHeight}
+                >
+                    <img
+                        bind:this={imageElement}
+                        src={image.full.src}
+                        alt={image.alt}
+                        width={image.full.width}
+                        height={image.full.height}
+                        draggable="false"
+                        decoding="async"
+                        onload={centerStage}
+                    />
+                </gallery-image-viewer-content>
+            </gallery-image-viewer-stage>
+        {/snippet}
+    </Draggable>
 
     <gallery-image-viewer-controls>
         <button
