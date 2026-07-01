@@ -15,9 +15,15 @@ let {
 
 type DraggableProps = ComponentProps<typeof Draggable>;
 
+type Point = {
+    x: number,
+    y: number,
+};
+
 type PanDragState = {
     startScrollLeft: number,
     startScrollTop: number,
+    displacement: Point,
 };
 
 type ZoomAnchor = {
@@ -95,6 +101,16 @@ const scrollToZoomAnchor = (anchor: ZoomAnchor) => {
 
     stage.scrollLeft = imageLeft + zoomedImageWidth * anchor.imageXRatio - anchor.viewportX;
     stage.scrollTop = imageTop + zoomedImageHeight * anchor.imageYRatio - anchor.viewportY;
+
+    if (dragState !== null) {
+        // Draggable reports displacement from pointer down, so zoom must rebase the stored
+        // scroll origin instead of letting the next drag frame replay the pre-zoom origin.
+        dragState = {
+            ...dragState,
+            startScrollLeft: stage.scrollLeft + dragState.displacement.x,
+            startScrollTop: stage.scrollTop + dragState.displacement.y,
+        };
+    }
 };
 
 const getWheelDeltaY = (event: WheelEvent) => {
@@ -192,6 +208,10 @@ const startDrag: NonNullable<DraggableProps["onDown"]> = ({ button, pointerEvent
     dragState = {
         startScrollLeft: stage.scrollLeft,
         startScrollTop: stage.scrollTop,
+        displacement: {
+            x: 0,
+            y: 0,
+        },
     };
     dragMoved = false;
     pointerStartedOutsideImage = !isImageEventTarget(pointerEvent.target);
@@ -206,6 +226,10 @@ const drag: NonNullable<DraggableProps["onDrag"]> = ({ displacement, button }) =
     }
 
     dragMoved = dragMoved || Math.abs(displacement.x) > 4 || Math.abs(displacement.y) > 4;
+    dragState = {
+        ...dragState,
+        displacement,
+    };
     stage.scrollLeft = dragState.startScrollLeft - displacement.x;
     stage.scrollTop = dragState.startScrollTop - displacement.y;
 };
