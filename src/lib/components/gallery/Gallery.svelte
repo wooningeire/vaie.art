@@ -1,11 +1,11 @@
 <script lang="ts">
-import { GalleryProject } from "$/gallery-models/GalleryProject";
+import type { GalleryProjectTree } from "$/gallery-models/GalleryProject";
 import GalleryProjectView from "./GalleryProjectView.svelte";
 
 let {
     projects,
 }: {
-    projects: Record<string, GalleryProject>,
+    projects: GalleryProjectTree,
 } = $props();
 </script>
 

@@ -1,5 +1,5 @@
 import type { GalleryImage } from "./GalleryImage";
-import { galleryProjects } from "./GalleryProject";
+import { galleryProjects, type GalleryProjectTree } from "./GalleryProject";
 
 export type GalleryImagePage = {
     id: string,
@@ -7,22 +7,31 @@ export type GalleryImagePage = {
     image: GalleryImage,
 };
 
-const createGalleryImagePages = (): Record<string, GalleryImagePage> => {
-    const pages: Record<string, GalleryImagePage> = {};
-
-    for (const project of Object.values(galleryProjects)) {
-        for (const [id, deliverable] of Object.entries(project.deliverables)) {
-            if (!deliverable.hasGalleryImagePage) {
-                continue;
+const addGalleryImagePages = (
+    pages: Record<string, GalleryImagePage>,
+    projects: GalleryProjectTree,
+) => {
+    for (const [id, project] of Object.entries(projects)) {
+        if (project.hasGalleryImagePage) {
+            if (project.image === null) {
+                throw new Error("Gallery image page \"" + id + "\" is missing an image.");
             }
 
             pages[id] = {
                 id,
-                label: deliverable.label,
-                image: deliverable.image,
+                label: project.label,
+                image: project.image,
             };
         }
+
+        addGalleryImagePages(pages, project.children);
     }
+};
+
+const createGalleryImagePages = (): Record<string, GalleryImagePage> => {
+    const pages: Record<string, GalleryImagePage> = {};
+
+    addGalleryImagePages(pages, galleryProjects);
 
     return pages;
 };

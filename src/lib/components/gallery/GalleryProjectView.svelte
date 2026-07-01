@@ -1,25 +1,55 @@
 <script lang="ts">
 import type { GalleryProject } from "$/gallery-models/GalleryProject";
-import GalleryDeliverableView from "./GalleryDeliverableView.svelte";
+import GalleryButton from "./GalleryButton.svelte";
+import GalleryProjectView from "./GalleryProjectView.svelte";
 
 let {
     project,
+    depth = 0,
 }: {
     project: GalleryProject,
+    depth?: number,
 } = $props();
+
+let DescriptionComponent = $derived(project.descriptionComponent);
+let childProjectEntries = $derived(Object.entries(project.children));
 </script>
 
+<gallery-project-view
+    class:top-level={depth === 0}
+    class:child-project={depth > 0}
+    class:has-children={project.hasChildren}
+    class:has-link={project.hasLink}
+>
+    <gallery-project-heading>
+        <gallery-project-view-title>
+            {project.label}
+        </gallery-project-view-title>
 
-<gallery-project-view>
-    <gallery-project-view-title>
-        {project.label}
-    </gallery-project-view-title>
+        {#if DescriptionComponent}
+            <gallery-project-description>
+                <DescriptionComponent />
+            </gallery-project-description>
+        {/if}
+    </gallery-project-heading>
 
-    <gallery-project-view-deliverables>
-        {#each Object.entries(project.deliverables) as [deliverableId, deliverable] (deliverableId)}
-            <GalleryDeliverableView {deliverable} />
-        {/each}
-    </gallery-project-view-deliverables>
+    {#if project.href !== null && project.image !== null}
+        <gallery-project-link>
+            <GalleryButton
+                href={project.href}
+                image={project.image}
+                external={project.external}
+            />
+        </gallery-project-link>
+    {/if}
+
+    {#if childProjectEntries.length > 0}
+        <gallery-project-view-children>
+            {#each childProjectEntries as [projectId, childProject] (projectId)}
+                <GalleryProjectView project={childProject} depth={depth + 1} />
+            {/each}
+        </gallery-project-view-children>
+    {/if}
 </gallery-project-view>
 
 <style lang="scss">
@@ -31,24 +61,52 @@ gallery-project-view {
     flex-direction: column;
     gap: 0.5em;
 
-    padding: 0.5em 1em;
+    min-width: 0;
 
-    background: oklch(0.7 0.05 150 / 0.05);
-    box-shadow: 0 0 64px oklch(0.8 0.04 140 / 0.25) inset;
-    
-    backdrop-filter: blur(4px);
-    border-radius: 1em;
+    &.top-level {
+        padding: 0.5em 1em;
 
-    @media screen and (min-width: responsive.$resize-threshold) {
-        font-size: 1.25rem;
+        background: oklch(0.7 0.05 150 / 0.05);
+        box-shadow: 0 0 4rem oklch(0.8 0.04 140 / 0.25) inset;
+
+        backdrop-filter: blur(0.25rem);
+        border-radius: 1em;
+
+        @media screen and (min-width: responsive.$resize-threshold) {
+            font-size: 1.25rem;
+        }
     }
+
+    &.child-project.has-link {
+        font-size: 1rem;
+    }
+}
+
+gallery-project-heading {
+    display: block;
+
+    min-width: 0;
 }
 
 gallery-project-view-title {
     @include fonts.heading;
+
+    display: block;
+
+    overflow-wrap: anywhere;
 }
 
-gallery-project-view-deliverables {
+gallery-project-description {
+    display: block;
+
+    min-width: 0;
+}
+
+gallery-project-link {
+    display: block;
+}
+
+gallery-project-view-children {
     flex-basis: 0;
     flex-grow: 1;
 
@@ -56,5 +114,7 @@ gallery-project-view-deliverables {
     flex-wrap: wrap;
     align-items: center;
     gap: 0.5em;
+
+    min-width: 0;
 }
 </style>

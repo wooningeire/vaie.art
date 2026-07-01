@@ -254,7 +254,7 @@ gallery-image-viewer-overlay {
     min-width: 0;
     min-height: 0;
 
-    background: oklch(0.2 0.01 180 / 0.75);
+    background: oklch(0.2 0.01 180 / 0.875);
 
     > * {
         grid-area: 1/1;

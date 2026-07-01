@@ -5,8 +5,6 @@ import Gallery from "@/gallery/Gallery.svelte";
 
 <home-page>
     <Gallery projects={galleryProjects} />
-
-    <!-- <GalleryControls /> -->
 </home-page>
 
 <style lang="scss">

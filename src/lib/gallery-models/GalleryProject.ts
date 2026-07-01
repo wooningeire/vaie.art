@@ -1,94 +1,159 @@
 import type { Component } from "svelte";
-import { GalleryDeliverable } from "./GalleryDeliverable";
-import { generatedGalleryImages } from "./generatedGalleryImages";
 import type { GalleryImage } from "./GalleryImage";
-import { galleryMediums } from "./GalleryMedium";
+import { galleryMediums, type GalleryMedium } from "./GalleryMedium";
 import { galleryImageHrefOf } from "./galleryImageRoute";
+import { generatedGalleryImages } from "./generatedGalleryImages";
 
-const resolveDeliverableHrefs = (
-    deliverables: Record<string, GalleryDeliverable>,
-): Record<string, GalleryDeliverable> => Object.fromEntries(
-    Object.entries(deliverables).map(([id, deliverable]) => [
-        id,
-        deliverable.hasGalleryImagePage
-            ? deliverable.withHref(galleryImageHrefOf(id))
-            : deliverable,
-    ]),
-);
+export type GalleryProjectTree = Record<string, GalleryProject>;
+
+export type GalleryProjectOptions = {
+    label: string,
+    image?: GalleryImage | null,
+    href?: string | null,
+    medium?: GalleryMedium | null,
+    descriptionComponent?: Component | null,
+    infoComponent?: Component | null,
+    external?: boolean,
+    hasGalleryImagePage?: boolean,
+    children?: GalleryProjectTree,
+};
 
 export class GalleryProject {
     readonly label: string;
-    readonly deliverables: Record<string, GalleryDeliverable>;
-
-    readonly href: string | null;
     readonly image: GalleryImage | null;
+    readonly href: string | null;
+    readonly medium: GalleryMedium | null;
+    readonly descriptionComponent: Component | null;
     readonly infoComponent: Component | null;
-
-    readonly childProjects: GalleryProject[];
+    readonly external: boolean;
+    readonly hasGalleryImagePage: boolean;
+    readonly children: GalleryProjectTree;
+    readonly hasChildren: boolean;
+    readonly hasLink: boolean;
 
     constructor({
         label,
-        deliverables,
-        href = null,
         image = null,
+        href = null,
+        medium = null,
+        descriptionComponent = null,
         infoComponent = null,
-        childProjects = [],
-    }: {
-        label: string,
-        deliverables: Record<string, GalleryDeliverable>,
-        href?: string | null,
-        image?: GalleryImage | null,
-        infoComponent?: Component | null,
-        childProjects?: GalleryProject[],
-    }) {
+        external = false,
+        hasGalleryImagePage = false,
+        children = {},
+    }: GalleryProjectOptions) {
         this.label = label;
-        this.deliverables = resolveDeliverableHrefs(deliverables);
-        this.href = href;
         this.image = image;
+        this.href = href;
+        this.medium = medium;
+        this.descriptionComponent = descriptionComponent;
         this.infoComponent = infoComponent;
-        this.childProjects = childProjects;
+        this.external = external;
+        this.hasGalleryImagePage = hasGalleryImagePage;
+        this.children = children;
+        this.hasChildren = Object.keys(children).length > 0;
+        this.hasLink = href !== null && image !== null;
+    }
+
+    readonly withHref = (href: string) => new GalleryProject({
+        label: this.label,
+        image: this.image,
+        href,
+        medium: this.medium,
+        descriptionComponent: this.descriptionComponent,
+        infoComponent: this.infoComponent,
+        external: this.external,
+        hasGalleryImagePage: this.hasGalleryImagePage,
+        children: this.children,
+    });
+
+    readonly withChildren = (children: GalleryProjectTree) => new GalleryProject({
+        label: this.label,
+        image: this.image,
+        href: this.href,
+        medium: this.medium,
+        descriptionComponent: this.descriptionComponent,
+        infoComponent: this.infoComponent,
+        external: this.external,
+        hasGalleryImagePage: this.hasGalleryImagePage,
+        children,
+    });
+
+    static ofGalleryImage(
+        {
+            label,
+            key,
+        }: {
+            label: string,
+            key: keyof typeof generatedGalleryImages,
+        },
+        rest: Partial<GalleryProjectOptions> = {},
+    ) {
+        const generatedImage = generatedGalleryImages[key];
+
+        return new GalleryProject({
+            label,
+            href: rest.href ?? generatedImage.full.src,
+            image: rest.image ?? {
+                ...generatedImage,
+                alt: label,
+            },
+            medium: rest.medium ?? galleryMediums.illustration2d,
+            descriptionComponent: rest.descriptionComponent,
+            infoComponent: rest.infoComponent,
+            external: rest.external,
+            hasGalleryImagePage: rest.hasGalleryImagePage ?? true,
+            children: rest.children,
+        });
     }
 }
 
-export const galleryProjects = {
+const resolveGalleryProjectHrefs = (
+    projects: GalleryProjectTree,
+): GalleryProjectTree => Object.fromEntries(
+    Object.entries(projects).map(([id, project]) => {
+        const projectWithResolvedChildren = project.withChildren(
+            resolveGalleryProjectHrefs(project.children),
+        );
+
+        return [
+            id,
+            projectWithResolvedChildren.hasGalleryImagePage
+                ? projectWithResolvedChildren.withHref(galleryImageHrefOf(id))
+                : projectWithResolvedChildren,
+        ];
+    }),
+);
+
+export const galleryProjects = resolveGalleryProjectHrefs({
     pudle: new GalleryProject({
         label: "Pudle",
-        deliverables: {
-            pudle: new GalleryDeliverable({
-                label: "Pudle",
-                href: "/pudle",
-                image: {
-                    ...generatedGalleryImages["misc/pudle-cover"],
-                    alt: "Pudle",
-                },
-                medium: galleryMediums.webSpa,
-                external: true,
-            }),
+        href: "/pudle",
+        image: {
+            ...generatedGalleryImages["misc/pudle-cover"],
+            alt: "Pudle",
         },
+        medium: galleryMediums.webSpa,
+        external: true,
     }),
 
-    vaiezzellRef: new GalleryProject({
+    vaiezzellRef: GalleryProject.ofGalleryImage({
         label: "vaiezzell reference sheet",
-        deliverables: {
-            vaiezzellRef: GalleryDeliverable.ofGalleryImage({
-                label: "vaiezzell reference sheet",
-                key: "gallery/vaiezzell-ref",
-            }),
-        },
+        key: "gallery/vaiezzell-ref",
     }),
 
     astraRefs: new GalleryProject({
         label: "Astra reference sheets",
-        deliverables: {
-            curi: GalleryDeliverable.ofGalleryImage({
+        children: {
+            curi: GalleryProject.ofGalleryImage({
                 label: "Curi reference sheet",
                 key: "gallery/astra-refs/curi",
             }),
-            staaria: GalleryDeliverable.ofGalleryImage({
+            staaria: GalleryProject.ofGalleryImage({
                 label: "Staaria reference sheet",
                 key: "gallery/astra-refs/staaria",
             }),
-            pyrinth: GalleryDeliverable.ofGalleryImage({
+            pyrinth: GalleryProject.ofGalleryImage({
                 label: "Pyrinth reference sheet",
                 key: "gallery/astra-refs/pyrinth",
             }),
@@ -97,456 +162,306 @@ export const galleryProjects = {
 
     artfight2026: new GalleryProject({
         label: "Art Fight 2026",
-        deliverables: {
-            vaiezzellThumb: GalleryDeliverable.ofGalleryImage({
+        children: {
+            vaiezzellThumb: GalleryProject.ofGalleryImage({
                 label: "vaiezzell character thumbnail",
                 key: "gallery/art-fight-2026/vaiezzell-2026-thumb",
             }),
 
-            iywralyxThumb: GalleryDeliverable.ofGalleryImage({
+            iywralyxThumb: GalleryProject.ofGalleryImage({
                 label: "Iywralyx character thumbnail",
                 key: "gallery/art-fight-2026/iywralyx-2026-thumb",
             }),
         },
     }),
 
-    bookwyrmDgcCrossover: new GalleryProject({
+    bookwyrmDgcCrossover: GalleryProject.ofGalleryImage({
         label: "Bookwyrm DGC crossover",
-        deliverables: {
-            bookwyrmDgcCrossover: GalleryDeliverable.ofGalleryImage({
-                label: "Bookwyrm DGC crossover",
-                key: "gallery/bookwyrm-dgc-crossover-1",
-            }),
-        },
+        key: "gallery/bookwyrm-dgc-crossover-1",
     }),
 
-    spaxDragon: new GalleryProject({
+    spaxDragon: GalleryProject.ofGalleryImage({
         label: "Spax dragon",
-        deliverables: {
-            spaxDragon: GalleryDeliverable.ofGalleryImage({
-                label: "Spax dragon",
-                key: "gallery/spax-dragon",
-            }),
-        },
+        key: "gallery/spax-dragon",
     }),
 
     vaieDragnEmoji: new GalleryProject({
         label: "vaie dragn emoji",
-        deliverables: {
-            dragnbratty: GalleryDeliverable.ofGalleryImage({
+        children: {
+            dragnbratty: GalleryProject.ofGalleryImage({
                 label: "dragnbratty",
                 key: "gallery/vaie-dragn-emoji/dragnbrattynew",
             }),
-            
-            dragnmelting: GalleryDeliverable.ofGalleryImage({
+
+            dragnmelting: GalleryProject.ofGalleryImage({
                 label: "dragnmelting",
                 key: "gallery/vaie-dragn-emoji/dragnmeltingweak",
             }),
-            
-            dragnskull: GalleryDeliverable.ofGalleryImage({
+
+            dragnskull: GalleryProject.ofGalleryImage({
                 label: "dragnskull",
                 key: "gallery/vaie-dragn-emoji/dragnskull",
             }),
-            
-            dragnwinghug: GalleryDeliverable.ofGalleryImage({
+
+            dragnwinghug: GalleryProject.ofGalleryImage({
                 label: "dragnwinghug",
                 key: "gallery/vaie-dragn-emoji/dragnwinghug",
             }),
-            
-            zanayell: GalleryDeliverable.ofGalleryImage({
+
+            zanayell: GalleryProject.ofGalleryImage({
                 label: "zanayell",
                 key: "gallery/vaie-dragn-emoji/zanayell",
             }),
         },
     }),
 
-    pretBath: new GalleryProject({
+    pretBath: GalleryProject.ofGalleryImage({
         label: "Pret gamer bath",
-        deliverables: {
-            pretBath: GalleryDeliverable.ofGalleryImage({
-                label: "Pret gamer bath",
-                key: "gallery/pretbath",
-            }),
-        },
+        key: "gallery/pretbath",
     }),
 
-    bigAsha: new GalleryProject({
+    bigAsha: GalleryProject.ofGalleryImage({
         label: "Big Asha",
-        deliverables: {
-            bigAsha: GalleryDeliverable.ofGalleryImage({
-                label: "Big Asha",
-                key: "gallery/bigasha",
-            }),
-        },
+        key: "gallery/bigasha",
     }),
 
-    mawdelynRef: new GalleryProject({
+    mawdelynRef: GalleryProject.ofGalleryImage({
         label: "Mawdelyn reference sheet",
-        deliverables: {
-            mawdelynRef: GalleryDeliverable.ofGalleryImage({
-                label: "Mawdelyn reference sheet",
-                key: "gallery/mawdelyn-ref",
-            }),
-        },
+        key: "gallery/mawdelyn-ref",
     }),
 
-    wiresAirport: new GalleryProject({
+    wiresAirport: GalleryProject.ofGalleryImage({
         label: "wires airport",
-        deliverables: {
-            wiresAirport: GalleryDeliverable.ofGalleryImage({
-                label: "wires airport",
-                key: "gallery/wires-airport",
-            }),
-        },
+        key: "gallery/wires-airport",
     }),
 
-    iywralyxRef: new GalleryProject({
+    iywralyxRef: GalleryProject.ofGalleryImage({
         label: "Iywralyx reference sheet",
-        deliverables: {
-            iywralyxRef: GalleryDeliverable.ofGalleryImage({
-                label: "Iywralyx reference sheet",
-                key: "gallery/iywralyx",
-            }),
-        },
+        key: "gallery/iywralyx",
     }),
 
-    anshuSit: new GalleryProject({
+    anshuSit: GalleryProject.ofGalleryImage({
         label: "Anshu sit",
-        deliverables: {
-            anshuSit: GalleryDeliverable.ofGalleryImage({
-                label: "Anshu sit",
-                key: "gallery/anshu-sit",
-            }),
-        },
+        key: "gallery/anshu-sit",
     }),
 
-    terskaylModeling: new GalleryProject({
+    terskaylModeling: GalleryProject.ofGalleryImage({
         label: "Terskayl modeling",
-        deliverables: {
-            terskaylModeling: GalleryDeliverable.ofGalleryImage({
-                label: "Terskayl modeling",
-                key: "gallery/terskayl-2",
-            }),
-        },
+        key: "gallery/terskayl-2",
     }),
 
-    vaiezzellPfp2025: new GalleryProject({
+    vaiezzellPfp2025: GalleryProject.ofGalleryImage({
         label: "vaiezzell pfp 2025",
-        deliverables: {
-            vaiezzellPfp2025: GalleryDeliverable.ofGalleryImage({
-                label: "vaiezzell pfp 2025",
-                key: "gallery/vaiezzell-pfp-2025",
-            }),
-        },
+        key: "gallery/vaiezzell-pfp-2025",
     }),
 
-    vaiezzellCircle: new GalleryProject({
+    vaiezzellCircle: GalleryProject.ofGalleryImage({
         label: "vaiezzell circle pfp",
-        deliverables: {
-            vaiezzellCircle: GalleryDeliverable.ofGalleryImage({
-                label: "vaiezzell circle pfp",
-                key: "gallery/vaiezzell-circle",
-            }),
-        },
+        key: "gallery/vaiezzell-circle",
     }),
 
-    silverStadium: new GalleryProject({
+    silverStadium: GalleryProject.ofGalleryImage({
         label: "Silver stadium",
-        deliverables: {
-            silverStadium: GalleryDeliverable.ofGalleryImage({
-                label: "Silver stadium",
-                key: "gallery/silver-vaie",
-            }),
-        },
+        key: "gallery/silver-vaie",
     }),
 
-    jankmanBorzoi: new GalleryProject({
+    jankmanBorzoi: GalleryProject.ofGalleryImage({
         label: "Jankman with borzoi",
-        deliverables: {
-            jankmanBorzoi: GalleryDeliverable.ofGalleryImage({
-                label: "Jankman with borzoi",
-                key: "gallery/jankman-borzoi",
-            }),
-        },
+        key: "gallery/jankman-borzoi",
     }),
 
     dragonraffle: new GalleryProject({
         label: "Dragonraffle",
-        deliverables: {
-            automaton: GalleryDeliverable.ofGalleryImage({
+        children: {
+            automaton: GalleryProject.ofGalleryImage({
                 label: "Automaton dragon",
                 key: "gallery/dragonraffle/automaton",
             }),
 
-            dragonInRuralMiddleAmerica: GalleryDeliverable.ofGalleryImage({
+            dragonInRuralMiddleAmerica: GalleryProject.ofGalleryImage({
                 label: "Dragon in rural middle america",
                 key: "gallery/dragonraffle/dragon-in-rural-middle-america",
             }),
 
-            dragonOnLawn: GalleryDeliverable.ofGalleryImage({
+            dragonOnLawn: GalleryProject.ofGalleryImage({
                 label: "Dragon on lawn",
                 key: "gallery/dragonraffle/dragon-on-lawn",
             }),
 
-            spacefarer: GalleryDeliverable.ofGalleryImage({
+            spacefarer: GalleryProject.ofGalleryImage({
                 label: "Spacefarer",
                 key: "gallery/dragonraffle/lexi",
             }),
 
-            cherryBlossom: GalleryDeliverable.ofGalleryImage({
+            cherryBlossom: GalleryProject.ofGalleryImage({
                 label: "Cherry blossom",
                 key: "gallery/dragonraffle/milli",
             }),
 
-            tradeOffer: GalleryDeliverable.ofGalleryImage({
+            tradeOffer: GalleryProject.ofGalleryImage({
                 label: "Trade offer",
                 key: "gallery/dragonraffle/nuts",
             }),
 
-            unnickDragonKiss: GalleryDeliverable.ofGalleryImage({
+            unnickDragonKiss: GalleryProject.ofGalleryImage({
                 label: "unnick dragon kiss",
                 key: "gallery/dragonraffle/unnick-dragon-kiss",
             }),
         },
     }),
 
-    whoTheHellIsJankman: new GalleryProject({
+    whoTheHellIsJankman: GalleryProject.ofGalleryImage({
         label: "Who the hell is Jankman?",
-        deliverables: {
-            whoTheHellIsJankman: GalleryDeliverable.ofGalleryImage({
-                label: "Who the hell is Jankman?",
-                key: "gallery/who-the-hell-is-jankman",
-            }),
-        },
+        key: "gallery/who-the-hell-is-jankman",
     }),
 
-    zanawyrm: new GalleryProject({
+    zanawyrm: GalleryProject.ofGalleryImage({
         label: "Zanawyrm",
-        deliverables: {
-            zanawyrm: GalleryDeliverable.ofGalleryImage({
-                label: "Zanawyrm",
-                key: "gallery/zanawyrm",
-            }),
-        },
+        key: "gallery/zanawyrm",
     }),
 
-    trainStation: new GalleryProject({
-        label: "Train station",
-        deliverables: {
-            trainStation: GalleryDeliverable.ofGalleryImage({
-                label: "train station",
-                key: "gallery/terskayl-train-station-signed-vaiezzell",
-            }),
-        },
+    trainStation: GalleryProject.ofGalleryImage({
+        label: "train station",
+        key: "gallery/terskayl-train-station-signed-vaiezzell",
     }),
 
-    coldLight: new GalleryProject({
+    coldLight: GalleryProject.ofGalleryImage({
         label: "Cold light",
-        deliverables: {
-            coldLight: GalleryDeliverable.ofGalleryImage({
-                label: "Cold light",
-                key: "gallery/just-gotta-ok-tired-of-ms-paint-now",
-            }),
-        },
+        key: "gallery/just-gotta-ok-tired-of-ms-paint-now",
     }),
 
-    inSkylight: new GalleryProject({
+    inSkylight: GalleryProject.ofGalleryImage({
         label: "In skylight",
-        deliverables: {
-            inSkylight: GalleryDeliverable.ofGalleryImage({
-                label: "In skylight",
-                key: "gallery/in-skylight",
-            }),
-        },
+        key: "gallery/in-skylight",
     }),
 
-    fruitThief: new GalleryProject({
+    fruitThief: GalleryProject.ofGalleryImage({
         label: "Fruit thief",
-        deliverables: {
-            fruitThief: GalleryDeliverable.ofGalleryImage({
-                label: "Fruit thief",
-                key: "gallery/linky-drinkf",
-            }),
-        },
+        key: "gallery/linky-drinkf",
     }),
 
-    lounge: new GalleryProject({
+    lounge: GalleryProject.ofGalleryImage({
         label: "Lounge",
-        deliverables: {
-            lounge: GalleryDeliverable.ofGalleryImage({
-                label: "Lounge",
-                key: "gallery/render-test",
-            }),
-        },
+        key: "gallery/render-test",
     }),
 
-    aquafrust: new GalleryProject({
+    aquafrust: GalleryProject.ofGalleryImage({
         label: "Aquafrust",
-        deliverables: {
-            aquafrust: GalleryDeliverable.ofGalleryImage({
-                label: "Aquafrust",
-                key: "gallery/aquafrust",
-            }),
-        },
+        key: "gallery/aquafrust",
     }),
 
-    graffiti: new GalleryProject({
+    graffiti: GalleryProject.ofGalleryImage({
         label: "The most stylish of breath weapons",
-        deliverables: {
-            graffiti: GalleryDeliverable.ofGalleryImage({
-                label: "The most stylish of breath weapons",
-                key: "gallery/graffiti",
-            }),
-        },
+        key: "gallery/graffiti",
     }),
 
-    colors: new GalleryProject({
+    colors: GalleryProject.ofGalleryImage({
         label: "Colors",
-        deliverables: {
-            colors: GalleryDeliverable.ofGalleryImage({
-                label: "Colors",
-                key: "gallery/colors",
-            }),
-        },
+        key: "gallery/colors",
     }),
 
-    deweyDoughball: new GalleryProject({
+    deweyDoughball: GalleryProject.ofGalleryImage({
         label: "Dewey doughball",
-        deliverables: {
-            deweyDoughball: GalleryDeliverable.ofGalleryImage({
-                label: "Dewey doughball",
-                key: "gallery/db",
-            }),
-        },
+        key: "gallery/db",
     }),
 
-    fireHydrant: new GalleryProject({
+    fireHydrant: GalleryProject.ofGalleryImage({
         label: "Fire hydran't",
-        deliverables: {
-            fireHydrant: GalleryDeliverable.ofGalleryImage({
-                label: "Fire hydran't",
-                key: "gallery/fh",
-            }),
-        },
+        key: "gallery/fh",
     }),
 
-    pond: new GalleryProject({
+    pond: GalleryProject.ofGalleryImage({
         label: "Pond",
-        deliverables: {
-            pond: GalleryDeliverable.ofGalleryImage({
-                label: "Pond",
-                key: "gallery/pondy",
-            }),
-        },
+        key: "gallery/pondy",
     }),
 
-    bulb: new GalleryProject({
+    bulb: GalleryProject.ofGalleryImage({
         label: "Bulb",
-        deliverables: {
-            bulb: GalleryDeliverable.ofGalleryImage({
-                label: "Bulb",
-                key: "gallery/bulb/bulb",
-            }),
-        },
+        key: "gallery/bulb/bulb",
     }),
 
-    danceyDragon: new GalleryProject({
+    danceyDragon: GalleryProject.ofGalleryImage({
         label: "Dancey dragon",
-        deliverables: {
-            danceyDragon: GalleryDeliverable.ofGalleryImage({
-                label: "Dancey dragon",
-                key: "gallery/dancey",
-            }),
-        },
+        key: "gallery/dancey",
     }),
 
     discordBioEasterEgg: new GalleryProject({
         label: "Discord bio easter egg",
-        deliverables: {
-            nightFlight: GalleryDeliverable.ofGalleryImage({
+        children: {
+            nightFlight: GalleryProject.ofGalleryImage({
                 label: "Night flight",
                 key: "gallery/discord-bio-easter-egg/conkyf-alpha",
             }),
-            
-            studious: GalleryDeliverable.ofGalleryImage({
+
+            studious: GalleryProject.ofGalleryImage({
                 label: "Studious",
                 key: "gallery/discord-bio-easter-egg/twf2ff",
             }),
-            
-            poweruser: GalleryDeliverable.ofGalleryImage({
+
+            poweruser: GalleryProject.ofGalleryImage({
                 label: "Poweruser",
                 key: "gallery/discord-bio-easter-egg/drawmeadragon-p4rp",
             }),
-            
-            gust: GalleryDeliverable.ofGalleryImage({
+
+            gust: GalleryProject.ofGalleryImage({
                 label: "Gust",
                 key: "gallery/discord-bio-easter-egg/gustf",
             }),
-            
-            hotelPrank: GalleryDeliverable.ofGalleryImage({
+
+            hotelPrank: GalleryProject.ofGalleryImage({
                 label: "Hotel prank",
                 key: "gallery/discord-bio-easter-egg/poopyf-alpha",
             }),
-            
-            desktopPet: GalleryDeliverable.ofGalleryImage({
+
+            desktopPet: GalleryProject.ofGalleryImage({
                 label: "Desktop pet",
                 key: "gallery/discord-bio-easter-egg/epif",
             }),
-            
-            mushrooms: GalleryDeliverable.ofGalleryImage({
+
+            mushrooms: GalleryProject.ofGalleryImage({
                 label: "Mushrooms",
                 key: "gallery/discord-bio-easter-egg/tocky2f-alpha",
             }),
-            
-            samcluster: GalleryDeliverable.ofGalleryImage({
+
+            samcluster: GalleryProject.ofGalleryImage({
                 label: "Samcluster",
                 key: "gallery/discord-bio-easter-egg/samclusterf",
             }),
-            
-            matsubara: GalleryDeliverable.ofGalleryImage({
+
+            matsubara: GalleryProject.ofGalleryImage({
                 label: "Matsubara",
                 key: "gallery/discord-bio-easter-egg/matsf",
             }),
 
-            squareNoodle: GalleryDeliverable.ofGalleryImage({
+            squareNoodle: GalleryProject.ofGalleryImage({
                 label: "Square noodle",
                 key: "gallery/discord-bio-easter-egg/squaresquaref",
             }),
 
-            vanished: GalleryDeliverable.ofGalleryImage({
+            vanished: GalleryProject.ofGalleryImage({
                 label: "Vanished",
                 key: "gallery/discord-bio-easter-egg/vanv",
             }),
-            
-            banana: GalleryDeliverable.ofGalleryImage({
+
+            banana: GalleryProject.ofGalleryImage({
                 label: "banana",
                 key: "gallery/discord-bio-easter-egg/bananaf",
             }),
-            
-            sampcane: GalleryDeliverable.ofGalleryImage({
+
+            sampcane: GalleryProject.ofGalleryImage({
                 label: "Sampcane",
                 key: "gallery/discord-bio-easter-egg/sampcanef",
             }),
         },
     }),
 
-    poolToys: new GalleryProject({
+    poolToys: GalleryProject.ofGalleryImage({
         label: "Pool toys",
-        deliverables: {
-            poolToys: GalleryDeliverable.ofGalleryImage({
-                label: "Pool toys",
-                key: "gallery/swimmy",
-            }),
-        },
+        key: "gallery/swimmy",
     }),
 
-    floatyZane: new GalleryProject({
+    floatyZane: GalleryProject.ofGalleryImage({
         label: "Floaty Zane",
-        deliverables: {
-            floatyZane: GalleryDeliverable.ofGalleryImage({
-                label: "Floaty Zane",
-                key: "gallery/zaneb",
-            }),
-        },
+        key: "gallery/zaneb",
     }),
-};
+});
