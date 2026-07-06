@@ -165,14 +165,49 @@ export const galleryProjects = resolveGalleryProjectHrefs({
     artfight2026: new GalleryProject({
         label: "Art Fight 2026",
         children: {
-            vaiezzellThumb: GalleryProject.ofGalleryImage({
-                label: "vaiezzell character thumbnail",
-                key: "gallery/art-fight-2026/vaiezzell-2026-thumb",
-            }),
+            characters: new GalleryProject({
+                label: "Characters",
+                children: {
+                    vaiezzellThumb: GalleryProject.ofGalleryImage({
+                        label: "vaiezzell character thumbnail",
+                        key: "gallery/art-fight-2026/characters/vaiezzell-2026-thumb",
+                    }),
 
-            iywralyxThumb: GalleryProject.ofGalleryImage({
-                label: "Iywralyx character thumbnail",
-                key: "gallery/art-fight-2026/iywralyx-2026-thumb",
+                    iywralyxThumb: GalleryProject.ofGalleryImage({
+                        label: "Iywralyx character thumbnail",
+                        key: "gallery/art-fight-2026/characters/iywralyx-2026-thumb",
+                    }),
+                },
+            }),
+            
+            attacks: new GalleryProject({
+                label: "Attacks",
+                children: {
+                    warp: GalleryProject.ofGalleryImage({
+                        label: "Galactic noodles",
+                        key: "gallery/art-fight-2026/attacks/warp",
+                    }),
+
+                    aheniru: GalleryProject.ofGalleryImage({
+                        label: "What are you doing in the river...?",
+                        key: "gallery/art-fight-2026/attacks/aheniru",
+                    }),
+
+                    amonnonza: GalleryProject.ofGalleryImage({
+                        label: "Nightgazer",
+                        key: "gallery/art-fight-2026/attacks/amonnonza",
+                    }),
+
+                    snowsquall: GalleryProject.ofGalleryImage({
+                        label: "Ant problem",
+                        key: "gallery/art-fight-2026/attacks/snowsquall",
+                    }),
+
+                    jinsym: GalleryProject.ofGalleryImage({
+                        label: "Duskflight",
+                        key: "gallery/art-fight-2026/attacks/jinsym",
+                    }),
+                },
             }),
         },
     }),
