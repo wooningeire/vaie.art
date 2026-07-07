@@ -1,8 +1,9 @@
 import type { Component } from "svelte";
-import type { GalleryImage } from "./GalleryImage";
+import type { GalleryImage, GalleryImageAsset } from "./GalleryImage";
 import { galleryMediums, type GalleryMedium } from "./GalleryMedium";
 import { galleryImageHrefOf } from "./galleryImageRoute";
 import { generatedGalleryImages } from "./generatedGalleryImages";
+import { generatedMediaAssets } from "./generatedMediaAssets";
 
 import BookwyrmDgcCrossoverDescription from "$/gallery-info/BookwyrmDgcCrossoverDescription.svx";
 
@@ -127,14 +128,24 @@ const resolveGalleryProjectHrefs = (
     }),
 );
 
+const galleryImageFromMediaAsset = (
+    asset: GalleryImageAsset,
+    alt: string,
+): GalleryImage => ({
+    full: asset,
+    preview: asset,
+    thumb: asset,
+    alt,
+});
+
 export const galleryProjects = resolveGalleryProjectHrefs({
     pudle: new GalleryProject({
         label: "Pudle",
         href: "/pudle",
-        image: {
-            ...generatedGalleryImages["misc/pudle-cover"],
-            alt: "Pudle",
-        },
+        image: galleryImageFromMediaAsset(
+            generatedMediaAssets["misc/pudle-cover"],
+            "Pudle",
+        ),
         medium: galleryMediums.webSpa,
         external: true,
     }),

@@ -3,6 +3,12 @@ use crate::convert_media::slug::create_slug_from_path_segment;
 use anyhow::{Context, Result};
 use std::path::{Component, Path, PathBuf};
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum MediaKind {
+    Gallery,
+    Static,
+}
+
 #[derive(Clone, Debug)]
 pub struct OutputName {
     pub relative_output_dir: PathBuf,
@@ -11,11 +17,32 @@ pub struct OutputName {
 }
 
 #[derive(Clone, Debug)]
-pub struct OutputPaths {
+pub struct GalleryOutputPaths {
     pub output_directory: PathBuf,
     pub full: PathBuf,
     pub preview: PathBuf,
     pub thumb: PathBuf,
+}
+
+#[derive(Clone, Debug)]
+pub struct StaticOutputPaths {
+    pub output_directory: PathBuf,
+    pub webp: PathBuf,
+}
+
+pub fn media_kind_of(input_file: &Path, options: &Options) -> Result<MediaKind> {
+    let output_name = output_name_of(input_file, options)?;
+
+    let Some(Component::Normal(segment)) = output_name.relative_output_dir.components().next()
+    else {
+        return Ok(MediaKind::Static);
+    };
+
+    if segment.to_string_lossy() == "gallery" {
+        return Ok(MediaKind::Gallery);
+    }
+
+    Ok(MediaKind::Static)
 }
 
 pub fn output_name_of(input_file: &Path, options: &Options) -> Result<OutputName> {
@@ -52,17 +79,27 @@ pub fn output_name_of(input_file: &Path, options: &Options) -> Result<OutputName
     })
 }
 
-pub fn output_paths_of(input_file: &Path, options: &Options) -> Result<OutputPaths> {
+pub fn gallery_output_paths_of(input_file: &Path, options: &Options) -> Result<GalleryOutputPaths> {
     let output_name = output_name_of(input_file, options)?;
     let output_directory = options.output.join(&output_name.relative_output_dir);
 
-    Ok(OutputPaths {
+    Ok(GalleryOutputPaths {
         full: output_directory.join(format!(
             "{}.full{}",
             output_name.basename, output_name.extension
         )),
         preview: output_directory.join(format!("{}.preview.webp", output_name.basename)),
         thumb: output_directory.join(format!("{}.thumb.webp", output_name.basename)),
+        output_directory,
+    })
+}
+
+pub fn static_output_paths_of(input_file: &Path, options: &Options) -> Result<StaticOutputPaths> {
+    let output_name = output_name_of(input_file, options)?;
+    let output_directory = options.output.join(&output_name.relative_output_dir);
+
+    Ok(StaticOutputPaths {
+        webp: output_directory.join(format!("{}.webp", output_name.basename)),
         output_directory,
     })
 }

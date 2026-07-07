@@ -13,10 +13,12 @@ deno task build  # to generate a Deno/Node.js bundle
 But before you do that:
 
 ## Media hosting
-Host original images in `/media`. The following command produces WebPs at preview and thumbnail resolutions (requires Rust):
+Host original images in `/media`. The following command converts media for the site (requires Rust):
 ```bash
-deno task convert-media  # to generate full, preview, and thumbnail variants
+deno task convert-media
 ```
+
+Files under `media/gallery` get full, preview, and thumbnail outputs for the gallery. Other media, such as `media/misc`, gets a single `.webp` output.
 
 Metadata is hardcoded in the SvelteKit project.
 
