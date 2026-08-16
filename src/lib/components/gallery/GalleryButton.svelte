@@ -64,15 +64,9 @@ gallery-button {
 }
 
 a {
-    @include mixins.glass-button;
 
-    display: grid;
-    place-items: center;
-
-    box-sizing: border-box;
     height: 100%;
 
-    border-radius: 0.25em;
     overflow: hidden;
 
     opacity: 0.75;
@@ -135,41 +129,5 @@ gallery-button-media {
                 transform 0.2s cubic-bezier(0, 0.5, 0.4, 1);
         }
     }
-}
-
-button.info-button {
-    @include mixins.glass-button;
-    @include gallery.gallery-entry-overlay;
-
-    align-self: flex-start;
-    justify-self: flex-end;
-    margin: 0.25em;
-
-    display: grid;
-    place-items: center;
-
-    width: 1.5em;
-    height: 1.5em;
-
-    border-radius: 0.125em;
-    border-top-right-radius: 0.25em;
-
-
-    color: oklch(0.95 0.05 180 / 0.85);
-}
-
-gallery-entry-tags {
-    align-self: flex-end;
-    justify-self: flex-start;
-
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.25em;
-
-    margin: 0.25em;
-    max-width: calc(100% - 0.5em);
-    min-width: 0;
-
-    font-size: 0.6666666em;
 }
 </style>

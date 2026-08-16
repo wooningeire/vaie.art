@@ -34,7 +34,8 @@ gallery-entry-list {
 
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5em;
+    justify-content: center;
+    gap: 0.25em;
 
     min-height: 0;
     padding: 2em 0;
