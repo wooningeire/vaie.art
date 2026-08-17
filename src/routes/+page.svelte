@@ -1,5 +1,5 @@
 <script lang="ts">
-import { galleryProjects } from "$/gallery-models/GalleryProject";
+import { galleryProjects } from "$/gallery-models/galleryProjectList";
 import Gallery from "@/gallery/Gallery.svelte";
 </script>
 
