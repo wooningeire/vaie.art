@@ -4,8 +4,10 @@ import "./index.scss";
 import favicon from "$lib/assets/favicon.svg";
 import Background from "@/Background.svelte";
 import Sidenav from "@/sidenav/Sidenav.svelte";
+    import GallerySearch from "@/gallery/GallerySearch.svelte";
+    import { page } from "$app/state";
 
-let { children } = $props();
+let {children} = $props();
 </script>
 
 <svelte:head>
@@ -21,7 +23,11 @@ let { children } = $props();
         </main>
 
         <site-sidenav>
-            <Sidenav />
+            <Sidenav>
+                {#if page.url.pathname === "/"}
+                    <GallerySearch />
+                {/if}
+            </Sidenav>
         </site-sidenav>
     </app-frame>
 </app-shell>

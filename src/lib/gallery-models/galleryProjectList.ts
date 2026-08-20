@@ -1,5 +1,5 @@
 import { GalleryProject, type GalleryProjectTree } from "./GalleryProject";
-import { galleryMediums } from "./GalleryMedium";
+import { galleryMediums } from "./GalleryTags";
 import type {GalleryImage, GalleryImageAsset} from "./GalleryImage";
 import { galleryImageHrefOf } from "./galleryImageRoute";
 import { generatedMediaAssets } from "./generatedMediaAssets";

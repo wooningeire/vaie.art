@@ -1,6 +1,6 @@
 import type { Component } from "svelte";
 import type { GalleryImage } from "./GalleryImage";
-import { galleryMediums, type GalleryMedium } from "./GalleryMedium";
+import { galleryMediums, type GalleryMedium } from "./GalleryTags";
 import { generatedGalleryImages } from "./generatedGalleryImages";
 
 
