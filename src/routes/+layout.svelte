@@ -15,7 +15,7 @@ let {children} = $props();
 </svelte:head>
 
 <app-shell>
-    <Background />
+    <!-- <Background /> -->
 
     <app-frame>
         <main>

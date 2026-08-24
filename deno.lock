@@ -2,9 +2,10 @@
   "version": "5",
   "specifiers": {
     "npm:@sveltejs/adapter-node@^5.5.7": "5.5.7_@sveltejs+kit@2.70.2__@sveltejs+vite-plugin-svelte@7.2.0___svelte@5.56.8___vite@8.2.0____sass@1.102.0___sass@1.102.0__svelte@5.56.8__typescript@7.0.2__vite@8.2.0___sass@1.102.0__sass@1.102.0_@sveltejs+vite-plugin-svelte@7.2.0__svelte@5.56.8__vite@8.2.0___sass@1.102.0__sass@1.102.0_sass@1.102.0_svelte@5.56.8_typescript@7.0.2_vite@8.2.0__sass@1.102.0",
-    "npm:@sveltejs/kit@^2.70.2": "2.70.2_@sveltejs+vite-plugin-svelte@7.2.0__svelte@5.56.8__vite@8.2.0___sass@1.102.0__sass@1.102.0_svelte@5.56.8_typescript@7.0.2_vite@8.2.0__sass@1.102.0_sass@1.102.0",
+    "npm:@sveltejs/kit@^2.70.2": "2.70.2_@sveltejs+vite-plugin-svelte@7.2.0__svelte@5.56.8__vite@8.2.0___sass@1.102.0__sass@1.102.0_svelte@5.56.8_typescript@7.0.2_vite@8.2.0__sass@1.102.0",
     "npm:@sveltejs/vite-plugin-svelte@^7.2.0": "7.2.0_svelte@5.56.8_vite@8.2.0__sass@1.102.0_sass@1.102.0",
     "npm:@vaie/hui@~0.2.1": "0.2.1_svelte@5.56.8_sass@1.102.0",
+    "npm:@webgpu/types@~0.1.72": "0.1.72",
     "npm:mdsvex@~0.12.8": "0.12.8_svelte@5.56.8",
     "npm:sass@^1.102.0": "1.102.0",
     "npm:sharp@~0.35.3": "0.35.3",
@@ -593,11 +594,11 @@
         "@rollup/plugin-json",
         "@rollup/plugin-node-resolve",
         "@rollup/plugin-replace",
-        "@sveltejs/kit",
+        "@sveltejs/kit@2.70.2_@sveltejs+vite-plugin-svelte@7.2.0__svelte@5.56.8__vite@8.2.0___sass@1.102.0__sass@1.102.0_svelte@5.56.8_typescript@7.0.2_vite@8.2.0__sass@1.102.0_sass@1.102.0",
         "rollup"
       ]
     },
-    "@sveltejs/kit@2.70.2_@sveltejs+vite-plugin-svelte@7.2.0__svelte@5.56.8__vite@8.2.0___sass@1.102.0__sass@1.102.0_svelte@5.56.8_typescript@7.0.2_vite@8.2.0__sass@1.102.0_sass@1.102.0": {
+    "@sveltejs/kit@2.70.2_@sveltejs+vite-plugin-svelte@7.2.0__svelte@5.56.8__vite@8.2.0___sass@1.102.0__sass@1.102.0_svelte@5.56.8_typescript@7.0.2_vite@8.2.0__sass@1.102.0": {
       "integrity": "sha512-RzRoRpuR2KXqc5yMO0akQHDZeT4AslOlznGITURsqHaVbtyYP4Wn3eE3gxj9JcDyNYO0crkxhdwFHc+2vkVm6w==",
       "dependencies": [
         "@standard-schema/spec",
@@ -619,6 +620,27 @@
       ],
       "optionalPeers": [
         "typescript@7.0.2"
+      ],
+      "bin": true
+    },
+    "@sveltejs/kit@2.70.2_@sveltejs+vite-plugin-svelte@7.2.0__svelte@5.56.8__vite@8.2.0___sass@1.102.0__sass@1.102.0_svelte@5.56.8_typescript@7.0.2_vite@8.2.0__sass@1.102.0_sass@1.102.0": {
+      "integrity": "sha512-RzRoRpuR2KXqc5yMO0akQHDZeT4AslOlznGITURsqHaVbtyYP4Wn3eE3gxj9JcDyNYO0crkxhdwFHc+2vkVm6w==",
+      "dependencies": [
+        "@standard-schema/spec",
+        "@sveltejs/acorn-typescript",
+        "@sveltejs/vite-plugin-svelte",
+        "@types/cookie",
+        "acorn",
+        "cookie",
+        "devalue",
+        "esm-env",
+        "kleur",
+        "magic-string",
+        "mrmime",
+        "set-cookie-parser",
+        "sirv",
+        "svelte",
+        "vite"
       ],
       "bin": true
     },
@@ -763,6 +785,9 @@
         "svelte",
         "svelte-preprocess"
       ]
+    },
+    "@webgpu/types@0.1.72": {
+      "integrity": "sha512-0cF7RFM2edNoiIS1ODJp0/Gzv4/xSXhwoR0YCza+OWpJWtn4wmo9DvK91aLlH9+uUnwIriP7ZiC3WitmyhuzBw=="
     },
     "acorn@8.18.0": {
       "integrity": "sha512-lGq+9yr1/GuAWaVYIHRjvvySG5/4VfKIvC8EWxStPdcDh/Ka7FG3twP6v4d5BkravUilhIAsG4Qj83t02LWUPQ==",
@@ -1322,6 +1347,7 @@
         "npm:@sveltejs/kit@^2.70.2",
         "npm:@sveltejs/vite-plugin-svelte@^7.2.0",
         "npm:@vaie/hui@~0.2.1",
+        "npm:@webgpu/types@~0.1.72",
         "npm:mdsvex@~0.12.8",
         "npm:sass@^1.102.0",
         "npm:sharp@~0.35.3",
