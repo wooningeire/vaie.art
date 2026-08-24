@@ -3,10 +3,17 @@ import { galleryProjects } from "$/gallery-models/galleryProjectList";
 import Gallery from "@/gallery/Gallery.svelte";
     import { onMount } from "svelte";
 import shaderCode from "./shader.wgsl?raw";
+    import { RendererState } from "./RendererState.svelte";
+
+const {resolve: resolveCanvas, promise: canvasPromise} = Promise.withResolvers<HTMLCanvasElement>();
+const rendererState = RendererState.mount({canvasPromise});
 
 let canvas: HTMLCanvasElement;
 
+
 onMount(async () => {
+    resolveCanvas(canvas);
+
     const adapter = await navigator.gpu.requestAdapter();
     if (adapter === null) return;
 
@@ -42,9 +49,9 @@ onMount(async () => {
         usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST | GPUBufferUsage.STORAGE,
     });
     device.queue.writeBuffer(verts, 0, new Float32Array([
-        0.25, 0.25, 0.5, 1,
-        0.5, 0.8, 0.5, 1,
-        0.75, 0.25, 0.5, 1,
+        -0.75, -0.75, 0.5, 1,
+        0, 0.8, 0.5, 1,
+        0.75, -0.75, 0.5, 1,
     ]));
 
     const bindGroup = device.createBindGroup({
@@ -150,8 +157,8 @@ let height = 150;
 
 <home-page>
     <canvas-container
-        bind:clientWidth={null, clientWidth => width = clientWidth!}
-        bind:clientHeight={null, clientHeight => height = clientHeight!}
+        bind:clientWidth={null, clientWidth => width = clientWidth! * devicePixelRatio}
+        bind:clientHeight={null, clientHeight => height = clientHeight! * devicePixelRatio}
     >
         <canvas
             bind:this={canvas}
@@ -169,6 +176,12 @@ home-page {
         height: 100%;
 
         display: grid;
+
+        > canvas {
+            place-items: stretch;
+            max-width: 100%;
+            max-height: 100%;
+        }
     }
 }
 </style>
