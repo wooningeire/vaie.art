@@ -1,6 +1,6 @@
 import type { Component } from "svelte";
 import type { GalleryImage } from "./GalleryImage";
-import { galleryMediums, type GalleryMedium } from "./GalleryTags";
+import { galleryMediums, type GalleryTag } from "./GalleryTags";
 import { generatedGalleryImages } from "./generatedGalleryImages";
 
 
@@ -10,7 +10,7 @@ export type GalleryProjectOptions = {
     label: string,
     image?: GalleryImage | null,
     href?: string | null,
-    medium?: GalleryMedium | null,
+    medium?: GalleryTag | null,
     descriptionComponent?: Component | null,
     infoComponent?: Component | null,
     external?: boolean,
@@ -22,7 +22,7 @@ export class GalleryProject {
     readonly label: string;
     readonly image: GalleryImage | null;
     readonly href: string | null;
-    readonly medium: GalleryMedium | null;
+    readonly medium: GalleryTag | null;
     readonly descriptionComponent: Component | null;
     readonly infoComponent: Component | null;
     readonly external: boolean;
