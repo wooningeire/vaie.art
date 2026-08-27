@@ -2,10 +2,10 @@
 import "./index.scss";
 
 import favicon from "$lib/assets/favicon.svg";
-import Background from "@/Background.svelte";
 import Sidenav from "@/sidenav/Sidenav.svelte";
-    import GallerySearch from "@/gallery/GallerySearch.svelte";
-    import { page } from "$app/state";
+import GallerySearch from "@/gallery/GallerySearch.svelte";
+import { page } from "$app/state";
+import Canvas from "./Canvas.svelte";
 
 let {children} = $props();
 </script>
@@ -14,10 +14,10 @@ let {children} = $props();
     <link rel="icon" href={favicon} />
 </svelte:head>
 
-<app-shell>
-    <!-- <Background /> -->
+<frame-full>
+    <Canvas />
 
-    <app-frame>
+    <frame-small>
         <main>
             {@render children()}
         </main>
@@ -29,21 +29,24 @@ let {children} = $props();
                 {/if}
             </Sidenav>
         </site-sidenav>
-    </app-frame>
-</app-shell>
+    </frame-small>
+</frame-full>
 
 <style lang="scss">
 @use "$/styles/responsive.scss";
 
-app-shell {
+frame-full {
     display: grid;
+    place-items: stretch;
 
     min-width: 18.75rem;
     min-height: 100vh;
     min-height: 100svh;
 }
 
-app-frame {
+frame-small {
+    grid-area: 1/1;
+
     display: grid;
     grid-template-rows: minmax(0, 1fr) auto;
     grid-template-columns: minmax(0, 1fr);
