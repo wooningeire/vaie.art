@@ -7,7 +7,7 @@ let runner = $state<GpuRunner | null>(null);
 
 let clientWidth = $state(0);
 let clientHeight = $state(0);
-let dpr = $state(devicePixelRatio ?? 1);
+let dpr = $state(1);
 
 let width = $derived(Math.round(clientWidth * dpr));
 let height = $derived(Math.round(clientHeight * dpr));
@@ -20,14 +20,19 @@ onMount(async () => {
 });
 
 $effect(() => {
-    if (runner && width > 0 && height > 0) {
-        runner.draw();
-    }
+    if (runner === null || width === 0 || height === 0) return;
+    runner.draw();
 });
+
+const onResize = () => {
+    dpr = devicePixelRatio;
+};
+
+onMount(onResize);
 </script>
 
 <svelte:window
-    onresize={() => dpr = devicePixelRatio}
+    onresize={onResize}
 />
 
 <canvas-container

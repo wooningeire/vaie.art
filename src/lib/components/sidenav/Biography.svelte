@@ -71,8 +71,7 @@ biography-section {
     justify-self: flex-end;
 
     display: flex;
-    flex-direction: column-reverse;
-    align-items: flex-end;
+    flex-direction: column;
     gap: 1em;
 
     padding-bottom: 1em;
@@ -88,8 +87,7 @@ biography-section {
 
 biography-title {
     display: flex;
-    flex-direction: column-reverse;
-    align-items: flex-end;
+    flex-direction: column;
     gap: 0.25em;
 }
 
@@ -102,10 +100,10 @@ background-credit {
 }
 
 social-links {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    place-items: stretch;
     gap: 0.5em;
-    justify-content: flex-end;
 
     :global(path) {
         fill: currentcolor;

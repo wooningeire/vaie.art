@@ -29,6 +29,11 @@ let {
 <style lang="scss">
 @use "$/styles/mixins";
 
+a {
+    display: grid;
+    place-items: stretch;
+}
+
 button {
     @include mixins.glass-button-small;
 
