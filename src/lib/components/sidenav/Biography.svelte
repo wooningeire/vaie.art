@@ -1,11 +1,6 @@
 <script lang="ts">
-import SocialLink from "@/SocialButton.svelte";
-import BareLink from "@/BareLink.svelte";
+import SocialLinks from "./SocialLinksConcise.svelte";
 
-import GithubSvg from "@/social-icons/Github.svg.svelte";
-import KofiSvg from "@/social-icons/Kofi.svg.svelte";
-import ArtfightSvg from "@/social-icons/Artfight.svg.svelte";
-import BlueskySvg from "@/social-icons/Bluesky.svg.svelte";
 </script>
 
 <biography-section>
@@ -14,52 +9,9 @@ import BlueskySvg from "@/social-icons/Bluesky.svg.svelte";
             <a href="/">vaiezzell</a>
         </h1>
 
-        <title-headline>software dragon ΘΔ!</title-headline>
-        <title-headline>digital media generalist!</title-headline>
-        <title-headline>macro dragon enjoyer!</title-headline>
+        <SocialLinks />
     </biography-title>
 
-    <background-credit>
-        Background art by <BareLink href="https://www.furaffinity.net/view/61807537/">Sapphi</BareLink>
-    </background-credit>
-
-    <social-links>
-        <SocialLink
-            href="https://github.com/wooningeire"
-            label="GitHub"
-        >
-            {#snippet icon()}
-                <GithubSvg />
-            {/snippet}
-        </SocialLink>
-
-        <SocialLink
-            href="https://ko-fi.com/vaiezzell"
-            label="Ko-fi"
-        >
-            {#snippet icon()}
-                <KofiSvg />
-            {/snippet}
-        </SocialLink>
-
-        <SocialLink
-            href="https://artfight.net/~vaiezzell"
-            label="Art Fight"
-        >
-            {#snippet icon()}
-                <ArtfightSvg />
-            {/snippet}
-        </SocialLink>
-
-        <SocialLink
-            href="https://bsky.app/profile/vaie.art"
-            label="Bluesky"
-        >
-            {#snippet icon()}
-                <BlueskySvg />
-            {/snippet}
-        </SocialLink>
-    </social-links>
 </biography-section>
 
 <style lang="scss">
@@ -82,31 +34,6 @@ biography-section {
         border-top: 1px solid oklch(0.9 0.02 200 / 0.25);
     
         font-size: 1.5rem;
-    }
-}
-
-biography-title {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25em;
-}
-
-title-headline {
-    color: colors.$emph;
-}
-
-background-credit {
-    font-size: 0.75em;
-}
-
-social-links {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    place-items: stretch;
-    gap: 0.5em;
-
-    :global(path) {
-        fill: currentcolor;
     }
 }
 </style>
