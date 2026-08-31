@@ -1,3 +1,5 @@
+@use "./fonts.scss";
+
 @mixin glass {
     backdrop-filter: blur(0.25rem);
 
@@ -27,6 +29,7 @@
     @include glass-button-exterior;
     
     background-color: oklch(0.9 0.01 200 / 0.05);
+    font-family: fonts.$font-title;
 }
 
 @mixin glass-button-small {

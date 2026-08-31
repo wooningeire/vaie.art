@@ -1,25 +1,27 @@
 <script lang="ts">
-import vaiezzellLogomark from "$/assets/vaiezzell logomark.png";
 import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
+import { cubicOut, elasticOut, quartIn, quartOut } from "svelte/easing";
+import { fly } from "svelte/transition";
+import Logomark from "./Logomark.svelte";
 </script>
 
 <homepage-bottom>
     <logomark-container>
-        <a
-            href="/"
-            aria-label="vaiezzell"
-        >
-            <enhanced:img
-                src={vaiezzellLogomark}
-                alt="vaiezzell"
-            />
-        </a>
+        <Logomark large />
     </logomark-container>
     
     <homepage-bottom-right>
-        <SocialLinksConcise />
+        <social-links-container
+            in:fly={{duration: 250, easing: quartOut, y: 100}}
+            out:fly={{duration: 250, easing: quartIn, delay: 100, y: 100}}
+        >
+            <SocialLinksConcise />
+        </social-links-container>
 
-        <biography-headlines>
+        <biography-headlines
+            in:fly={{duration: 250, easing: quartOut, delay: 100, y: 100}}
+            out:fly={{duration: 250, easing: quartIn, y: 100}}
+        >
             <biography-headline>software dragon ΘΔ!</biography-headline>
             <biography-headline>digital media generalist!</biography-headline>
             <biography-headline>computer graphics studier!</biography-headline>
@@ -44,10 +46,6 @@ logomark-container {
     display: grid;
     place-items: center;
     flex-grow: 1;
-
-    img {
-        width: 20rem;
-    }
 }
 
 homepage-bottom-right {
@@ -56,6 +54,10 @@ homepage-bottom-right {
     align-items: center;
     flex-grow: 1;
     gap: 1rem;
+}
+
+social-links-container {
+    display: block;
 }
 
 biography-headlines {

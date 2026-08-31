@@ -4,8 +4,14 @@ import "./index.scss";
 import favicon from "$lib/assets/favicon.svg";
 import BackgroundCanvas from "./Canvas.svelte";
 import HomepageBottom from "@/sidenav/HomepageBottom.svelte";
+    import NavItem from "@/sidenav/NavItem.svelte";
+    import { page } from "$app/state";
+    import Logomark, { logomarkKey } from "@/sidenav/Logomark.svelte";
+    import { flip } from "svelte/animate";
 
 let {children} = $props();
+
+const isHomepage = $derived(page.url.pathname === "/");
 </script>
 
 <svelte:head>
@@ -15,19 +21,41 @@ let {children} = $props();
 <frame-full>
     <BackgroundCanvas />
 
-    <frame-small>
+    <frame-small
+        class:is-homepage={isHomepage}
+    >
         <main>
             {@render children()}
         </main>
 
         <nav>
-            <nav-item>works</nav-item>
-            <nav-item>characters</nav-item>
-            <nav-item>links</nav-item>
-            <nav-item>friends</nav-item>
+            <NavItem
+                href="/works"
+                label="works"
+            />
+            <NavItem
+                href="/characters"
+                label="characters"
+            />
+            <NavItem
+                href="/links"
+                label="links"
+            />
+            <NavItem
+                href="/friends"
+                label="friends"
+            />
+
+            {#if !isHomepage}
+                <logomark-container>
+                    <Logomark />
+                </logomark-container>
+            {/if}
         </nav>
 
-        <HomepageBottom />
+        {#if isHomepage}
+            <HomepageBottom />
+        {/if}
     </frame-small>
 </frame-full>
 
@@ -48,7 +76,6 @@ frame-small {
     grid-area: 1/1;
 
     display: grid;
-    grid-template-rows: 1fr auto;
     grid-template-columns: 15em 1fr;
     gap: 3em;
 
@@ -56,6 +83,10 @@ frame-small {
     height: 100vh;
     height: 100svh;
     padding: 1rem;
+
+    &.is-homepage {
+        grid-template-rows: 1fr auto;
+    }
 
     > nav {
         grid-area: 1/1;
