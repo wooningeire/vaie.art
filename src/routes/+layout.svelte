@@ -4,14 +4,15 @@ import "./index.scss";
 import favicon from "$lib/assets/favicon.svg";
 import BackgroundCanvas from "./Canvas.svelte";
 import HomepageBottom from "@/sidenav/HomepageBottom.svelte";
-    import NavItem from "@/sidenav/NavItem.svelte";
-    import { page } from "$app/state";
-    import Logomark, { logomarkKey } from "@/sidenav/Logomark.svelte";
-    import { flip } from "svelte/animate";
+import NavItem from "@/sidenav/NavItem.svelte";
+import { page } from "$app/state";
+import Logomark, { logomarkKey, logomarkReceive, logomarkSend } from "@/sidenav/Logomark.svelte";
 
 let {children} = $props();
 
 const isHomepage = $derived(page.url.pathname === "/");
+
+const navItemsContainerKey = Symbol("nav items container key");
 </script>
 
 <svelte:head>
@@ -45,15 +46,13 @@ const isHomepage = $derived(page.url.pathname === "/");
                 href="/friends"
                 label="friends"
             />
-
-            {#if !isHomepage}
-                <logomark-container>
-                    <Logomark />
-                </logomark-container>
-            {/if}
         </nav>
 
-        {#if isHomepage}
+        {#if !isHomepage}
+            <logomark-container>
+                <Logomark />
+            </logomark-container>
+        {:else}
             <HomepageBottom />
         {/if}
     </frame-small>
@@ -66,10 +65,12 @@ const isHomepage = $derived(page.url.pathname === "/");
 
 frame-full {
     display: grid;
-    place-items: center;
+    place-items: stretch;
 
     min-width: 18.75rem;
     min-height: 100vh;
+
+    overflow: hidden;
 }
 
 frame-small {
@@ -77,6 +78,7 @@ frame-small {
 
     display: grid;
     grid-template-columns: 15em 1fr;
+    grid-template-rows: 1fr 8em;
     gap: 3em;
 
     width: 100vw;
@@ -84,13 +86,14 @@ frame-small {
     height: 100svh;
     padding: 1rem;
 
-    &.is-homepage {
-        grid-template-rows: 1fr auto;
-    }
-
-    > nav {
+    nav {
         grid-area: 1/1;
     }
+
+    > logomark-container {
+        grid-area: 2/1;
+    }
+    
 
     > main {
         grid-area: 1/2;
@@ -102,15 +105,19 @@ frame-small {
 }
 
 nav {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1em;
 
     font-size: 1.5em;
     color: colors.$emph;
     font-family: fonts.$font-title;
+
+    &,
+    > nav-items-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 1em;
+    }
 }
 
 main {

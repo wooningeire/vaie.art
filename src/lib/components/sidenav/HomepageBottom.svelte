@@ -1,8 +1,8 @@
 <script lang="ts">
 import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
-import { cubicOut, elasticOut, quartIn, quartOut } from "svelte/easing";
+import { quartIn, quartOut } from "svelte/easing";
 import { fly } from "svelte/transition";
-import Logomark from "./Logomark.svelte";
+import Logomark, { logomarkKey, logomarkReceive, logomarkSend } from "./Logomark.svelte";
 </script>
 
 <homepage-bottom>
