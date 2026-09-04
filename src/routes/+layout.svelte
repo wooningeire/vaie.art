@@ -11,8 +11,6 @@ import Logomark, { logomarkKey, logomarkReceive, logomarkSend } from "@/sidenav/
 let {children} = $props();
 
 const isHomepage = $derived(page.url.pathname === "/");
-
-const navItemsContainerKey = Symbol("nav items container key");
 </script>
 
 <svelte:head>
@@ -78,7 +76,7 @@ frame-small {
 
     display: grid;
     grid-template-columns: 15em 1fr;
-    grid-template-rows: 1fr 8em;
+    grid-template-rows: 1fr auto;
     gap: 3em;
 
     width: 100vw;

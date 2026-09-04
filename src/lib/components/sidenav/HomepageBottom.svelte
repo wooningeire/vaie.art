@@ -1,11 +1,29 @@
 <script lang="ts">
 import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
 import { quartIn, quartOut } from "svelte/easing";
-import { fly } from "svelte/transition";
+import { fly, type FlyParams, type TransitionConfig } from "svelte/transition";
 import Logomark, { logomarkKey, logomarkReceive, logomarkSend } from "./Logomark.svelte";
+
+const float = (node: Element, {
+    duration,
+}: {
+    duration: number,
+}): TransitionConfig => {
+    const rect = node.getBoundingClientRect();
+
+    return {
+        duration,
+        css: (t, u) => `\
+position: absolute;
+left: ${rect.left}px;
+top: ${rect.top}px;
+width: ${rect.width}px;
+height: ${rect.height}px;`,
+    };
+};
 </script>
 
-<homepage-bottom>
+<homepage-bottom out:float={{duration: 350}}>
     <logomark-container>
         <Logomark large />
     </logomark-container>
