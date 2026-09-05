@@ -1,34 +1,56 @@
 <script lang="ts">
 import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
 import { quartIn, quartOut } from "svelte/easing";
-import { fly, type FlyParams, type TransitionConfig } from "svelte/transition";
-import Logomark, { logomarkKey, logomarkReceive, logomarkSend } from "./Logomark.svelte";
+import { fly, type TransitionConfig } from "svelte/transition";
+import Logomark from "./Logomark.svelte";
 
 const float = (node: Element, {
     duration,
+    parent = null,
 }: {
     duration: number,
+    parent?: HTMLElement | null,
 }): TransitionConfig => {
     const rect = node.getBoundingClientRect();
+
+    const parentRect = parent?.getBoundingClientRect() ?? null;
+    const offsetLeft = parentRect?.left ?? 0;
+    const offsetTop = parentRect?.top ?? 0;
 
     return {
         duration,
         css: (t, u) => `\
 position: absolute;
-left: ${rect.left}px;
-top: ${rect.top}px;
+left: ${rect.left - offsetLeft}px;
+top: ${rect.top - offsetTop}px;
 width: ${rect.width}px;
 height: ${rect.height}px;`,
     };
 };
+
+const gone = (node: Element): TransitionConfig => {
+    return {
+        duration: 350,
+        css: (t, u) => `\
+position: fixed;
+width: 0;
+height: 0;
+overflow: hidden;`,
+    };
+};
+
+let homepageBottomEl: HTMLElement;
 </script>
 
-<homepage-bottom out:float={{duration: 350}}>
-    <logomark-container>
+<homepage-bottom
+    out:gone
+    bind:this={homepageBottomEl}
+>
+    <logomark-container out:gone>
         <Logomark large />
     </logomark-container>
     
-    <homepage-bottom-right>
+    <homepage-bottom-right out:float={{duration: 350, parent: homepageBottomEl}}>
         <social-links-container
             in:fly={{duration: 250, easing: quartOut, y: 100}}
             out:fly={{duration: 250, easing: quartIn, delay: 100, y: 100}}

@@ -6,7 +6,7 @@ import BackgroundCanvas from "./Canvas.svelte";
 import HomepageBottom from "@/sidenav/HomepageBottom.svelte";
 import NavItem from "@/sidenav/NavItem.svelte";
 import { page } from "$app/state";
-import Logomark, { logomarkKey, logomarkReceive, logomarkSend } from "@/sidenav/Logomark.svelte";
+import Logomark from "@/sidenav/Logomark.svelte";
 
 let {children} = $props();
 
