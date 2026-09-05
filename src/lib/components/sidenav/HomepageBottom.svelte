@@ -28,9 +28,13 @@ height: ${rect.height}px;`,
     };
 };
 
-const gone = (node: Element): TransitionConfig => {
+const gone = (node: Element, {
+    duration,
+}: {
+    duration: number,
+}): TransitionConfig => {
     return {
-        duration: 350,
+        duration,
         css: (t, u) => `\
 position: fixed;
 width: 0;
@@ -43,10 +47,10 @@ let homepageBottomEl: HTMLElement;
 </script>
 
 <homepage-bottom
-    out:gone
+    out:gone={{duration: 350}}
     bind:this={homepageBottomEl}
 >
-    <logomark-container out:gone>
+    <logomark-container out:gone={{duration: 350}}>
         <Logomark large />
     </logomark-container>
     
