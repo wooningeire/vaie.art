@@ -42,19 +42,14 @@ height: 0;
 overflow: hidden;`,
     };
 };
-
-let homepageBottomEl: HTMLElement;
 </script>
 
-<homepage-bottom
-    out:gone={{duration: 350}}
-    bind:this={homepageBottomEl}
->
+<homepage-bottom>
     <logomark-container out:gone={{duration: 350}}>
         <Logomark large />
     </logomark-container>
     
-    <homepage-bottom-right out:float={{duration: 350, parent: homepageBottomEl}}>
+    <homepage-bottom-right out:float={{duration: 350}}>
         <social-links-container
             in:fly={{duration: 250, easing: quartOut, y: 100}}
             out:fly={{duration: 250, easing: quartIn, delay: 100, y: 100}}
