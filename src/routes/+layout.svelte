@@ -7,10 +7,13 @@ import HomepageBottom from "@/sidenav/HomepageBottom.svelte";
 import NavItem from "@/sidenav/NavItem.svelte";
 import { page } from "$app/state";
 import Logomark from "@/sidenav/Logomark.svelte";
+import { lingerForOneFrame, RectWatcher } from "@/betterCrossfade";
 
 let {children} = $props();
 
 const isHomepage = $derived(page.url.pathname === "/");
+
+const logomarkRectWatcher = new RectWatcher();
 </script>
 
 <svelte:head>
@@ -47,7 +50,10 @@ const isHomepage = $derived(page.url.pathname === "/");
         </nav>
 
         {#if !isHomepage}
-            <logomark-container>
+            <logomark-container
+                {@attach logomarkRectWatcher.watch}
+                out:lingerForOneFrame={logomarkRectWatcher}
+            >
                 <Logomark />
             </logomark-container>
         {:else}

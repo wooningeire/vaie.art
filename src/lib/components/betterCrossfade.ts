@@ -1,5 +1,27 @@
+import type { Attachment } from "svelte/attachments";
 import { cubicOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
+
+
+export class RectWatcher {
+    rect: DOMRect | null = null;
+
+    readonly watch: Attachment = element => {
+        let handle = 0;
+
+        const updateRect = () => {
+            this.rect = element.getBoundingClientRect();
+
+            handle = requestAnimationFrame(updateRect);
+        };
+        handle = requestAnimationFrame(updateRect);
+
+        return () => {
+            cancelAnimationFrame(handle);
+        };
+    };
+}
+
 
 /**
  * `out` transition that forces absolute positioning on an element and hiding the element, even if it has children
@@ -17,6 +39,7 @@ export const removeFromPageFlow = (node: HTMLElement): TransitionConfig => {
             if (ticked) return;
             ticked = true;
 
+            // need to use `tick` instead of `css` for this so this css stays after the transition ends
             node.style.cssText = `\
 position: absolute;
 visibility: hidden;
@@ -25,6 +48,28 @@ left: ${rect.left}px;
 width: ${rect.width}px;
 height: ${rect.height}px;`;
         },
+    };
+};
+
+
+export const lingerForOneFrame = (node: HTMLElement, rectWatcher: RectWatcher): TransitionConfig => {
+    if (rectWatcher.rect === null) {
+        return {
+            duration: 0,
+        };
+    }
+
+    const rect = rectWatcher.rect;
+
+    return {
+        duration: Number.EPSILON,
+        css: (t, u) => `\
+position: absolute;
+top: ${rect.top}px;
+left: ${rect.left}px;
+width: ${rect.width}px;
+height: ${rect.height}px;
+visibility: visible;`,
     };
 };
 
@@ -44,7 +89,7 @@ export const swapout = ({
     duration?: number,
     easing?: (t: number) => number,
 } = {}) => {
-    let sentRect: DOMRect | null = null;
+    const rectWatcher = new RectWatcher();
 
     // const send = (element: Element) => {
     //     sentRect = asRect(element.getBoundingClientRect());
@@ -53,23 +98,8 @@ export const swapout = ({
     //     }
     // };
 
-    const pollRect = (element: Element) => {
-        let handle = 0;
-
-        const updateRect = () => {
-            sentRect = element.getBoundingClientRect();
-
-            handle = requestAnimationFrame(updateRect);
-        };
-        handle = requestAnimationFrame(updateRect);
-
-        return () => {
-            cancelAnimationFrame(handle);
-        };
-    };
-
     const receive = (element: HTMLElement): TransitionConfig => {
-        if (sentRect === null) {
+        if (rectWatcher.rect === null) {
             return {
                 duration: 0,
             };
@@ -81,7 +111,7 @@ export const swapout = ({
         let ratioWidth = 1;
         let ratioHeight = 1;
 
-        const oldRect = sentRect;
+        const oldRect = rectWatcher.rect;
         let newRectIsKnown = false;
         // need to wait 2 frames to know the new rect
         requestAnimationFrame(() => {
@@ -96,7 +126,7 @@ export const swapout = ({
                 newRectIsKnown = true;
             });
         });
-        sentRect = null;
+        rectWatcher.rect = null;
 
 
         return {
@@ -116,5 +146,8 @@ transform: translate(${distanceX * u}px, ${distanceY * u}px) scale(${ratioWidth 
         };
     };
 
-    return {receive, pollRect};
+    return {
+        receive,
+        pollRect: rectWatcher.watch,
+    };
 };
