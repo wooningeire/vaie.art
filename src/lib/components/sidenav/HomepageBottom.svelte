@@ -3,33 +3,8 @@ import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
 import { quartIn, quartOut } from "svelte/easing";
 import { fly, type FlyParams, type TransitionConfig } from "svelte/transition";
 import Logomark from "./Logomark.svelte";
+import { removeFromPageFlow } from "@/betterCrossfade";
 
-/**
- * `out` transition that forces absolute positioning on an element and hiding the element, even if it has children
- * with `out` transitions (which would otherwise keep the element in the page flow). Used with the `.keep` class
- * to make children with `out` transitions visible while the parent is removed from the page flow
- * @param node
- */
-const removeFromPageFlow = (node: HTMLElement): TransitionConfig => {
-    const rect = node.getBoundingClientRect();
-
-    let ticked = false;
-    return {
-        duration: Number.EPSILON, // nonzero to run `tick` at least once
-        tick: (t, u) => {
-            if (ticked) return;
-            ticked = true;
-
-            node.style.cssText = `\
-position: absolute;
-visibility: hidden;
-top: ${rect.top}px;
-left: ${rect.left}px;
-width: ${rect.width}px;
-height: ${rect.height}px;`;
-        },
-    };
-};
 </script>
 
 <homepage-bottom out:removeFromPageFlow>
