@@ -10,15 +10,8 @@ export type SwapoutParams = {
     parent?: HTMLElement | null,
 };
 
-type Rect = {
-    left: number,
-    top: number,
-    width: number,
-    height: number,
-};
-
 const {receive, pollRect} = (() => {
-    let sentRect: Rect | null = null;
+    let sentRect: DOMRect | null = null;
 
     // const send = (element: Element) => {
     //     sentRect = asRect(element.getBoundingClientRect());
@@ -42,7 +35,7 @@ const {receive, pollRect} = (() => {
         };
     };
 
-    const receive = (element: Element): TransitionConfig => {
+    const receive = (element: HTMLElement): TransitionConfig => {
         if (sentRect === null) {
             return {
                 duration: 0,
@@ -50,33 +43,43 @@ const {receive, pollRect} = (() => {
         }
 
 
-        
-
         let distanceX = 0;
         let distanceY = 0;
         let ratioWidth = 1;
         let ratioHeight = 1;
 
-        const oldRect = sentRect; 
-        tick().then(() => {
-            const newRect = element.getBoundingClientRect();
-            
-            distanceX = oldRect.left - newRect.left;
-            distanceY = oldRect.top - newRect.top;
-            ratioWidth = oldRect.width / newRect.width;
-            ratioHeight = oldRect.height / newRect.height;
+        const oldRect = sentRect;
+        let newRectIsKnown = false;
+        // need to wait 2 frames to know the new rect
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                const newRect = element.getBoundingClientRect();
+                
+                distanceX = oldRect.left - newRect.left;
+                distanceY = oldRect.top - newRect.top;
+                ratioWidth = oldRect.width / newRect.width;
+                ratioHeight = oldRect.height / newRect.height;
+
+                newRectIsKnown = true;
+            });
         });
-
         sentRect = null;
-
 
 
         return {
             duration: 250,
             easing: cubicOut,
-            css: (t, u) => `\
+            tick: (t, u) => {
+                if (!newRectIsKnown) {
+                    element.style.cssText = `visibility: hidden;`;
+                    return;
+                }
+
+
+                element.style.cssText = `\
 transform-origin: top left;
-transform: translate(${distanceX * u}px, ${distanceY * u}px) scale(${ratioWidth ** u}, ${ratioHeight ** u})`,
+transform: translate(${distanceX * u}px, ${distanceY * u}px) scale(${ratioWidth ** u}, ${ratioHeight ** u})`
+            },
         };
     };
 

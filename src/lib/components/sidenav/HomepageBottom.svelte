@@ -1,58 +1,47 @@
 <script lang="ts">
 import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
 import { quartIn, quartOut } from "svelte/easing";
-import { fly, type TransitionConfig } from "svelte/transition";
+import { fly, type FlyParams, type TransitionConfig } from "svelte/transition";
 import Logomark from "./Logomark.svelte";
 
-const float = (node: Element, {
-    duration,
-    parent = null,
-}: {
-    duration: number,
-    parent?: HTMLElement | null,
-}): TransitionConfig => {
+/**
+ * `out` transition that forces absolute positioning on an element and hiding the element, even if it has children
+ * with `out` transitions (which would otherwise keep the element in the page flow). Used with the `.keep` class
+ * to make children with `out` transitions visible while the parent is removed from the page flow
+ * @param node
+ */
+const removeFromPageFlow = (node: HTMLElement): TransitionConfig => {
     const rect = node.getBoundingClientRect();
 
-    const parentRect = parent?.getBoundingClientRect() ?? null;
-    const offsetLeft = parentRect?.left ?? 0;
-    const offsetTop = parentRect?.top ?? 0;
-
+    let ticked = false;
     return {
-        duration,
-        css: (t, u) => `\
+        duration: Number.EPSILON, // nonzero to run `tick` at least once
+        tick: (t, u) => {
+            if (ticked) return;
+            ticked = true;
+
+            node.style.cssText = `\
 position: absolute;
-left: ${rect.left - offsetLeft}px;
-top: ${rect.top - offsetTop}px;
+visibility: hidden;
+top: ${rect.top}px;
+left: ${rect.left}px;
 width: ${rect.width}px;
-height: ${rect.height}px;`,
-    };
-};
-
-const gone = (node: Element, {
-    duration,
-}: {
-    duration: number,
-}): TransitionConfig => {
-    return {
-        duration,
-        css: (t, u) => `\
-position: fixed;
-width: 0;
-height: 0;
-overflow: hidden;`,
+height: ${rect.height}px;`;
+        },
     };
 };
 </script>
 
-<homepage-bottom>
-    <logomark-container out:gone={{duration: 350}}>
+<homepage-bottom out:removeFromPageFlow>
+    <logomark-container>
         <Logomark large />
     </logomark-container>
     
-    <homepage-bottom-right out:float={{duration: 350}}>
+    <homepage-bottom-right>
         <social-links-container
             in:fly={{duration: 250, easing: quartOut, y: 100}}
             out:fly={{duration: 250, easing: quartIn, delay: 100, y: 100}}
+            class="keep"
         >
             <SocialLinksConcise />
         </social-links-container>
@@ -60,6 +49,7 @@ overflow: hidden;`,
         <biography-headlines
             in:fly={{duration: 250, easing: quartOut, delay: 100, y: 100}}
             out:fly={{duration: 250, easing: quartIn, y: 100}}
+            class="keep"
         >
             <biography-headline>software dragon ΘΔ!</biography-headline>
             <biography-headline>digital media generalist!</biography-headline>
@@ -107,5 +97,9 @@ biography-headlines {
 
     color: colors.$emph;
     text-align: center;
+}
+
+.keep {
+    visibility: visible;
 }
 </style>
