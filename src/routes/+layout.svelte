@@ -7,11 +7,18 @@ import HomepageBottom from "@/sidenav/HomepageBottom.svelte";
 import NavItem from "@/sidenav/NavItem.svelte";
 import { page } from "$app/state";
 import Logomark from "@/sidenav/Logomark.svelte";
-import { lingerForOneFrame, RectWatcher } from "@/betterCrossfade";
+import { lingerForOneFrame, RectWatcher, swapout } from "@/betterCrossfade.svelte";
+
 
 let {children} = $props();
 
 const isHomepage = $derived(page.url.pathname === "/");
+
+
+const {
+    receive: navReceive,
+    rectWatcher: navRectWatcher,
+} = swapout();
 
 const logomarkRectWatcher = new RectWatcher();
 </script>
@@ -31,22 +38,29 @@ const logomarkRectWatcher = new RectWatcher();
         </main>
 
         <nav>
-            <NavItem
-                href="/works"
-                label="works"
-            />
-            <NavItem
-                href="/characters"
-                label="characters"
-            />
-            <NavItem
-                href="/links"
-                label="links"
-            />
-            <NavItem
-                href="/friends"
-                label="friends"
-            />
+            {#key isHomepage}
+                <nav-items
+                    {@attach navRectWatcher.watch}
+                    in:navReceive
+                >
+                    <NavItem
+                        href="/works"
+                        label="works"
+                    />
+                    <NavItem
+                        href="/characters"
+                        label="characters"
+                    />
+                    <NavItem
+                        href="/links"
+                        label="links"
+                    />
+                    <NavItem
+                        href="/friends"
+                        label="friends"
+                    />
+                </nav-items>
+            {/key}
         </nav>
 
         {#if !isHomepage}
@@ -73,8 +87,6 @@ frame-full {
 
     min-width: 18.75rem;
     min-height: 100vh;
-
-    overflow: hidden;
 }
 
 frame-small {
@@ -108,20 +120,24 @@ frame-small {
     }
 }
 
+
 nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+nav-items {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1em;
 
     font-size: 1.5em;
     color: colors.$emph;
     font-family: fonts.$font-title;
-
-    &,
-    > nav-items-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 1em;
-    }
 }
 
 main {

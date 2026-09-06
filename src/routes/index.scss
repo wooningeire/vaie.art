@@ -21,6 +21,8 @@
 }
 
 body {
+    overflow: hidden;
+    
     background: oklch(0.2 0.02 190);
     color: oklch(0.9 0.008 210 / 0.6);
 

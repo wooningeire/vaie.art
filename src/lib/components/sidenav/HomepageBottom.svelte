@@ -3,7 +3,7 @@ import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
 import { quartIn, quartOut } from "svelte/easing";
 import { fly, type FlyParams, type TransitionConfig } from "svelte/transition";
 import Logomark from "./Logomark.svelte";
-import { removeFromPageFlow } from "@/betterCrossfade";
+import { removeFromPageFlow } from "@/betterCrossfade.svelte";
 
 </script>
 

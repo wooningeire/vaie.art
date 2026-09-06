@@ -1,10 +1,11 @@
 import type { Attachment } from "svelte/attachments";
-import { cubicOut } from "svelte/easing";
+import { cubicOut, quartOut } from "svelte/easing";
 import type { TransitionConfig } from "svelte/transition";
 
 
 export class RectWatcher {
     rect: DOMRect | null = null;
+
 
     readonly watch: Attachment = element => {
         let handle = 0;
@@ -21,7 +22,6 @@ export class RectWatcher {
         };
     };
 }
-
 
 /**
  * `out` transition that forces absolute positioning on an element and hiding the element, even if it has children
@@ -74,17 +74,9 @@ visibility: visible;`,
 };
 
 
-export type SwapoutParams = {
-    key: any,
-    delay?: number,
-    duration?: number | ((distance: number) => number),
-    easing?: (time: number) => number,
-    parent?: HTMLElement | null,
-};
-
 export const swapout = ({
-    duration = 250,
-    easing = cubicOut,
+    duration = 350,
+    easing = quartOut,
 }: {
     duration?: number,
     easing?: (t: number) => number,
@@ -113,11 +105,13 @@ export const swapout = ({
 
         const oldRect = rectWatcher.rect;
         let newRectIsKnown = false;
+
+
         // need to wait 2 frames to know the new rect
         requestAnimationFrame(() => {
             requestAnimationFrame(() => {
                 const newRect = element.getBoundingClientRect();
-                
+
                 distanceX = oldRect.left - newRect.left;
                 distanceY = oldRect.top - newRect.top;
                 ratioWidth = oldRect.width / newRect.width;
@@ -126,7 +120,7 @@ export const swapout = ({
                 newRectIsKnown = true;
             });
         });
-        rectWatcher.rect = null;
+        // rectWatcher.rect = null;
 
 
         return {
@@ -148,6 +142,6 @@ transform: translate(${distanceX * u}px, ${distanceY * u}px) scale(${ratioWidth 
 
     return {
         receive,
-        pollRect: rectWatcher.watch,
+        rectWatcher,
     };
 };

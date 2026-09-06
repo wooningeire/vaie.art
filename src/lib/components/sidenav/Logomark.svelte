@@ -1,7 +1,7 @@
 <script lang="ts" module>
-import { swapout } from "@/betterCrossfade";
+import { swapout } from "@/betterCrossfade.svelte";
 
-const {receive, pollRect} = swapout();
+const {receive, rectWatcher} = swapout();
 </script>
 
 <script lang="ts">
@@ -17,7 +17,7 @@ let {
 <a
     href="/"
     aria-label="vaiezzell"
-    {@attach pollRect}
+    {@attach rectWatcher.watch}
     in:receive
     class:large
 >
