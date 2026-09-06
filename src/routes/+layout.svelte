@@ -8,6 +8,7 @@ import NavItem from "@/sidenav/NavItem.svelte";
 import { page } from "$app/state";
 import Logomark from "@/sidenav/Logomark.svelte";
 import { lingerForOneFrame, RectWatcher, swapout } from "@/betterCrossfade.svelte";
+    import { backInOut, elasticInOut } from "svelte/easing";
 
 
 let {children} = $props();
@@ -18,7 +19,10 @@ const isHomepage = $derived(page.url.pathname === "/");
 const {
     receive: navReceive,
     rectWatcher: navRectWatcher,
-} = swapout();
+} = swapout({
+    duration: 450,
+    easing: backInOut,
+});
 
 const logomarkRectWatcher = new RectWatcher();
 </script>
@@ -42,6 +46,7 @@ const logomarkRectWatcher = new RectWatcher();
                 <nav-items
                     {@attach navRectWatcher.watch}
                     in:navReceive
+                    out:lingerForOneFrame={navRectWatcher}
                 >
                     <NavItem
                         href="/works"

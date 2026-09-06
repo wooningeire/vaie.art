@@ -52,6 +52,14 @@ height: ${rect.height}px;`;
 };
 
 
+/**
+ * It takes 2 frames after an `in` transition begins for a swapout to know the correct new target rect. This results in
+ * 1 frame where the element transitioning in has an untransformed position, so we hide the new element for 1 frame and
+ * keep the old element visible for 1 frame.
+ * @param node 
+ * @param rectWatcher 
+ * @returns 
+ */
 export const lingerForOneFrame = (node: HTMLElement, rectWatcher: RectWatcher): TransitionConfig => {
     if (rectWatcher.rect === null) {
         return {
