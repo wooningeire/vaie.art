@@ -2,10 +2,9 @@ import { GalleryProject, type GalleryProjectTree } from "./GalleryProject";
 import { galleryMediums } from "./GalleryTags";
 import type {GalleryImage, GalleryImageAsset} from "./GalleryImage";
 import { galleryImageHrefOf } from "./galleryImageRoute";
-// import { generatedMediaAssets } from "./generatedMediaAssets";
 
 
-const generatedMediaAssets: Record<string, GalleryImageAsset> = {};
+import { generatedMediaAssets } from "./generatedMediaAssets";
 
 import BookwyrmDgcCrossoverDescription from "$/gallery-info/BookwyrmDgcCrossoverDescription.svx";
 
@@ -36,9 +35,7 @@ const galleryImageFromMediaAsset = (
     alt,
 });
 
-export const galleryProjects = resolveGalleryProjectHrefs({})
 
-/*
 export const galleryProjects = resolveGalleryProjectHrefs({
     pudle: new GalleryProject({
         label: "Pudle",
@@ -416,4 +413,3 @@ export const galleryProjects = resolveGalleryProjectHrefs({
         key: "gallery/zaneb",
     }),
 });
-*/

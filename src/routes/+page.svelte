@@ -6,7 +6,6 @@
 </svelte:head>
 
 <home-page>
-    <!-- <Gallery projects={galleryProjects} /> -->
 </home-page>
 
 <style lang="scss">

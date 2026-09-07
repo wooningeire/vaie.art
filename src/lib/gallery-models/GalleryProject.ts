@@ -1,9 +1,7 @@
 import type { Component } from "svelte";
 import type { GalleryImage } from "./GalleryImage";
 import { galleryMediums, type GalleryTag } from "./GalleryTags";
-// import { generatedGalleryImages } from "./generatedGalleryImages";
-
-const generatedGalleryImages = {};
+import { generatedGalleryImages } from "./generatedGalleryImages";
 
 export type GalleryProjectTree = Record<string, GalleryProject>;
 
