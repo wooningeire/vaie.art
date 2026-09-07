@@ -57,12 +57,8 @@ const logomarkRectWatcher = new RectWatcher();
                         label="characters"
                     />
                     <NavItem
-                        href="/links"
-                        label="links"
-                    />
-                    <NavItem
-                        href="/friends"
-                        label="friends"
+                        href="/othersworks"
+                        label="others&#x2019; works"
                     />
                 </nav-items>
             {/key}

@@ -36,7 +36,8 @@ body {
     }
 }
 
-a {
+a,
+button {
     color: oklch(0.95 0.05 180 / 0.7);
     text-decoration: none;
 
