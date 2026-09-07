@@ -137,10 +137,11 @@ button {
             }
         }
     }
+}
 
-    &:active > button-display,
-    button-display.key-held {
-        transform: translateY(0.0625rem) scale(0.95);
-    }
+:global(a:active) button-display,
+button:active > button-display,
+button-display.key-held {
+    transform: translateY(0.0625rem) scale(0.95);
 }
 </style>
