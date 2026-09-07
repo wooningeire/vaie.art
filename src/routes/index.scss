@@ -2,6 +2,7 @@
 @use "$/fonts/Belanosima.scss";
 @use "$/fonts/AveriaLibre.scss";
 
+@use "$/styles/colors.scss";
 @use "$/styles/fonts.scss";
 @use "$/styles/responsive.scss";
 
@@ -23,8 +24,8 @@
 body {
     overflow: hidden;
     
-    background: oklch(0.2 0.02 190);
-    color: oklch(0.9 0.008 210 / 0.6);
+    background: colors.$bg;
+    color: colors.$fg;
 
     font-family: "Averia Libre", sans-serif;
     font-weight: 200;
