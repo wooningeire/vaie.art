@@ -91,8 +91,9 @@ button {
         &.emph {
             --bg-col: linear-gradient(
                 to right,
-                oklch(0.7 0.1 300),
-                oklch(0.7 0.1 190)
+                oklch(0.85 0.15 320),
+                oklch(1 0 0),
+                oklch(0.85 0.15 160)
             );
 
             color: oklch(0 0 0);

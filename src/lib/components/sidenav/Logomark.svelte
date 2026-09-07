@@ -6,6 +6,8 @@ const {receive, rectWatcher} = swapout();
 
 <script lang="ts">
 import vaiezzellLogomark from "$/assets/vaiezzell logomark.png";
+    import Button from "@/generic/Button.svelte";
+    import { page } from "$app/state";
 
 let {
     large = false,
@@ -21,21 +23,25 @@ let {
     in:receive
     class:large
 >
-    <enhanced:img
-        src={vaiezzellLogomark}
-        alt="vaiezzell"
-    />
+    <Button
+        buttonStyle="image"
+    >
+        <enhanced:img
+            src={vaiezzellLogomark}
+            alt="vaiezzell"
+        />
+    </Button>
 </a>
 
 <style lang="scss">
 a {
     display: inline-block;
 
-    > img {
+    img {
         width: 15rem;
     }
 
-    &.large > img {
+    &.large img {
         width: 20rem;
     }
 }
