@@ -138,9 +138,9 @@ nav-items {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-    gap: 1em;
+    gap: 0.75em;
 
-    font-size: 1.5em;
+    font-size: 1.25em;
     color: colors.$emph;
     font-family: fonts.$font-title;
 }

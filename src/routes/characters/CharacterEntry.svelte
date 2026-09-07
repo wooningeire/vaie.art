@@ -1,4 +1,6 @@
 <script lang="ts">
+import Button from "@/generic/Button.svelte";
+
 let {
     label,
     thumbSrc,
@@ -8,16 +10,18 @@ let {
 } = $props();
 </script>
 
-<character-entry>
-    <character-entry-thumb>
-        <enhanced:img
-            src={thumbSrc}
-            alt={label}
-        />
-    </character-entry-thumb>
+<Button>
+    <character-entry>
+        <character-entry-thumb>
+            <enhanced:img
+                src={thumbSrc}
+                alt={label}
+            />
+        </character-entry-thumb>
 
-    <character-entry-label>{label}</character-entry-label>
-</character-entry>
+        <character-entry-label>{label}</character-entry-label>
+    </character-entry>
+</Button>
 
 <style lang="scss">
 @use "$/styles/fonts.scss";
@@ -42,6 +46,5 @@ img {
 character-entry-label {
     font-family: fonts.$font-title;
     font-size: 2em;
-    color: oklch(1 0 0);
 }
 </style>

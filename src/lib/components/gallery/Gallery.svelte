@@ -13,8 +13,6 @@ let {
     <gallery-entry-list aria-live="polite">
         {#each Object.entries(projects) as [projectId, project] (projectId)}
             <GalleryProjectView {project} />
-        {:else}
-            <gallery-empty>No matches</gallery-empty>
         {/each}
     </gallery-entry-list>
 </project-gallery>
@@ -39,12 +37,5 @@ gallery-entry-list {
 
     min-height: 0;
     padding: 2em 0;
-}
-
-gallery-empty {
-    @include mixins.glass-button-small;
-
-    align-self: center;
-    color: oklch(0.95 0.04 190 / 0.8);
 }
 </style>
