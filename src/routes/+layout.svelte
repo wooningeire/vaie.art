@@ -9,6 +9,7 @@ import { page } from "$app/state";
 import Logomark from "@/sidenav/Logomark.svelte";
 import { lingerForOneFrame, RectWatcher, swapout } from "@/betterCrossfade.svelte";
     import { backInOut, elasticInOut } from "svelte/easing";
+    import Background from "@/Background.svelte";
 
 
 let {children} = $props();
@@ -32,7 +33,9 @@ const logomarkRectWatcher = new RectWatcher();
 </svelte:head>
 
 <frame-full>
-    <BackgroundCanvas />
+    <!-- <BackgroundCanvas /> -->
+
+    <Background />
 
     <frame-small
         class:is-homepage={isHomepage}

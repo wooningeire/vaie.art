@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { GalleryImage } from "$/gallery-models/GalleryImage";
+    import Button from "@/generic/Button.svelte";
 
 let {
     href,
@@ -56,7 +57,7 @@ gallery-button {
     display: inline-grid;
     place-items: stretch;
 
-    height: 6.5em;
+    height: 9.5em;
 
     > * {
         grid-area: 1/1;

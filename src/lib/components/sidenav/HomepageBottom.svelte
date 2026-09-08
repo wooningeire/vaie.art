@@ -21,6 +21,14 @@ import { removeFromPageFlow } from "@/betterCrossfade.svelte";
             <SocialLinksConcise />
         </social-links-container>
 
+        <background-credit
+            in:fly={{duration: 250, easing: quartOut, delay: 200, y: 100}}
+            out:fly={{duration: 250, easing: quartIn, delay: 200, y: 100}}
+            class="keep"
+        >
+            Background art by <a href="https://www.furaffinity.net/view/61807537" target="_blank">Sapphi</a>
+        </background-credit>
+
         <biography-headlines
             in:fly={{duration: 250, easing: quartOut, delay: 100, y: 100}}
             out:fly={{duration: 250, easing: quartIn, y: 100}}
@@ -53,15 +61,34 @@ logomark-container {
 }
 
 homepage-bottom-right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     flex-grow: 1;
+
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    place-items: center;
     gap: 1rem;
+
+    > social-links-container {
+        grid-area: 1/1;
+    }
+
+    > background-credit {
+        grid-area: 1/2;
+    }
+
+    > biography-headlines {
+        grid-area: 2/1 / 3/3;
+    }
 }
 
 social-links-container {
-    display: block;
+    display: flex;
+    align-items: center;
+}
+
+background-credit {
+    color: colors.$emph;
 }
 
 biography-headlines {
