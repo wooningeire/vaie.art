@@ -3,10 +3,6 @@ import Gallery from "@/gallery/Gallery.svelte";
 import { galleryProjects } from "$/gallery-models/galleryProjectList";
 </script>
 
-<svelte:head>
-    <title>works | vaiezzell</title>
-</svelte:head>
-
 <works-entries>
     <works-entries-scroller>
         <Gallery projects={galleryProjects} />
@@ -18,7 +14,6 @@ works-entries {
     display: grid;
     min-width: 0;
     min-height: 0;
-
 
     mask: linear-gradient(
         to bottom,

@@ -40,6 +40,12 @@ pub fn should_regenerate(source: &Path, targets: &[&Path], force: bool) -> Resul
 
 fn collect_image_files_in_directory(directory: &Path, files: &mut Vec<PathBuf>) -> Result<()> {
     let mut entries = fs::read_dir(directory)?.collect::<std::io::Result<Vec<_>>>()?;
+    let read_dir = match fs::read_dir(directory) {
+        Ok(read_dir) => read_dir,
+        Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(()),
+        Err(e) => return Err(e.into()),
+    };
+    let mut entries = read_dir.collect::<std::io::Result<Vec<_>>>()?;
 
     entries.sort_by_key(|entry| entry.path());
 

@@ -4,9 +4,8 @@ import type {GalleryImage, GalleryImageAsset} from "./GalleryImage";
 import { galleryImageHrefOf } from "./galleryImageRoute";
 
 
-import { generatedMediaAssets } from "./generatedMediaAssets";
-
 import BookwyrmDgcCrossoverDescription from "$/gallery-info/BookwyrmDgcCrossoverDescription.svx";
+import { generatedMediaAssets } from "./generatedMediaAssets";
 
 const resolveGalleryProjectHrefs = (
     projects: GalleryProjectTree,
@@ -115,6 +114,31 @@ export const galleryProjects = resolveGalleryProjectHrefs({
                     jinsym: GalleryProject.ofGalleryImage({
                         label: "Duskflight",
                         key: "gallery/art-fight-2026/attacks/jinsym",
+                    }),
+
+                    viscerall: GalleryProject.ofGalleryImage({
+                        label: "Scrapyard?",
+                        key: "gallery/art-fight-2026/attacks/viscerall",
+                    }),
+
+                    wwco: GalleryProject.ofGalleryImage({
+                        label: "Through size and space",
+                        key: "gallery/art-fight-2026/attacks/wwco",
+                    }),
+
+                    tiffymew: GalleryProject.ofGalleryImage({
+                        label: "Midtown reading session",
+                        key: "gallery/art-fight-2026/attacks/tiffymew",
+                    }),
+
+                    captainraven: GalleryProject.ofGalleryImage({
+                        label: "Cave chase!",
+                        key: "gallery/art-fight-2026/attacks/captainraven",
+                    }),
+
+                    rhaeloth: GalleryProject.ofGalleryImage({
+                        label: "Who's this little critter?",
+                        key: "gallery/art-fight-2026/attacks/rhaeloth",
                     }),
                 },
             }),

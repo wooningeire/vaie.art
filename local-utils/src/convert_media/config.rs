@@ -33,7 +33,7 @@ impl Options {
 impl Default for Options {
     fn default() -> Self {
         Self {
-            input: PathBuf::from("media"),
+            input: PathBuf::from("src/lib/assets/media"),
             output: PathBuf::from("static/media"),
             static_root: PathBuf::from("static"),
             metadata_output: PathBuf::from("src/lib/gallery-models/generatedGalleryImages.ts"),

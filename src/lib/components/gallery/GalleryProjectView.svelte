@@ -14,13 +14,13 @@ let {
 let childProjectEntries = $derived(Object.entries(project.children));
 </script>
 
-{#if project.image === null}
+<!-- {#if project.image === null}
     <project-group-label
         style:--depth={depth}
     >
         {project.label}
     </project-group-label>
-{/if}
+{/if} -->
 
 {#if project.href !== null && project.image !== null}
     <GalleryButton
@@ -37,13 +37,13 @@ let childProjectEntries = $derived(Object.entries(project.children));
     />
 {/each}
 
-{#if project.image === null}
+<!-- {#if project.image === null}
     <project-group-label
         style:--depth={depth}
         class:end={true}
     >
     </project-group-label>
-{/if}
+{/if} -->
 
 <style lang="scss">
 @use "$/styles/fonts.scss";
