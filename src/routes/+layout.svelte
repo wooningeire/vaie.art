@@ -1,7 +1,7 @@
 <script lang="ts">
 import "./index.scss";
 
-import favicon from "$lib/assets/favicon.svg";
+import favicon from "$lib/assets/vaiezzell favicon.png";
 import BackgroundCanvas from "./Canvas.svelte";
 import HomepageBottom from "@/sidenav/HomepageBottom.svelte";
 import NavItem from "@/sidenav/NavItem.svelte";
