@@ -9,7 +9,7 @@ let {
     data: PageData,
 } = $props();
 
-let galleryImagePage = $derived(getGalleryImagePage(data.galleryImageId));
+let galleryImagePage = $derived(getGalleryImagePage(data.entryId));
 let DescriptionComponent = $derived(galleryImagePage?.descriptionComponent ?? null);
 
 let fullResolutionViewerOpen = $state(false);

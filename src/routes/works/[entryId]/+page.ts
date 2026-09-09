@@ -3,7 +3,7 @@ import {
     getGalleryImagePage,
     getGalleryImagePageIds,
 } from "$/gallery-models/GalleryImagePage";
-import { galleryImageHrefOf } from "$/gallery-models/galleryImageRoute";
+import { galleryImageHrefOf } from "$/gallery-models/galleryProjectList";
 import type { EntryGenerator, PageLoad } from "./$types";
 
 const siteName = "vaiezzell";
@@ -12,10 +12,10 @@ const siteOrigin = "https://vaie.art";
 const toAbsoluteUrl = (path: string) => new URL(path, siteOrigin).href;
 
 export const entries: EntryGenerator = () => getGalleryImagePageIds()
-    .map(galleryImageId => ({ galleryImageId }));
+    .map(entryId => ({ entryId }));
 
 export const load: PageLoad = ({ params }) => {
-    const page = getGalleryImagePage(params.galleryImageId);
+    const page = getGalleryImagePage(params.entryId);
 
     if (page === null) {
         error(404, "Gallery image not found");
@@ -25,11 +25,11 @@ export const load: PageLoad = ({ params }) => {
     const description = `${title} by vaiezzell`;
 
     return {
-        galleryImageId: page.id,
+        entryId: page.id,
         title,
         description,
         siteName,
-        canonicalUrl: toAbsoluteUrl(galleryImageHrefOf(params.galleryImageId)),
+        canonicalUrl: toAbsoluteUrl(galleryImageHrefOf(params.entryId)),
         image: page.image,
         imageUrl: toAbsoluteUrl(page.image.preview.src),
     };

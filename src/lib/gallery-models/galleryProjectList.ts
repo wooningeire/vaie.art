@@ -1,8 +1,8 @@
 import { GalleryProject, type GalleryProjectTree } from "./GalleryProject";
 import { galleryMediums } from "./GalleryTags";
 import type {GalleryImage, GalleryImageAsset} from "./GalleryImage";
-import { galleryImageHrefOf } from "./galleryImageRoute";
 
+export const galleryImageHrefOf = (galleryImageId: string) => `/works/${encodeURIComponent(galleryImageId)}`;
 
 import BookwyrmDgcCrossoverDescription from "$/gallery-info/BookwyrmDgcCrossoverDescription.svx";
 import { generatedMediaAssets } from "./generatedMediaAssets";
