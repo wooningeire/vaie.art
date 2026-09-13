@@ -98,11 +98,15 @@ fn convert_gallery_image(file: &Path, options: &Options) -> Result<GalleryConver
 
     fs::create_dir_all(&output_paths.output_directory)?;
 
-    let is_apng = is_apng(file)?;
+    let is_video = file.extension().map(|e| e.to_string_lossy().to_lowercase()) == Some("mp4".to_string());
+    let is_apng = !is_video && is_apng(file)?;
 
     write_full_image(file, &output_paths.full, &output_name.extension, is_apng)?;
 
-    if is_apng {
+    if is_video {
+        fs::copy(file, &output_paths.preview)?;
+        fs::copy(file, &output_paths.thumb)?;
+    } else if is_apng {
         write_animated_webp(
             file,
             &output_paths.preview,
@@ -152,7 +156,11 @@ fn convert_static_image(file: &Path, options: &Options) -> Result<StaticConversi
 
     fs::create_dir_all(&output_paths.output_directory)?;
 
-    if is_apng(file)? {
+    let is_video = file.extension().map(|e| e.to_string_lossy().to_lowercase()) == Some("mp4".to_string());
+
+    if is_video {
+        fs::copy(file, &output_paths.webp)?;
+    } else if is_apng(file)? {
         write_animated_webp(
             file,
             &output_paths.webp,

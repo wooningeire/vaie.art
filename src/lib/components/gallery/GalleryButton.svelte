@@ -7,11 +7,13 @@ let {
     image,
     external = false,
     imageElement = $bindable(),
+    videoElement = $bindable(),
 }: {
     href: string,
     image: GalleryImage,
     external?: boolean,
     imageElement?: HTMLImageElement,
+    videoElement?: HTMLVideoElement,
 } = $props();
 </script>
 
@@ -23,26 +25,51 @@ let {
         <gallery-button-media
             style:--aspect="{image.thumb.width} / {image.thumb.height}"
         >
-            <img
-                src={image.thumb.src}
-                alt={image.alt}
-                width={image.thumb.width}
-                height={image.thumb.height}
-                class="bg"
-                loading="lazy"
-                decoding="async"
-            />
+            {#if image.thumb.src.endsWith(".mp4")}
+                <video
+                    src={image.thumb.src}
+                    width={image.thumb.width}
+                    height={image.thumb.height}
+                    class="bg"
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                ></video>
 
-            <img
-                src={image.thumb.src}
-                alt={image.alt}
-                width={image.thumb.width}
-                height={image.thumb.height}
-                class="thumb"
-                loading="lazy"
-                decoding="async"
-                bind:this={imageElement}
-            />
+                <video
+                    src={image.thumb.src}
+                    width={image.thumb.width}
+                    height={image.thumb.height}
+                    class="thumb"
+                    autoplay
+                    loop
+                    muted
+                    playsinline
+                    bind:this={videoElement}
+                ></video>
+            {:else}
+                <img
+                    src={image.thumb.src}
+                    alt={image.alt}
+                    width={image.thumb.width}
+                    height={image.thumb.height}
+                    class="bg"
+                    loading="lazy"
+                    decoding="async"
+                />
+
+                <img
+                    src={image.thumb.src}
+                    alt={image.alt}
+                    width={image.thumb.width}
+                    height={image.thumb.height}
+                    class="thumb"
+                    loading="lazy"
+                    decoding="async"
+                    bind:this={imageElement}
+                />
+            {/if}
         </gallery-button-media>
     </a>
 </gallery-button>
@@ -80,7 +107,8 @@ a {
             opacity: 1;
         }
 
-        gallery-button-media > img.bg {
+        gallery-button-media > img.bg,
+        gallery-button-media > video.bg {
             filter: blur(8px) brightness(0.75);
             transform: scale(1.25);
         }
@@ -107,7 +135,8 @@ gallery-button-media {
         min-height: 0;
     }
 
-    > img {
+    > img,
+    > video {
         display: block;
 
         width: 100%;

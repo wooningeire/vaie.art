@@ -4,7 +4,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 const IMAGE_EXTENSIONS: &[&str] = &[
-    ".avif", ".gif", ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".webp",
+    ".avif", ".gif", ".jpg", ".jpeg", ".mp4", ".png", ".tif", ".tiff", ".webp",
 ];
 
 pub fn collect_image_files(options: &Options) -> Result<Vec<PathBuf>> {
@@ -39,7 +39,6 @@ pub fn should_regenerate(source: &Path, targets: &[&Path], force: bool) -> Resul
 }
 
 fn collect_image_files_in_directory(directory: &Path, files: &mut Vec<PathBuf>) -> Result<()> {
-    let mut entries = fs::read_dir(directory)?.collect::<std::io::Result<Vec<_>>>()?;
     let read_dir = match fs::read_dir(directory) {
         Ok(read_dir) => read_dir,
         Err(e) if e.kind() == std::io::ErrorKind::NotFound => return Ok(()),

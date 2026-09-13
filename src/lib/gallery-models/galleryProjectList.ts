@@ -123,20 +123,20 @@ export const galleryWorks = resolveGalleryProjectHrefs({
                         key: "gallery/art-fight-2026/attacks/wwco",
                     }),
 
-                    // tiffymew: GalleryProject.ofGalleryImage({
-                    //     label: "Midtown reading session",
-                    //     key: "gallery/art-fight-2026/attacks/tiffymew",
-                    // }),
+                    tiffymew: GalleryProject.ofGalleryImage({
+                        label: "Midtown reading session",
+                        key: "gallery/art-fight-2026/attacks/tiffymew",
+                    }),
 
                     captainraven: GalleryProject.ofGalleryImage({
                         label: "Cave chase!",
                         key: "gallery/art-fight-2026/attacks/captainraven",
                     }),
 
-                    // rhaeloth: GalleryProject.ofGalleryImage({
-                    //     label: "Who's this little critter?",
-                    //     key: "gallery/art-fight-2026/attacks/rhaeloth",
-                    // }),
+                    rhaeloth: GalleryProject.ofGalleryImage({
+                        label: "Who's this little critter?",
+                        key: "gallery/art-fight-2026/attacks/rhaeloth",
+                    }),
                 },
             }),
         },

@@ -43,6 +43,7 @@ const wheelPixelsPerZoomDoubling = 600;
 
 let stage: HTMLElement | undefined;
 let imageElement: HTMLImageElement | undefined;
+let videoElement: HTMLVideoElement | undefined;
 let closeButton: HTMLButtonElement | undefined;
 let zoom = $state(1);
 let dragState: PanDragState | null = null;
@@ -127,8 +128,8 @@ const getWheelDeltaY = (event: WheelEvent) => {
 
 const isImageEventTarget = (target: EventTarget | null) => (
     target instanceof Node
-    && imageElement !== undefined
-    && imageElement.contains(target)
+    && ((imageElement !== undefined && imageElement.contains(target)) ||
+        (videoElement !== undefined && videoElement.contains(target)))
 );
 
 const centerStage = () => {
@@ -291,16 +292,30 @@ onMount(() => {
                     style:--viewer-image-width={zoomedWidth}
                     style:--viewer-image-height={zoomedHeight}
                 >
-                    <img
-                        bind:this={imageElement}
-                        src={image.full.src}
-                        alt={image.alt}
-                        width={image.full.width}
-                        height={image.full.height}
-                        draggable="false"
-                        decoding="async"
-                        onload={centerStage}
-                    />
+                    {#if image.full.src.endsWith(".mp4")}
+                        <video
+                            bind:this={videoElement}
+                            src={image.full.src}
+                            width={image.full.width}
+                            height={image.full.height}
+                            autoplay
+                            loop
+                            muted
+                            playsinline
+                            onloadeddata={centerStage}
+                        ></video>
+                    {:else}
+                        <img
+                            bind:this={imageElement}
+                            src={image.full.src}
+                            alt={image.alt}
+                            width={image.full.width}
+                            height={image.full.height}
+                            draggable="false"
+                            decoding="async"
+                            onload={centerStage}
+                        />
+                    {/if}
                 </gallery-image-viewer-content>
             </gallery-image-viewer-stage>
         {/snippet}
@@ -396,7 +411,8 @@ gallery-image-viewer-content {
     min-height: 100%;
     padding: 50svh 50svw;
 
-    > img {
+    > img,
+    > video {
         display: block;
 
         width: var(--viewer-image-width);

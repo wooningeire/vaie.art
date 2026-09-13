@@ -60,14 +60,26 @@ const closeFullResolutionViewer = () => {
                 aria-expanded={fullResolutionViewerOpen}
                 onclick={openFullResolutionViewer}
             >
-                <img
-                    src={data.image.preview.src}
-                    alt={data.image.alt}
-                    width={data.image.preview.width}
-                    height={data.image.preview.height}
-                    decoding="async"
-                    fetchpriority="high"
-                />
+                {#if data.image.preview.src.endsWith(".mp4")}
+                    <video
+                        src={data.image.preview.src}
+                        width={data.image.preview.width}
+                        height={data.image.preview.height}
+                        autoplay
+                        loop
+                        muted
+                        playsinline
+                    ></video>
+                {:else}
+                    <img
+                        src={data.image.preview.src}
+                        alt={data.image.alt}
+                        width={data.image.preview.width}
+                        height={data.image.preview.height}
+                        decoding="async"
+                        fetchpriority="high"
+                    />
+                {/if}
             </button>
         </gallery-image-container>
 
@@ -140,12 +152,14 @@ button.gallery-image-preview-button {
 
     cursor: zoom-in;
 
-    &:focus-visible > img {
+    &:focus-visible > img,
+    &:focus-visible > video {
         outline: 0.125rem solid oklch(0.95 0.05 180 / 0.85);
         outline-offset: 0.25rem;
     }
 
-    > img {
+    > img,
+    > video {
         display: block;
 
         width: auto;

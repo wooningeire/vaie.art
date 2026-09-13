@@ -83,13 +83,16 @@ pub fn gallery_output_paths_of(input_file: &Path, options: &Options) -> Result<G
     let output_name = output_name_of(input_file, options)?;
     let output_directory = options.output.join(&output_name.relative_output_dir);
 
+    let is_video = output_name.extension == ".mp4";
+    let preview_ext = if is_video { ".mp4" } else { ".webp" };
+
     Ok(GalleryOutputPaths {
         full: output_directory.join(format!(
             "{}.full{}",
             output_name.basename, output_name.extension
         )),
-        preview: output_directory.join(format!("{}.preview.webp", output_name.basename)),
-        thumb: output_directory.join(format!("{}.thumb.webp", output_name.basename)),
+        preview: output_directory.join(format!("{}.preview{}", output_name.basename, preview_ext)),
+        thumb: output_directory.join(format!("{}.thumb{}", output_name.basename, preview_ext)),
         output_directory,
     })
 }
@@ -97,9 +100,11 @@ pub fn gallery_output_paths_of(input_file: &Path, options: &Options) -> Result<G
 pub fn static_output_paths_of(input_file: &Path, options: &Options) -> Result<StaticOutputPaths> {
     let output_name = output_name_of(input_file, options)?;
     let output_directory = options.output.join(&output_name.relative_output_dir);
+    let is_video = output_name.extension == ".mp4";
+    let ext = if is_video { ".mp4" } else { ".webp" };
 
     Ok(StaticOutputPaths {
-        webp: output_directory.join(format!("{}.webp", output_name.basename)),
+        webp: output_directory.join(format!("{}{}", output_name.basename, ext)),
         output_directory,
     })
 }
