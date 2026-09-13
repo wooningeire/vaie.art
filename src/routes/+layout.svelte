@@ -10,6 +10,7 @@ import Logomark from "@/sidenav/Logomark.svelte";
 import { lingerForOneFrame, RectWatcher, swapout } from "@/betterCrossfade.svelte";
     import { backInOut, elasticInOut } from "svelte/easing";
     import Background from "@/Background.svelte";
+    import GallerySearch from "@/gallery/GallerySearch.svelte";
 
 
 let {children} = $props();
@@ -70,6 +71,10 @@ const logomarkRectWatcher = new RectWatcher();
             >
                 <Logomark />
             </logomark-container>
+
+            {#if page.url.pathname === "/works"}
+                <GallerySearch />
+            {/if}
         {:else}
             <HomepageBottom />
         {/if}
@@ -117,6 +122,11 @@ frame-small {
 
     > :global(homepage-bottom) {
         grid-area: 2/1 / 3/3;
+    }
+
+    
+    > :global(gallery-search) {
+        grid-area: 2/2;
     }
 }
 

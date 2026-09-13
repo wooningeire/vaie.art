@@ -1,6 +1,6 @@
 import type { Component } from "svelte";
 import type { GalleryImage } from "./GalleryImage";
-import { galleryMediums, type GalleryTag } from "./GalleryTags";
+import { galleryTagTree } from "./GalleryTags";
 import { generatedGalleryImages } from "./generatedGalleryImages";
 
 export type GalleryProjectTree = Record<string, GalleryProject>;
@@ -9,7 +9,7 @@ export type GalleryProjectOptions = {
     label: string,
     image?: GalleryImage | null,
     href?: string | null,
-    medium?: GalleryTag | null,
+    tags?: string[],
     descriptionComponent?: Component | null,
     infoComponent?: Component | null,
     external?: boolean,
@@ -21,7 +21,7 @@ export class GalleryProject {
     readonly label: string;
     readonly image: GalleryImage | null;
     readonly href: string | null;
-    readonly medium: GalleryTag | null;
+    readonly tags: string[];
     readonly descriptionComponent: Component | null;
     readonly infoComponent: Component | null;
     readonly external: boolean;
@@ -34,7 +34,7 @@ export class GalleryProject {
         label,
         image = null,
         href = null,
-        medium = null,
+        tags = [],
         descriptionComponent = null,
         infoComponent = null,
         external = false,
@@ -44,7 +44,7 @@ export class GalleryProject {
         this.label = label;
         this.image = image;
         this.href = href;
-        this.medium = medium;
+        this.tags = tags;
         this.descriptionComponent = descriptionComponent;
         this.infoComponent = infoComponent;
         this.external = external;
@@ -58,7 +58,7 @@ export class GalleryProject {
         label: this.label,
         image: this.image,
         href,
-        medium: this.medium,
+        tags: this.tags,
         descriptionComponent: this.descriptionComponent,
         infoComponent: this.infoComponent,
         external: this.external,
@@ -70,7 +70,7 @@ export class GalleryProject {
         label: this.label,
         image: this.image,
         href: this.href,
-        medium: this.medium,
+        tags: this.tags,
         descriptionComponent: this.descriptionComponent,
         infoComponent: this.infoComponent,
         external: this.external,
@@ -97,7 +97,7 @@ export class GalleryProject {
                 ...generatedImage,
                 alt: label,
             },
-            medium: rest.medium ?? galleryMediums.illustration2d,
+            tags: rest.tags ?? [galleryTagTree.medium.illustration2d],
             descriptionComponent: rest.descriptionComponent,
             infoComponent: rest.infoComponent,
             external: rest.external,

@@ -1,24 +1,28 @@
-<script>
-import { galleryState } from "./GalleryState.svelte";
+<script lang="ts">
+import { galleryTagTree } from "$/gallery-models/GalleryTags";
+import GalleryTagCategory from "./GalleryTagCategory.svelte";
 
 </script>
 
 <gallery-search>
-    <input
-        bind:value={galleryState.queryString}
+    <GalleryTagCategory
+        label="Medium"
+        tags={galleryTagTree.medium}
+    />
+
+    <GalleryTagCategory
+        label="Subject"
+        tags={galleryTagTree.subject}
     />
 </gallery-search>
 
 <style lang="scss">
 @use "$/styles/mixins.scss";
+@use "$/styles/colors.scss";
+@use "$/styles/fonts.scss";
 
 gallery-search {
-    display: block;
-    
-    margin-bottom: 2em;
-}
-
-input {
-    @include mixins.glass-input
+    display: flex;
+    gap: 1em;
 }
 </style>

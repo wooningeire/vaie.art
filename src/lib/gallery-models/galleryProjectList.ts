@@ -1,11 +1,8 @@
 import { GalleryProject, type GalleryProjectTree } from "./GalleryProject";
-import { galleryMediums } from "./GalleryTags";
+import { galleryTagTree } from "./GalleryTags";
 import type {GalleryImage, GalleryImageAsset} from "./GalleryImage";
 
 export const galleryImageHrefOf = (galleryImageId: string) => `/works/${encodeURIComponent(galleryImageId)}`;
-
-import BookwyrmDgcCrossoverDescription from "$/gallery-info/BookwyrmDgcCrossoverDescription.svx";
-import { generatedMediaAssets } from "./generatedMediaAssets";
 
 const resolveGalleryProjectHrefs = (
     projects: GalleryProjectTree,
@@ -24,6 +21,9 @@ const resolveGalleryProjectHrefs = (
     }),
 );
 
+import BookwyrmDgcCrossoverDescription from "$/gallery-info/BookwyrmDgcCrossoverDescription.svx";
+import { generatedMediaAssets } from "./generatedMediaAssets";
+
 const galleryImageFromMediaAsset = (
     asset: GalleryImageAsset,
     alt: string,
@@ -35,7 +35,7 @@ const galleryImageFromMediaAsset = (
 });
 
 
-export const galleryProjects = resolveGalleryProjectHrefs({
+export const galleryWorks = resolveGalleryProjectHrefs({
     pudle: new GalleryProject({
         label: "Pudle",
         href: "/pudle",
@@ -43,7 +43,7 @@ export const galleryProjects = resolveGalleryProjectHrefs({
             generatedMediaAssets["misc/pudle-cover"],
             "Pudle",
         ),
-        medium: galleryMediums.webSpa,
+        tags: [galleryTagTree.medium.webSpa],
         external: true,
     }),
 
@@ -52,22 +52,19 @@ export const galleryProjects = resolveGalleryProjectHrefs({
         key: "gallery/vaiezzell-ref",
     }),
 
-    astraRefs: new GalleryProject({
-        label: "Astra reference sheets",
-        children: {
-            curi: GalleryProject.ofGalleryImage({
-                label: "Curi reference sheet",
-                key: "gallery/astra-refs/curi",
-            }),
-            staaria: GalleryProject.ofGalleryImage({
-                label: "Staaria reference sheet",
-                key: "gallery/astra-refs/staaria",
-            }),
-            pyrinth: GalleryProject.ofGalleryImage({
-                label: "Pyrinth reference sheet",
-                key: "gallery/astra-refs/pyrinth",
-            }),
-        },
+    curiRef: GalleryProject.ofGalleryImage({
+        label: "Curi reference sheet",
+        key: "gallery/astra-refs/curi",
+    }),
+    staariaRef: GalleryProject.ofGalleryImage({
+        label: "Staaria reference sheet",
+        key: "gallery/astra-refs/staaria",
+    }),
+    pyrinthRef: GalleryProject.ofGalleryImage({
+        label: "Pyrinth reference sheet",
+        key: "gallery/astra-refs/pyrinth",
+    }, {
+        tags: [galleryTagTree.subject.macro],
     }),
 
     artfight2026: new GalleryProject({
@@ -437,3 +434,11 @@ export const galleryProjects = resolveGalleryProjectHrefs({
         key: "gallery/zaneb",
     }),
 });
+
+export const galleryCollections = {
+    astraRefs: [
+        galleryWorks.curiRef,
+        galleryWorks.staariaRef,
+        galleryWorks.pyrinthRef,
+    ],
+};
