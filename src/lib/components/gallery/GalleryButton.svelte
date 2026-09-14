@@ -6,14 +6,10 @@ let {
     href,
     image,
     external = false,
-    imageElement = $bindable(),
-    videoElement = $bindable(),
 }: {
     href: string,
     image: GalleryImage,
     external?: boolean,
-    imageElement?: HTMLImageElement,
-    videoElement?: HTMLVideoElement,
 } = $props();
 </script>
 
@@ -46,7 +42,6 @@ let {
                     loop
                     muted
                     playsinline
-                    bind:this={videoElement}
                 ></video>
             {:else}
                 <img
@@ -67,7 +62,6 @@ let {
                     class="thumb"
                     loading="lazy"
                     decoding="async"
-                    bind:this={imageElement}
                 />
             {/if}
         </gallery-button-media>

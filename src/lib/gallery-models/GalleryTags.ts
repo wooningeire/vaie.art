@@ -1,11 +1,11 @@
 export const galleryTagTree = {
     medium: {
-        webSpa: "Web SPA",
-        illustration2d: "Illustration",
+        web: "web",
+        illustration2d: "illustration",
     },
 
     subject: {
-        macro: "Macro",
-        destruction: "Destruction",
+        macro: "macro",
+        destruction: "destruction",
     },
 };

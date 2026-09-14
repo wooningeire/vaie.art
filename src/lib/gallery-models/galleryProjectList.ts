@@ -43,7 +43,7 @@ export const galleryWorks = resolveGalleryProjectHrefs({
             generatedMediaAssets["misc/pudle-cover"],
             "Pudle",
         ),
-        tags: [galleryTagTree.medium.webSpa],
+        tags: [galleryTagTree.medium.web],
         external: true,
     }),
 
