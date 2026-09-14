@@ -1,7 +1,7 @@
 <script lang="ts">
 import GalleryImageViewerOverlay from "@/gallery/GalleryImageViewerOverlay.svelte";
 import type { PageData } from "./$types";
-    import { galleryWorks } from "$/gallery-models/galleryProjectList";
+    import { workEntries } from "$/gallery-models/galleryProjectList";
     import { SITENAME } from "$/constants";
 
 let {
@@ -11,7 +11,7 @@ let {
 } = $props();
 
 
-const entry = $derived(galleryWorks[data.entryId]);
+const entry = $derived(workEntries[data.entryId]);
 
 const Description = $derived(entry.descriptionComponent ?? null);
 

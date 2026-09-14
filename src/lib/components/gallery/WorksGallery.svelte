@@ -1,12 +1,12 @@
 <script lang="ts">
-import type { GalleryProjectTree } from "$/works/WorkEntry";
-    import { galleryState } from "./GalleryState.svelte";
+import type { WorkEntry } from "$/works/WorkEntry";
+import { galleryState } from "./GalleryState.svelte";
 import GalleryWorkView from "./GalleryWorkView.svelte";
 
 let {
     works,
 }: {
-    works: GalleryProjectTree,
+    works: Record<string, WorkEntry>,
 } = $props();
 </script>
 

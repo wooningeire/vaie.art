@@ -1,7 +1,7 @@
 export const workTags = {
     medium: {
         web: "web",
-        illustration2d: "illustration",
+        illustration: "illustration",
         animated: "animated",
     },
 

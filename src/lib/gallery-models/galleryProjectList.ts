@@ -1,51 +1,63 @@
-import { WorkEntry, type GalleryProjectTree } from "../works/WorkEntry";
+import { WorkEntry } from "../works/WorkEntry";
 import { workTags } from "../works/workTags";
-import type {WorkEntryImageVariants, WorkEntryImageAsset} from "../works/WorkEntryImage";
-
-export const galleryImageHrefOf = (galleryImageId: string) => `/works/${encodeURIComponent(galleryImageId)}`;
-
-const resolveGalleryProjectHrefs = (
-    projects: GalleryProjectTree,
-): GalleryProjectTree => Object.fromEntries(
-    Object.entries(projects).map(([id, project]) => {
-        const projectWithResolvedChildren = project.withChildren(
-            resolveGalleryProjectHrefs(project.children),
-        );
-
-        return [
-            id,
-            projectWithResolvedChildren.hasGalleryImagePage
-                ? projectWithResolvedChildren.withHref(galleryImageHrefOf(id))
-                : projectWithResolvedChildren,
-        ];
-    }),
-);
 
 import BookwyrmDgcCrossoverDescription from "$/gallery-info/BookwyrmDgcCrossoverDescription.svx";
 import { generatedMediaAssets } from "./generatedMediaAssets";
+import { generatedGalleryImages } from "./generatedGalleryImages";
 
-const galleryImageFromMediaAsset = (
-    asset: WorkEntryImageAsset,
-): WorkEntryImageVariants => ({
-    full: asset,
-    preview: asset,
-    thumb: asset,
+
+
+const pudle = new WorkEntry({
+    id: "pudle",
+    label: "Pudle",
+    href: "/pudle",
+    image: {
+        full: generatedMediaAssets["misc/pudle-cover"],
+        preview: generatedMediaAssets["misc/pudle-cover"],
+        thumb: generatedMediaAssets["misc/pudle-cover"],
+    },
+    tags: [workTags.medium.web],
+    external: true,
+});
+
+const vaiezzellRef = new WorkEntry({
+    id: "vaiezzell-ref",
+    label: "vaiezzell reference sheet",
+    image: generatedGalleryImages["gallery/vaiezzell-ref"],
+    tags: [
+        workTags.medium.illustration,
+        workTags.tools.krita,
+    ],
 });
 
 
-export const galleryWorks = resolveGalleryProjectHrefs({
-    pudle: new WorkEntry({
-        label: "Pudle",
-        href: "/pudle",
-        image: galleryImageFromMediaAsset(generatedMediaAssets["misc/pudle-cover"]),
-        tags: [workTags.medium.web],
-        external: true,
-    }),
+const curiRef = new WorkEntry({
+    id: "curi-ref",
+    label: "Curi reference sheet",
+    image: generatedGalleryImages["gallery/astra-refs/curi"],
+    tags: [
+        workTags.medium.illustration,
+        workTags.tools.krita,
+    ],
+});
 
-    vaiezzellRef: WorkEntry.ofGalleryImage({
-        label: "vaiezzell reference sheet",
-        key: "gallery/vaiezzell-ref",
-    }),
+const astraRefs = new WorkEntry({
+    id: "astra-refs",
+    label: "Astroral Aurora System reference sheets",
+    children: [
+        curiRef,
+    ],
+})
+
+export const workEntries = {
+    [pudle.id]: pudle,
+    [vaiezzellRef.id]: vaiezzellRef,
+    [curiRef.id]: curiRef,
+    [astraRefs.id]: astraRefs,
+};
+/*
+
+export const galleryWorks = resolveGalleryProjectHrefs({
 
     curiRef: WorkEntry.ofGalleryImage({
         label: "Curi reference sheet",
@@ -60,6 +72,7 @@ export const galleryWorks = resolveGalleryProjectHrefs({
         key: "gallery/astra-refs/pyrinth",
     }, {
         tags: [
+            workTags.medium.illustration,
             workTags.subject.macro,
             workTags.tools.krita,
         ],
@@ -440,3 +453,4 @@ export const galleryCollections = {
         galleryWorks.pyrinthRef,
     ],
 };
+*/
