@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { WorkEntry } from "$/gallery-models/WorkEntry";
+import type { WorkEntry } from "$/works/WorkEntry";
 import GalleryButton from "./GalleryButton.svelte";
 import GalleryWorkView from "./GalleryWorkView.svelte";
 
@@ -17,7 +17,8 @@ let childProjectEntries = $derived(Object.entries(work.children));
 {#if work.href !== null && work.image !== null}
     <GalleryButton
         href={work.href}
-        image={work.image}
+        imageVariants={work.image}
+        label={work.label}
         external={work.external}
     />
 {/if}

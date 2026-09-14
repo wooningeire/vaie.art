@@ -1,5 +1,5 @@
 <script lang="ts">
-import { workTags } from "$/gallery-models/workTags";
+import { workTags } from "$/works/workTags";
 import WorkTagCategory from "./GalleryTagCategory.svelte";
 
 </script>

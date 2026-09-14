@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { GalleryProjectTree } from "$/gallery-models/WorkEntry";
+import type { GalleryProjectTree } from "$/works/WorkEntry";
 import GalleryWorkView from "./GalleryWorkView.svelte";
 
 let {

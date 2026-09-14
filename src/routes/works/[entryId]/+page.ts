@@ -1,36 +1,13 @@
 import { error } from "@sveltejs/kit";
-import {
-    getGalleryImagePage,
-    getGalleryImagePageIds,
-} from "$/gallery-models/GalleryImagePage";
-import { galleryImageHrefOf } from "$/gallery-models/galleryProjectList";
-import type { EntryGenerator, PageLoad } from "./$types";
-
-const siteName = "vaiezzell";
-const siteOrigin = "https://vaie.art";
-
-const toAbsoluteUrl = (path: string) => new URL(path, siteOrigin).href;
-
-export const entries: EntryGenerator = () => getGalleryImagePageIds()
-    .map(entryId => ({ entryId }));
+import { galleryImageHrefOf, galleryWorks } from "$/gallery-models/galleryProjectList";
+import type { PageLoad } from "./$types";
 
 export const load: PageLoad = ({ params }) => {
-    const page = getGalleryImagePage(params.entryId);
-
-    if (page === null) {
-        error(404, "Gallery image not found");
+    if (!Object.hasOwn(galleryWorks, params.entryId)) {
+        error(404, "Work doesn't exist");
     }
 
-    const title = page.label;
-    const description = `${title} by vaiezzell`;
-
     return {
-        entryId: page.id,
-        title,
-        description,
-        siteName,
-        canonicalUrl: toAbsoluteUrl(galleryImageHrefOf(params.entryId)),
-        image: page.image,
-        imageUrl: toAbsoluteUrl(page.image.preview.src),
+        entryId: params.entryId,
     };
 };

@@ -1,6 +1,6 @@
-import { WorkEntry, type GalleryProjectTree } from "./WorkEntry";
-import { workTags } from "./workTags";
-import type {GalleryImage, GalleryImageAsset} from "./GalleryImage";
+import { WorkEntry, type GalleryProjectTree } from "../works/WorkEntry";
+import { workTags } from "../works/workTags";
+import type {WorkEntryImageVariants, WorkEntryImageAsset} from "../works/WorkEntryImage";
 
 export const galleryImageHrefOf = (galleryImageId: string) => `/works/${encodeURIComponent(galleryImageId)}`;
 
@@ -25,13 +25,11 @@ import BookwyrmDgcCrossoverDescription from "$/gallery-info/BookwyrmDgcCrossover
 import { generatedMediaAssets } from "./generatedMediaAssets";
 
 const galleryImageFromMediaAsset = (
-    asset: GalleryImageAsset,
-    alt: string,
-): GalleryImage => ({
+    asset: WorkEntryImageAsset,
+): WorkEntryImageVariants => ({
     full: asset,
     preview: asset,
     thumb: asset,
-    alt,
 });
 
 
@@ -39,10 +37,7 @@ export const galleryWorks = resolveGalleryProjectHrefs({
     pudle: new WorkEntry({
         label: "Pudle",
         href: "/pudle",
-        image: galleryImageFromMediaAsset(
-            generatedMediaAssets["misc/pudle-cover"],
-            "Pudle",
-        ),
+        image: galleryImageFromMediaAsset(generatedMediaAssets["misc/pudle-cover"]),
         tags: [workTags.medium.web],
         external: true,
     }),

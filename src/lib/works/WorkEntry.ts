@@ -1,13 +1,14 @@
 import type { Component } from "svelte";
-import type { GalleryImage } from "./GalleryImage";
+import type { WorkEntryImageVariants } from "./WorkEntryImage";
+import { generatedGalleryImages } from "$/gallery-models/generatedGalleryImages";
 import { workTags } from "./workTags";
-import { generatedGalleryImages } from "./generatedGalleryImages";
 
 export type GalleryProjectTree = Record<string, WorkEntry>;
 
 export type GalleryProjectOptions = {
     label: string,
-    image?: GalleryImage | null,
+    descShort?: string,
+    image?: WorkEntryImageVariants | null,
     href?: string | null,
     tags?: string[],
     descriptionComponent?: Component | null,
@@ -19,7 +20,8 @@ export type GalleryProjectOptions = {
 
 export class WorkEntry {
     readonly label: string;
-    readonly image: GalleryImage | null;
+    readonly descShort: string;
+    readonly image: WorkEntryImageVariants | null;
     readonly href: string | null;
     readonly tags: string[];
     readonly descriptionComponent: Component | null;
@@ -32,6 +34,7 @@ export class WorkEntry {
 
     constructor({
         label,
+        descShort = "",
         image = null,
         href = null,
         tags = [],
@@ -42,6 +45,7 @@ export class WorkEntry {
         children = {},
     }: GalleryProjectOptions) {
         this.label = label;
+        this.descShort = descShort;
         this.image = image;
         this.href = href;
         this.tags = tags;
@@ -68,6 +72,7 @@ export class WorkEntry {
 
     readonly withChildren = (children: GalleryProjectTree) => new WorkEntry({
         label: this.label,
+        descShort: this.descShort,
         image: this.image,
         href: this.href,
         tags: this.tags,
@@ -92,11 +97,9 @@ export class WorkEntry {
 
         return new WorkEntry({
             label,
+            descShort: rest.descShort,
             href: rest.href ?? generatedImage.full.src,
-            image: rest.image ?? {
-                ...generatedImage,
-                alt: label,
-            },
+            image: rest.image ?? generatedImage,
             tags: rest.tags ?? [workTags.medium.illustration2d],
             descriptionComponent: rest.descriptionComponent,
             infoComponent: rest.infoComponent,

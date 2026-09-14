@@ -1,8 +1,10 @@
 <script lang="ts">
+import { SITENAME } from "$/constants";
+
 </script>
 
 <svelte:head>
-    <title>vaiezzell&#x2019;s den!</title>
+    <title>{SITENAME}</title>
 </svelte:head>
 
 <home-page>

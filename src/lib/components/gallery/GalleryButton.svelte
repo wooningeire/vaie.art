@@ -1,14 +1,15 @@
 <script lang="ts">
-import type { GalleryImage } from "$/gallery-models/GalleryImage";
-    import Button from "@/generic/Button.svelte";
+import { type WorkEntryImageVariants } from "$/works/WorkEntryImage";
 
 let {
     href,
-    image,
+    imageVariants,
+    label,
     external = false,
 }: {
     href: string,
-    image: GalleryImage,
+    imageVariants: WorkEntryImageVariants,
+    label: string,
     external?: boolean,
 } = $props();
 </script>
@@ -19,13 +20,13 @@ let {
         rel={external ? "external" : null}
     >
         <gallery-button-media
-            style:--aspect="{image.thumb.width} / {image.thumb.height}"
+            style:--aspect="{imageVariants.thumb.width} / {imageVariants.thumb.height}"
         >
-            {#if image.thumb.src.endsWith(".mp4")}
+            {#if imageVariants.thumb.src.endsWith(".mp4")}
                 <video
-                    src={image.thumb.src}
-                    width={image.thumb.width}
-                    height={image.thumb.height}
+                    src={imageVariants.thumb.src}
+                    width={imageVariants.thumb.width}
+                    height={imageVariants.thumb.height}
                     class="bg"
                     autoplay
                     loop
@@ -34,9 +35,9 @@ let {
                 ></video>
 
                 <video
-                    src={image.thumb.src}
-                    width={image.thumb.width}
-                    height={image.thumb.height}
+                    src={imageVariants.thumb.src}
+                    width={imageVariants.thumb.width}
+                    height={imageVariants.thumb.height}
                     class="thumb"
                     autoplay
                     loop
@@ -45,20 +46,20 @@ let {
                 ></video>
             {:else}
                 <img
-                    src={image.thumb.src}
-                    alt={image.alt}
-                    width={image.thumb.width}
-                    height={image.thumb.height}
+                    src={imageVariants.thumb.src}
+                    alt={label}
+                    width={imageVariants.thumb.width}
+                    height={imageVariants.thumb.height}
                     class="bg"
                     loading="lazy"
                     decoding="async"
                 />
 
                 <img
-                    src={image.thumb.src}
-                    alt={image.alt}
-                    width={image.thumb.width}
-                    height={image.thumb.height}
+                    src={imageVariants.thumb.src}
+                    alt={label}
+                    width={imageVariants.thumb.width}
+                    height={imageVariants.thumb.height}
                     class="thumb"
                     loading="lazy"
                     decoding="async"

@@ -1,7 +1,8 @@
 <script lang="ts">
 import GalleryImageViewerOverlay from "@/gallery/GalleryImageViewerOverlay.svelte";
-import { getGalleryImagePage } from "$/gallery-models/GalleryImagePage";
 import type { PageData } from "./$types";
+    import { galleryWorks } from "$/gallery-models/galleryProjectList";
+    import { SITENAME } from "$/constants";
 
 let {
     data,
@@ -9,8 +10,10 @@ let {
     data: PageData,
 } = $props();
 
-let galleryImagePage = $derived(getGalleryImagePage(data.entryId));
-let DescriptionComponent = $derived(galleryImagePage?.descriptionComponent ?? null);
+
+const entry = $derived(galleryWorks[data.entryId]);
+
+const Description = $derived(entry.descriptionComponent ?? null);
 
 let fullResolutionViewerOpen = $state(false);
 let previewButton: HTMLButtonElement | undefined;
@@ -23,29 +26,35 @@ const closeFullResolutionViewer = () => {
     fullResolutionViewerOpen = false;
     previewButton?.focus({ preventScroll: true });
 };
+
+const canonicalUrl = $derived(`https://vaie.art/works/${data.entryId}`);
 </script>
 
 <svelte:head>
-    <title>{data.title} | vaiezzell</title>
-    <link rel="canonical" href={data.canonicalUrl} />
+    <title>{entry.label} • {SITENAME}</title>
+    <link rel="canonical" href={canonicalUrl} />
 
-    <meta name="description" content={data.description} />
+    <meta name="description" content={entry.descShort} />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={data.title} />
-    <meta name="twitter:description" content={data.description} />
-    <meta name="twitter:image" content={data.imageUrl} />
-    <meta name="twitter:image:alt" content={data.image.alt} />
+    <meta name="twitter:title" content={entry.label} />
+    <meta name="twitter:description" content={entry.descShort} />
+    {#if entry.image !== null}
+        <meta name="twitter:image" content={entry.image.full.src} />
+        <meta name="twitter:image:alt" content={entry.label} />
+    {/if}
 
-    <meta property="og:title" content={data.title} />
+    <meta property="og:title" content={entry.label} />
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content={data.siteName} />
-    <meta property="og:description" content={data.description} />
-    <meta property="og:url" content={data.canonicalUrl} />
-    <meta property="og:image" content={data.imageUrl} />
-    <meta property="og:image:alt" content={data.image.alt} />
-    <meta property="og:image:width" content={data.image.preview.width.toString()} />
-    <meta property="og:image:height" content={data.image.preview.height.toString()} />
+    <meta property="og:site_name" content={SITENAME} />
+    <meta property="og:description" content={entry.descShort} />
+    <meta property="og:url" content={canonicalUrl} />
+    {#if entry.image !== null}
+        <meta property="og:image" content={entry.image.full.src} />
+        <meta property="og:image:alt" content={entry.label} />
+        <meta property="og:image:width" content={entry.image.full.width.toString()} />
+        <meta property="og:image:height" content={entry.image.full.height.toString()} />
+    {/if}
 </svelte:head>
 
 <gallery-image-view aria-labelledby="gallery-image-title">
@@ -60,45 +69,47 @@ const closeFullResolutionViewer = () => {
                 aria-expanded={fullResolutionViewerOpen}
                 onclick={openFullResolutionViewer}
             >
-                {#if data.image.preview.src.endsWith(".mp4")}
-                    <video
-                        src={data.image.preview.src}
-                        width={data.image.preview.width}
-                        height={data.image.preview.height}
-                        autoplay
-                        loop
-                        muted
-                        playsinline
-                    ></video>
-                {:else}
-                    <img
-                        src={data.image.preview.src}
-                        alt={data.image.alt}
-                        width={data.image.preview.width}
-                        height={data.image.preview.height}
-                        decoding="async"
-                        fetchpriority="high"
-                    />
+                {#if entry.image !== null}
+                    {#if entry.image.preview.src.endsWith(".mp4")}
+                        <video
+                            src={entry.image.preview.src}
+                            width={entry.image.preview.width}
+                            height={entry.image.preview.height}
+                            autoplay
+                            loop
+                            muted
+                            playsinline
+                        ></video>
+                    {:else}
+                        <img
+                            src={entry.image.preview.src}
+                            alt={entry.image.alt}
+                            width={entry.image.preview.width}
+                            height={entry.image.preview.height}
+                            decoding="async"
+                            fetchpriority="high"
+                        />
+                    {/if}
                 {/if}
             </button>
         </gallery-image-container>
 
         <gallery-image-details>
             <gallery-image-title id="gallery-image-title">
-                {data.title}
+                {entry.label}
             </gallery-image-title>
 
-            {#if DescriptionComponent}
-                <gallery-image-description>
-                    <DescriptionComponent />
-                </gallery-image-description>
-            {/if}
+            <gallery-image-description>
+                {#if Description !== null}
+                    <Description />
+                {/if}
+            </gallery-image-description>
         </gallery-image-details>
     </gallery-image-page>
 
-    {#if fullResolutionViewerOpen}
+    {#if entry.image !== null && fullResolutionViewerOpen}
         <GalleryImageViewerOverlay
-            image={data.image}
+            image={entry.image}
             onClose={closeFullResolutionViewer}
         />
     {/if}
@@ -183,8 +194,6 @@ gallery-image-details {
 
     width: 100%;
     padding: 2em;
-
-    border-top: 1px solid oklch(0.9 0.05 150 / 0.5);
 }
 
 gallery-image-title {
