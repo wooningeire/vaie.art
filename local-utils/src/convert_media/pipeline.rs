@@ -1,5 +1,5 @@
 use crate::convert_media::apng::{is_apng, write_animated_webp};
-use crate::convert_media::config::Options;
+use crate::convert_media::options::Options;
 use crate::convert_media::full_image::write_full_image;
 use crate::convert_media::metadata::{
     write_generated_gallery_images, write_generated_media_assets,

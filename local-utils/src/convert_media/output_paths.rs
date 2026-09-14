@@ -1,4 +1,4 @@
-use crate::convert_media::config::Options;
+use crate::convert_media::options::Options;
 use crate::convert_media::slug::create_slug_from_path_segment;
 use anyhow::{Context, Result};
 use std::path::{Component, Path, PathBuf};

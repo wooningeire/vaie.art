@@ -1,6 +1,6 @@
 mod apng;
 mod asset;
-mod config;
+mod options;
 mod full_image;
 mod metadata;
 mod output_paths;

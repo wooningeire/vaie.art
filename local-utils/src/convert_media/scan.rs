@@ -1,4 +1,4 @@
-use crate::convert_media::config::Options;
+use crate::convert_media::options::Options;
 use anyhow::Result;
 use std::fs;
 use std::path::{Path, PathBuf};

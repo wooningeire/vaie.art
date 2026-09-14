@@ -17,22 +17,18 @@ pub struct Options {
 
 impl Options {
     pub fn from_args(args: impl IntoIterator<Item = String>) -> Result<Self> {
-        let mut options = Self::default();
+        let mut force = false;
 
         for arg in args {
             match arg.as_str() {
-                "--force" | "-f" => options.force = true,
+                "--force" | "-f" => {
+                    force = true;
+                },
                 _ => bail!("unknown convert-media option: {arg}"),
             }
         }
 
-        Ok(options)
-    }
-}
-
-impl Default for Options {
-    fn default() -> Self {
-        Self {
+        Ok(Options {
             input: PathBuf::from("src/lib/assets/media"),
             output: PathBuf::from("static/media"),
             static_root: PathBuf::from("static"),
@@ -42,7 +38,7 @@ impl Default for Options {
             thumb_size: 480,
             preview_quality: 90.0,
             thumb_quality: 60.0,
-            force: false,
-        }
+            force,
+        })
     }
 }

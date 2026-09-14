@@ -1,5 +1,5 @@
 use crate::convert_media::asset::{GeneratedGalleryImageAsset, read_generated_gallery_image_asset};
-use crate::convert_media::config::Options;
+use crate::convert_media::options::Options;
 use crate::convert_media::output_paths::metadata_key_of;
 use crate::convert_media::pipeline::{GalleryConversionResult, StaticConversionResult};
 use anyhow::Result;

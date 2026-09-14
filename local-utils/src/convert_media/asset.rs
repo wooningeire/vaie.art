@@ -1,4 +1,4 @@
-use crate::convert_media::config::Options;
+use crate::convert_media::options::Options;
 use crate::convert_media::output_paths::public_src_of;
 use anyhow::{Context, Result};
 use std::path::Path;
