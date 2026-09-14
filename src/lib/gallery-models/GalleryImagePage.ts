@@ -1,6 +1,6 @@
 import type { Component } from "svelte";
 import type { GalleryImage } from "./GalleryImage";
-import { type GalleryProjectTree } from "./GalleryProject";
+import { type GalleryProjectTree } from "./WorkEntry";
 import {galleryWorks} from "./galleryProjectList";
 
 export type GalleryImagePage = {

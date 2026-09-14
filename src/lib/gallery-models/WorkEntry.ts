@@ -1,9 +1,9 @@
 import type { Component } from "svelte";
 import type { GalleryImage } from "./GalleryImage";
-import { galleryTagTree } from "./GalleryTags";
+import { workTags } from "./workTags";
 import { generatedGalleryImages } from "./generatedGalleryImages";
 
-export type GalleryProjectTree = Record<string, GalleryProject>;
+export type GalleryProjectTree = Record<string, WorkEntry>;
 
 export type GalleryProjectOptions = {
     label: string,
@@ -17,7 +17,7 @@ export type GalleryProjectOptions = {
     children?: GalleryProjectTree,
 };
 
-export class GalleryProject {
+export class WorkEntry {
     readonly label: string;
     readonly image: GalleryImage | null;
     readonly href: string | null;
@@ -54,7 +54,7 @@ export class GalleryProject {
         this.hasLink = href !== null && image !== null;
     }
 
-    readonly withHref = (href: string) => new GalleryProject({
+    readonly withHref = (href: string) => new WorkEntry({
         label: this.label,
         image: this.image,
         href,
@@ -66,7 +66,7 @@ export class GalleryProject {
         children: this.children,
     });
 
-    readonly withChildren = (children: GalleryProjectTree) => new GalleryProject({
+    readonly withChildren = (children: GalleryProjectTree) => new WorkEntry({
         label: this.label,
         image: this.image,
         href: this.href,
@@ -90,14 +90,14 @@ export class GalleryProject {
     ) {
         const generatedImage = generatedGalleryImages[key];
 
-        return new GalleryProject({
+        return new WorkEntry({
             label,
             href: rest.href ?? generatedImage.full.src,
             image: rest.image ?? {
                 ...generatedImage,
                 alt: label,
             },
-            tags: rest.tags ?? [galleryTagTree.medium.illustration2d],
+            tags: rest.tags ?? [workTags.medium.illustration2d],
             descriptionComponent: rest.descriptionComponent,
             infoComponent: rest.infoComponent,
             external: rest.external,

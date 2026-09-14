@@ -1,18 +1,23 @@
 <script lang="ts">
-import { galleryTagTree } from "$/gallery-models/GalleryTags";
-import GalleryTagCategory from "./GalleryTagCategory.svelte";
+import { workTags } from "$/gallery-models/workTags";
+import WorkTagCategory from "./GalleryTagCategory.svelte";
 
 </script>
 
 <gallery-search>
-    <GalleryTagCategory
+    <WorkTagCategory
         label="Medium"
-        tags={galleryTagTree.medium}
+        tags={workTags.medium}
     />
 
-    <GalleryTagCategory
+    <WorkTagCategory
         label="Subject"
-        tags={galleryTagTree.subject}
+        tags={workTags.subject}
+    />
+
+    <WorkTagCategory
+        label="Tools"
+        tags={workTags.tools}
     />
 </gallery-search>
 

@@ -1,5 +1,5 @@
-import { GalleryProject, type GalleryProjectTree } from "./GalleryProject";
-import { galleryTagTree } from "./GalleryTags";
+import { WorkEntry, type GalleryProjectTree } from "./WorkEntry";
+import { workTags } from "./workTags";
 import type {GalleryImage, GalleryImageAsset} from "./GalleryImage";
 
 export const galleryImageHrefOf = (galleryImageId: string) => `/works/${encodeURIComponent(galleryImageId)}`;
@@ -36,104 +36,107 @@ const galleryImageFromMediaAsset = (
 
 
 export const galleryWorks = resolveGalleryProjectHrefs({
-    pudle: new GalleryProject({
+    pudle: new WorkEntry({
         label: "Pudle",
         href: "/pudle",
         image: galleryImageFromMediaAsset(
             generatedMediaAssets["misc/pudle-cover"],
             "Pudle",
         ),
-        tags: [galleryTagTree.medium.web],
+        tags: [workTags.medium.web],
         external: true,
     }),
 
-    vaiezzellRef: GalleryProject.ofGalleryImage({
+    vaiezzellRef: WorkEntry.ofGalleryImage({
         label: "vaiezzell reference sheet",
         key: "gallery/vaiezzell-ref",
     }),
 
-    curiRef: GalleryProject.ofGalleryImage({
+    curiRef: WorkEntry.ofGalleryImage({
         label: "Curi reference sheet",
         key: "gallery/astra-refs/curi",
     }),
-    staariaRef: GalleryProject.ofGalleryImage({
+    staariaRef: WorkEntry.ofGalleryImage({
         label: "Staaria reference sheet",
         key: "gallery/astra-refs/staaria",
     }),
-    pyrinthRef: GalleryProject.ofGalleryImage({
+    pyrinthRef: WorkEntry.ofGalleryImage({
         label: "Pyrinth reference sheet",
         key: "gallery/astra-refs/pyrinth",
     }, {
-        tags: [galleryTagTree.subject.macro],
+        tags: [
+            workTags.subject.macro,
+            workTags.tools.krita,
+        ],
     }),
 
-    artfight2026: new GalleryProject({
+    artfight2026: new WorkEntry({
         label: "Art Fight 2026",
         children: {
-            characters: new GalleryProject({
+            characters: new WorkEntry({
                 label: "Characters",
                 children: {
-                    vaiezzellThumb: GalleryProject.ofGalleryImage({
+                    vaiezzellThumb: WorkEntry.ofGalleryImage({
                         label: "vaiezzell character thumbnail",
                         key: "gallery/art-fight-2026/characters/vaiezzell-2026-thumb",
                     }),
 
-                    iywralyxThumb: GalleryProject.ofGalleryImage({
+                    iywralyxThumb: WorkEntry.ofGalleryImage({
                         label: "Iywralyx character thumbnail",
                         key: "gallery/art-fight-2026/characters/iywralyx-2026-thumb",
                     }),
                 },
             }),
             
-            attacks: new GalleryProject({
+            attacks: new WorkEntry({
                 label: "Attacks",
                 children: {
-                    warp: GalleryProject.ofGalleryImage({
+                    warp: WorkEntry.ofGalleryImage({
                         label: "Galactic noodles",
                         key: "gallery/art-fight-2026/attacks/warp",
                     }),
 
-                    aheniru: GalleryProject.ofGalleryImage({
+                    aheniru: WorkEntry.ofGalleryImage({
                         label: "What are you doing in the river...?",
                         key: "gallery/art-fight-2026/attacks/aheniru",
                     }),
 
-                    amonnonza: GalleryProject.ofGalleryImage({
+                    amonnonza: WorkEntry.ofGalleryImage({
                         label: "Nightgazer",
                         key: "gallery/art-fight-2026/attacks/amonnonza",
                     }),
 
-                    snowsquall: GalleryProject.ofGalleryImage({
+                    snowsquall: WorkEntry.ofGalleryImage({
                         label: "Ant problem",
                         key: "gallery/art-fight-2026/attacks/snowsquall",
                     }),
 
-                    jinsym: GalleryProject.ofGalleryImage({
+                    jinsym: WorkEntry.ofGalleryImage({
                         label: "Duskflight",
                         key: "gallery/art-fight-2026/attacks/jinsym",
                     }),
 
-                    viscerall: GalleryProject.ofGalleryImage({
+                    viscerall: WorkEntry.ofGalleryImage({
                         label: "Scrapyard?",
                         key: "gallery/art-fight-2026/attacks/vviiscerall",
                     }),
 
-                    wwco: GalleryProject.ofGalleryImage({
+                    wwco: WorkEntry.ofGalleryImage({
                         label: "Through size and space",
                         key: "gallery/art-fight-2026/attacks/wwco",
                     }),
 
-                    tiffymew: GalleryProject.ofGalleryImage({
+                    tiffymew: WorkEntry.ofGalleryImage({
                         label: "Midtown reading session",
                         key: "gallery/art-fight-2026/attacks/tiffymew",
                     }),
 
-                    captainraven: GalleryProject.ofGalleryImage({
+                    captainraven: WorkEntry.ofGalleryImage({
                         label: "Cave chase!",
                         key: "gallery/art-fight-2026/attacks/captainraven",
                     }),
 
-                    rhaeloth: GalleryProject.ofGalleryImage({
+                    rhaeloth: WorkEntry.ofGalleryImage({
                         label: "Who's this little critter?",
                         key: "gallery/art-fight-2026/attacks/rhaeloth",
                     }),
@@ -142,294 +145,294 @@ export const galleryWorks = resolveGalleryProjectHrefs({
         },
     }),
 
-    bookwyrmDgcCrossover: GalleryProject.ofGalleryImage({
+    bookwyrmDgcCrossover: WorkEntry.ofGalleryImage({
         label: "Bookwyrm DGC crossover",
         key: "gallery/bookwyrm-dgc-crossover-1",
     }, {
         descriptionComponent: BookwyrmDgcCrossoverDescription,
     }),
 
-    spaxDragon: GalleryProject.ofGalleryImage({
+    spaxDragon: WorkEntry.ofGalleryImage({
         label: "Spax dragon",
         key: "gallery/spax-dragon",
     }),
 
-    vaieDragnEmoji: new GalleryProject({
+    vaieDragnEmoji: new WorkEntry({
         label: "vaie dragn emoji",
         children: {
-            dragnbratty: GalleryProject.ofGalleryImage({
+            dragnbratty: WorkEntry.ofGalleryImage({
                 label: "dragnbratty",
                 key: "gallery/vaie-dragn-emoji/dragnbrattynew",
             }),
 
-            dragnmelting: GalleryProject.ofGalleryImage({
+            dragnmelting: WorkEntry.ofGalleryImage({
                 label: "dragnmelting",
                 key: "gallery/vaie-dragn-emoji/dragnmeltingweak",
             }),
 
-            dragnskull: GalleryProject.ofGalleryImage({
+            dragnskull: WorkEntry.ofGalleryImage({
                 label: "dragnskull",
                 key: "gallery/vaie-dragn-emoji/dragnskull",
             }),
 
-            dragnwinghug: GalleryProject.ofGalleryImage({
+            dragnwinghug: WorkEntry.ofGalleryImage({
                 label: "dragnwinghug",
                 key: "gallery/vaie-dragn-emoji/dragnwinghug",
             }),
 
-            zanayell: GalleryProject.ofGalleryImage({
+            zanayell: WorkEntry.ofGalleryImage({
                 label: "zanayell",
                 key: "gallery/vaie-dragn-emoji/zanayell",
             }),
         },
     }),
 
-    pretBath: GalleryProject.ofGalleryImage({
+    pretBath: WorkEntry.ofGalleryImage({
         label: "Pret gamer bath",
         key: "gallery/pretbath",
     }),
 
-    bigAsha: GalleryProject.ofGalleryImage({
+    bigAsha: WorkEntry.ofGalleryImage({
         label: "Big Asha",
         key: "gallery/bigasha",
     }),
 
-    mawdelynRef: GalleryProject.ofGalleryImage({
+    mawdelynRef: WorkEntry.ofGalleryImage({
         label: "Mawdelyn reference sheet",
         key: "gallery/mawdelyn-ref",
     }),
 
-    wiresAirport: GalleryProject.ofGalleryImage({
+    wiresAirport: WorkEntry.ofGalleryImage({
         label: "wires airport",
         key: "gallery/wires-airport",
     }),
 
-    iywralyxRef: GalleryProject.ofGalleryImage({
+    iywralyxRef: WorkEntry.ofGalleryImage({
         label: "Iywralyx reference sheet",
         key: "gallery/iywralyx",
     }),
 
-    anshuSit: GalleryProject.ofGalleryImage({
+    anshuSit: WorkEntry.ofGalleryImage({
         label: "Anshu sit",
         key: "gallery/anshu-sit",
     }),
 
-    terskaylModeling: GalleryProject.ofGalleryImage({
+    terskaylModeling: WorkEntry.ofGalleryImage({
         label: "Terskayl modeling",
         key: "gallery/terskayl-2",
     }),
 
-    vaiezzellPfp2025: GalleryProject.ofGalleryImage({
+    vaiezzellPfp2025: WorkEntry.ofGalleryImage({
         label: "vaiezzell pfp 2025",
         key: "gallery/vaiezzell-pfp-2025",
     }),
 
-    vaiezzellCircle: GalleryProject.ofGalleryImage({
+    vaiezzellCircle: WorkEntry.ofGalleryImage({
         label: "vaiezzell circle pfp",
         key: "gallery/vaiezzell-circle",
     }),
 
-    silverStadium: GalleryProject.ofGalleryImage({
+    silverStadium: WorkEntry.ofGalleryImage({
         label: "Silver stadium",
         key: "gallery/silver-vaie",
     }),
 
-    jankmanBorzoi: GalleryProject.ofGalleryImage({
+    jankmanBorzoi: WorkEntry.ofGalleryImage({
         label: "Jankman with borzoi",
         key: "gallery/jankman-borzoi",
     }),
 
-    dragonraffle: new GalleryProject({
+    dragonraffle: new WorkEntry({
         label: "Dragonraffle",
         children: {
-            automaton: GalleryProject.ofGalleryImage({
+            automaton: WorkEntry.ofGalleryImage({
                 label: "Automaton dragon",
                 key: "gallery/dragonraffle/automaton",
             }),
 
-            dragonInRuralMiddleAmerica: GalleryProject.ofGalleryImage({
+            dragonInRuralMiddleAmerica: WorkEntry.ofGalleryImage({
                 label: "Dragon in rural middle america",
                 key: "gallery/dragonraffle/dragon-in-rural-middle-america",
             }),
 
-            dragonOnLawn: GalleryProject.ofGalleryImage({
+            dragonOnLawn: WorkEntry.ofGalleryImage({
                 label: "Dragon on lawn",
                 key: "gallery/dragonraffle/dragon-on-lawn",
             }),
 
-            spacefarer: GalleryProject.ofGalleryImage({
+            spacefarer: WorkEntry.ofGalleryImage({
                 label: "Spacefarer",
                 key: "gallery/dragonraffle/lexi",
             }),
 
-            cherryBlossom: GalleryProject.ofGalleryImage({
+            cherryBlossom: WorkEntry.ofGalleryImage({
                 label: "Cherry blossom",
                 key: "gallery/dragonraffle/milli",
             }),
 
-            tradeOffer: GalleryProject.ofGalleryImage({
+            tradeOffer: WorkEntry.ofGalleryImage({
                 label: "Trade offer",
                 key: "gallery/dragonraffle/nuts",
             }),
 
-            unnickDragonKiss: GalleryProject.ofGalleryImage({
+            unnickDragonKiss: WorkEntry.ofGalleryImage({
                 label: "unnick dragon kiss",
                 key: "gallery/dragonraffle/unnick-dragon-kiss",
             }),
         },
     }),
 
-    whoTheHellIsJankman: GalleryProject.ofGalleryImage({
+    whoTheHellIsJankman: WorkEntry.ofGalleryImage({
         label: "Who the hell is Jankman?",
         key: "gallery/who-the-hell-is-jankman",
     }),
 
-    zanawyrm: GalleryProject.ofGalleryImage({
+    zanawyrm: WorkEntry.ofGalleryImage({
         label: "Zanawyrm",
         key: "gallery/zanawyrm",
     }),
 
-    trainStation: GalleryProject.ofGalleryImage({
+    trainStation: WorkEntry.ofGalleryImage({
         label: "train station",
         key: "gallery/terskayl-train-station-signed-vaiezzell",
     }),
 
-    coldLight: GalleryProject.ofGalleryImage({
+    coldLight: WorkEntry.ofGalleryImage({
         label: "Cold light",
         key: "gallery/just-gotta-ok-tired-of-ms-paint-now",
     }),
 
-    inSkylight: GalleryProject.ofGalleryImage({
+    inSkylight: WorkEntry.ofGalleryImage({
         label: "In skylight",
         key: "gallery/in-skylight",
     }),
 
-    fruitThief: GalleryProject.ofGalleryImage({
+    fruitThief: WorkEntry.ofGalleryImage({
         label: "Fruit thief",
         key: "gallery/linky-drinkf",
     }),
 
-    lounge: GalleryProject.ofGalleryImage({
+    lounge: WorkEntry.ofGalleryImage({
         label: "Lounge",
         key: "gallery/render-test",
     }),
 
-    aquafrust: GalleryProject.ofGalleryImage({
+    aquafrust: WorkEntry.ofGalleryImage({
         label: "Aquafrust",
         key: "gallery/aquafrust",
     }),
 
-    graffiti: GalleryProject.ofGalleryImage({
+    graffiti: WorkEntry.ofGalleryImage({
         label: "The most stylish of breath weapons",
         key: "gallery/graffiti",
     }),
 
-    colors: GalleryProject.ofGalleryImage({
+    colors: WorkEntry.ofGalleryImage({
         label: "Colors",
         key: "gallery/colors",
     }),
 
-    deweyDoughball: GalleryProject.ofGalleryImage({
+    deweyDoughball: WorkEntry.ofGalleryImage({
         label: "Dewey doughball",
         key: "gallery/db",
     }),
 
-    fireHydrant: GalleryProject.ofGalleryImage({
+    fireHydrant: WorkEntry.ofGalleryImage({
         label: "Fire hydran't",
         key: "gallery/fh",
     }),
 
-    pond: GalleryProject.ofGalleryImage({
+    pond: WorkEntry.ofGalleryImage({
         label: "Pond",
         key: "gallery/pondy",
     }),
 
-    bulb: GalleryProject.ofGalleryImage({
+    bulb: WorkEntry.ofGalleryImage({
         label: "Bulb",
         key: "gallery/bulb/bulb",
     }),
 
-    danceyDragon: GalleryProject.ofGalleryImage({
+    danceyDragon: WorkEntry.ofGalleryImage({
         label: "Dancey dragon",
         key: "gallery/dancey",
     }),
 
-    discordBioEasterEgg: new GalleryProject({
+    discordBioEasterEgg: new WorkEntry({
         label: "Discord bio easter egg",
         children: {
-            nightFlight: GalleryProject.ofGalleryImage({
+            nightFlight: WorkEntry.ofGalleryImage({
                 label: "Night flight",
                 key: "gallery/discord-bio-easter-egg/conkyf-alpha",
             }),
 
-            studious: GalleryProject.ofGalleryImage({
+            studious: WorkEntry.ofGalleryImage({
                 label: "Studious",
                 key: "gallery/discord-bio-easter-egg/twf2ff",
             }),
 
-            poweruser: GalleryProject.ofGalleryImage({
+            poweruser: WorkEntry.ofGalleryImage({
                 label: "Poweruser",
                 key: "gallery/discord-bio-easter-egg/drawmeadragon-p4rp",
             }),
 
-            gust: GalleryProject.ofGalleryImage({
+            gust: WorkEntry.ofGalleryImage({
                 label: "Gust",
                 key: "gallery/discord-bio-easter-egg/gustf",
             }),
 
-            hotelPrank: GalleryProject.ofGalleryImage({
+            hotelPrank: WorkEntry.ofGalleryImage({
                 label: "Hotel prank",
                 key: "gallery/discord-bio-easter-egg/poopyf-alpha",
             }),
 
-            desktopPet: GalleryProject.ofGalleryImage({
+            desktopPet: WorkEntry.ofGalleryImage({
                 label: "Desktop pet",
                 key: "gallery/discord-bio-easter-egg/epif",
             }),
 
-            mushrooms: GalleryProject.ofGalleryImage({
+            mushrooms: WorkEntry.ofGalleryImage({
                 label: "Mushrooms",
                 key: "gallery/discord-bio-easter-egg/tocky2f-alpha",
             }),
 
-            samcluster: GalleryProject.ofGalleryImage({
+            samcluster: WorkEntry.ofGalleryImage({
                 label: "Samcluster",
                 key: "gallery/discord-bio-easter-egg/samclusterf",
             }),
 
-            matsubara: GalleryProject.ofGalleryImage({
+            matsubara: WorkEntry.ofGalleryImage({
                 label: "Matsubara",
                 key: "gallery/discord-bio-easter-egg/matsf",
             }),
 
-            squareNoodle: GalleryProject.ofGalleryImage({
+            squareNoodle: WorkEntry.ofGalleryImage({
                 label: "Square noodle",
                 key: "gallery/discord-bio-easter-egg/squaresquaref",
             }),
 
-            vanished: GalleryProject.ofGalleryImage({
+            vanished: WorkEntry.ofGalleryImage({
                 label: "Vanished",
                 key: "gallery/discord-bio-easter-egg/vanv",
             }),
 
-            banana: GalleryProject.ofGalleryImage({
+            banana: WorkEntry.ofGalleryImage({
                 label: "banana",
                 key: "gallery/discord-bio-easter-egg/bananaf",
             }),
 
-            sampcane: GalleryProject.ofGalleryImage({
+            sampcane: WorkEntry.ofGalleryImage({
                 label: "Sampcane",
                 key: "gallery/discord-bio-easter-egg/sampcanef",
             }),
         },
     }),
 
-    poolToys: GalleryProject.ofGalleryImage({
+    poolToys: WorkEntry.ofGalleryImage({
         label: "Pool toys",
         key: "gallery/swimmy",
     }),
 
-    floatyZane: GalleryProject.ofGalleryImage({
+    floatyZane: WorkEntry.ofGalleryImage({
         label: "Floaty Zane",
         key: "gallery/zaneb",
     }),

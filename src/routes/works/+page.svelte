@@ -1,11 +1,11 @@
 <script lang="ts">
-import Gallery from "@/gallery/Gallery.svelte";
+import WorksGallery from "@/gallery/WorksGallery.svelte";
 import { galleryWorks } from "$/gallery-models/galleryProjectList";
 </script>
 
 <works-entries>
     <works-entries-scroller>
-        <Gallery projects={galleryWorks} />
+        <WorksGallery works={galleryWorks} />
     </works-entries-scroller>
 </works-entries>
 
