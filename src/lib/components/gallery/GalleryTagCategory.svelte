@@ -1,5 +1,6 @@
 <script lang="ts">
 import Button from "@/generic/Button.svelte";
+    import { galleryState } from "./GalleryState.svelte";
 
 let {
     label,
@@ -8,6 +9,8 @@ let {
     label: string,
     tags: Record<string, string>,
 } = $props();
+
+$inspect(galleryState.activeTags);
 </script>
 
 <gallery-tag-category>
@@ -15,7 +18,26 @@ let {
 
     <gallery-tag-category-items>
         {#each Object.entries(tags) as [tagId, tagLabel]}
-            <Button>{tagLabel}</Button>
+            <Button
+                onclick={() => {
+                    if (galleryState.activeTags.has(tagId)) {
+                        galleryState.activeTags.delete(tagId);
+                    } else {
+                        galleryState.activeTags.add(tagId);
+                    }
+                }}
+            >
+                <works-gallery-tag-toggle>
+                    <works-gallery-tag-label>
+                        {tagLabel}
+                    </works-gallery-tag-label>
+
+                    <input
+                        type="checkbox"
+                        checked={galleryState.activeTags.has(tagId)}
+                    />
+                </works-gallery-tag-toggle>
+            </Button>
         {/each}
     </gallery-tag-category-items>
 </gallery-tag-category>
@@ -36,6 +58,11 @@ gallery-tag-category {
 gallery-tag-category-items {
     display: flex;
     flex-wrap: wrap;
+    gap: 0.5em;
+}
+
+works-gallery-tag-toggle {
+    display: flex;
     gap: 0.5em;
 }
 

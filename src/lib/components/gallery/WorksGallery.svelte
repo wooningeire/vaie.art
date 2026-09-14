@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { GalleryProjectTree } from "$/works/WorkEntry";
+    import { galleryState } from "./GalleryState.svelte";
 import GalleryWorkView from "./GalleryWorkView.svelte";
 
 let {
@@ -12,7 +13,9 @@ let {
 <works-gallery>
     <works-gallery-entry-list aria-live="polite">
         {#each Object.entries(works) as [workId, work] (workId)}
-            <GalleryWorkView {work} />
+            {#if galleryState.activeTags.size === 0 || galleryState.activeTags[Symbol.iterator]().every(tagId => work.tags.includes(tagId))}
+                <GalleryWorkView {work} />
+            {/if}
         {/each}
     </works-gallery-entry-list>
 </works-gallery>

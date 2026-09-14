@@ -1,5 +1,7 @@
+import { SvelteSet } from "svelte/reactivity";
+
 export class GalleryState {
-    queryString = $state("");
+    readonly activeTags = $state(new SvelteSet<string>());
 }
 
 export const galleryState = new GalleryState();
