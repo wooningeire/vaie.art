@@ -8,7 +8,6 @@ let {
     displayClass,
     buttonStyle = "text",
     red = false,
-    emph = false,
     noBg = false,
     ...buttonProps
 }: {
@@ -17,7 +16,6 @@ let {
     buttonStyle?: "text" | "image" | "icon",
     displayClass?: string,
     red?: boolean,
-    emph?: boolean,
     noBg?: boolean,
 } & HTMLButtonAttributes = $props();
 </script>
@@ -31,7 +29,6 @@ let {
         class:text-button={buttonStyle === "text"}
         class:icon-button={buttonStyle === "icon"}
         class:red
-        class:emph
         class={displayClass}
         class:no-bg={noBg}
     >
@@ -90,17 +87,6 @@ button {
             --bg-col: oklch(0.99 0.15 350 / 0.75);
         }
 
-        &.emph {
-            --bg-col: linear-gradient(
-                to right,
-                oklch(0.85 0.15 320),
-                oklch(1 0 0),
-                oklch(0.85 0.15 160)
-            );
-
-            color: oklch(0 0 0);
-        }
-
         &.text-button {
             padding: 0.25rem 1rem;
         }
@@ -124,27 +110,22 @@ button {
         transform: translateY(-0.125rem) scale(1.05);
 
         animation: sliding-background 1s infinite linear;
-        background-image: 
-            repeating-linear-gradient(
-                135deg,
-                oklch(0 0 0 / 0) 0,
-                oklch(0 0 0 / 0) 1rem,
-                $bg-stripe-col 1rem,
-                $bg-stripe-col 2rem,
-            ),
-            var(--bg-col);
-        background-size:
-            calc(100% + 3rem) calc(100% + 3rem),
-            100% 100%;
+        background-color: var(--bg-col);
+        background-image: repeating-linear-gradient(
+            135deg,
+            oklch(0 0 0 / 0) 0,
+            oklch(0 0 0 / 0) 1rem,
+            $bg-stripe-col 1rem,
+            $bg-stripe-col 2rem,
+        );
+        background-size: calc(100% + 3rem) calc(100% + 3rem);
 
         @keyframes sliding-background {
             from {
-                background-position:
-                    -2.828427rem -2.828427rem, // 2 * sqrt(2)
-                    0 0;
+                background-position: -2.828427rem -2.828427rem; // 2 * sqrt(2)
             }
             to {
-                background-position: 0 0, 0 0;
+                background-position: 0 0;
             }
         }
     }

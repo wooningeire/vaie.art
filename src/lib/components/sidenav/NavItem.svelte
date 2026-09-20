@@ -10,13 +10,13 @@ let {
     label: string,
 } = $props();
 
-const emph = $derived(new URL(href, page.url).href === page.url.href);
+const isCurrent = $derived(new URL(href, page.url).href === page.url.href);
 </script>
 
 <nav-item>
     <a
         {href}
     >
-        <Button {emph}>{label}</Button>
+        <Button noBg={isCurrent}>{label}</Button>
     </a>
 </nav-item>
