@@ -33,24 +33,26 @@ const isHomepage = $derived(page.url.pathname === "/");
         </main>
 
         <nav>
-            <background-credit>
-                Background art by <a href="https://www.furaffinity.net/view/61807537" target="_blank">Sapphi</a>
-            </background-credit>
-            
-            <SocialLinksConcise />
+            <nav-content>
+                <background-credit>
+                    Background art by <a href="https://www.furaffinity.net/view/61807537" target="_blank">Sapphi</a>
+                </background-credit>
+                
+                <SocialLinksConcise />
 
-            <nav-items>
-                <NavItem
-                    href="/works"
-                    label="works"
-                />
-                <NavItem
-                    href="/characters"
-                    label="characters"
-                />
-            </nav-items>
+                <nav-items>
+                    <NavItem
+                        href="/works"
+                        label="works"
+                    />
+                    <NavItem
+                        href="/characters"
+                        label="characters"
+                    />
+                </nav-items>
 
-            <Logomark noButton={isHomepage} />
+                <Logomark noButton={isHomepage} />
+            </nav-content>
         </nav>
     </frame-small>
 </frame-full>
@@ -73,6 +75,12 @@ frame-small {
 
     display: flex;
 
+    overflow: hidden;
+
+    @media (max-width: responsive.$resize-threshold) {
+        flex-direction: column;
+    }
+
     width: 100vw;
     height: 100vh;
     height: 100svh;
@@ -87,15 +95,27 @@ main {
 
 nav {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 3em;
-
-    padding: 1em;
+    overflow: auto;
 
     background-color: oklch(0.2 0.05 200 / 0.75);
     box-shadow: 0.25em 0 2em oklch(0 0 0 / 0.5);
+
+    nav-content {
+        flex: 1 0 auto;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 3em;
+
+        padding: 1em;
+
+        @media (max-width: responsive.$resize-threshold) {
+            flex-direction: row-reverse;
+            gap: 2em;
+        }
+    }
 }
 
 nav-items {
@@ -114,7 +134,5 @@ main {
     display: grid;
     min-width: 0;
     min-height: 0;
-}
-@media (min-width: responsive.$resize-threshold) {
 }
 </style>
