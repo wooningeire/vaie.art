@@ -1,5 +1,6 @@
 <script lang="ts">
 import type { WorkEntry } from "$/works/WorkEntry";
+import GallerySearch from "./GallerySearch.svelte";
 import { galleryState } from "./GalleryState.svelte";
 import GalleryWorkView from "./GalleryWorkView.svelte";
 
@@ -11,6 +12,8 @@ let {
 </script>
 
 <works-gallery>
+    <GallerySearch />
+
     <works-gallery-entry-list aria-live="polite">
         {#each Object.entries(works) as [workId, work] (workId)}
             {#if galleryState.activeTags.size === 0 || galleryState.activeTags[Symbol.iterator]().every(tagId => work.tags.includes(tagId))}
@@ -24,21 +27,27 @@ let {
 @use "$/styles/mixins";
 
 works-gallery {
-    overflow: hidden;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
 
-    display: grid;
-    min-height: 0;
+    display: flex;
+    overflow: hidden;
 }
 
 works-gallery-entry-list {
-    overflow-y: auto;
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
 
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.25em;
 
+    overflow-y: auto;
+
     min-height: 0;
-    padding: 2em 0;
+    padding: 2em;
 }
 </style>

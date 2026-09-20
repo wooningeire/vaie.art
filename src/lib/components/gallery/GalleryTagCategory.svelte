@@ -28,14 +28,14 @@ $inspect(galleryState.activeTags);
                 }}
             >
                 <works-gallery-tag-toggle>
-                    <works-gallery-tag-label>
-                        {tagLabel}
-                    </works-gallery-tag-label>
-
                     <input
                         type="checkbox"
                         checked={galleryState.activeTags.has(tagId)}
                     />
+
+                    <works-gallery-tag-label>
+                        {tagLabel}
+                    </works-gallery-tag-label>
                 </works-gallery-tag-toggle>
             </Button>
         {/each}
@@ -51,13 +51,11 @@ gallery-tag-category {
     display: flex;
     flex-direction: column;
     gap: 0.5em;
-
-    width: 20em;
 }
 
 gallery-tag-category-items {
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     gap: 0.5em;
 }
 

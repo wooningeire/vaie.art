@@ -2,15 +2,17 @@
 import { type WorkEntryImageVariants } from "$/works/WorkEntryImage";
 
 let {
-    href,
+    href = null,
     imageVariants,
     label,
     external = false,
+    onClick = null,
 }: {
-    href: string,
+    href?: string | null,
     imageVariants: WorkEntryImageVariants,
     label: string,
     external?: boolean,
+    onClick?: ((event: MouseEvent) => void) | null,
 } = $props();
 </script>
 
@@ -18,6 +20,7 @@ let {
     <a
         {href}
         rel={external ? "external" : null}
+        onclick={onClick}
     >
         <gallery-button-media
             style:--aspect="{imageVariants.thumb.width} / {imageVariants.thumb.height}"

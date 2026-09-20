@@ -72,7 +72,6 @@ frame-small {
     grid-area: 1/1;
 
     display: flex;
-    gap: 3em;
 
     width: 100vw;
     height: 100vh;

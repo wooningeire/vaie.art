@@ -28,6 +28,11 @@ import WorkTagCategory from "./GalleryTagCategory.svelte";
 
 gallery-search {
     display: flex;
+    flex-direction: column;
     gap: 1em;
+    
+    width: 15em;
+    padding: 1em;
+    overflow: auto;
 }
 </style>
