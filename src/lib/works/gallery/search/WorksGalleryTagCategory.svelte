@@ -1,6 +1,6 @@
 <script lang="ts">
 import Button from "@/generic/Button.svelte";
-    import { galleryState } from "./GalleryState.svelte";
+import { galleryState } from "./GalleryState.svelte";
 
 let {
     label,

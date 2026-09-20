@@ -29,7 +29,7 @@ impl Options {
         }
 
         Ok(Options {
-            input: PathBuf::from("src/lib/works/entries"),
+            input: PathBuf::from("src/lib/works/entries-data"),
             output: PathBuf::from("static/media"),
             static_root: PathBuf::from("static"),
             metadata_output: PathBuf::from("src/lib/gallery-models/generatedGalleryImages.ts"),

@@ -7,7 +7,7 @@ import NavItem from "@/sidenav/NavItem.svelte";
 import { page } from "$app/state";
 import Logomark from "@/sidenav/Logomark.svelte";
 import Background from "@/Background.svelte";
-import GallerySearch from "@/gallery/GallerySearch.svelte";
+import GallerySearch from "$/works/gallery/search/WorksGallerySearch.svelte";
     import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
 
 

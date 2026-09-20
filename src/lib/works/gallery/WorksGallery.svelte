@@ -1,8 +1,8 @@
 <script lang="ts">
 import type { WorkEntry } from "$/works/WorkEntry";
-import GallerySearch from "./GallerySearch.svelte";
-import { galleryState } from "./GalleryState.svelte";
-import GalleryWorkView from "./GalleryWorkView.svelte";
+import WorksGallerySearch from "./search/WorksGallerySearch.svelte";
+import { galleryState } from "./search/GalleryState.svelte";
+import WorksGalleryEntryView from "./entry/WorksGalleryEntryView.svelte";
 
 let {
     works,
@@ -12,12 +12,12 @@ let {
 </script>
 
 <works-gallery>
-    <GallerySearch />
+    <WorksGallerySearch />
 
     <works-gallery-entry-list aria-live="polite">
         {#each Object.entries(works) as [workId, work] (workId)}
             {#if galleryState.activeTags.size === 0 || galleryState.activeTags[Symbol.iterator]().every(tagId => work.tags.includes(tagId))}
-                <GalleryWorkView {work} />
+                <WorksGalleryEntryView {work} />
             {/if}
         {/each}
     </works-gallery-entry-list>

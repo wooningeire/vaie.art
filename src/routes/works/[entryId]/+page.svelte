@@ -2,7 +2,7 @@
 import type { PageData } from "./$types";
 import { workEntries } from "$/gallery-models/galleryProjectList";
 import { SITENAME } from "$/constants";
-import WorkEntryDetail from "$/works/WorkEntryDetail.svelte";
+import WorkEntryDetail from "$/works/detail/WorkEntryDetail.svelte";
 
 let {
     data,

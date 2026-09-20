@@ -1,9 +1,9 @@
 <script lang="ts">
 import type { WorkEntry } from "$/works/WorkEntry";
 import Button from "@/generic/Button.svelte";
-import GalleryButton from "./GalleryButton.svelte";
+import GalleryButton from "./WorksGalleryEntryButton.svelte";
 import { getContext } from "svelte";
-import { WORKS_GALLERY_CONTEXT, WorksGalleryContext } from "#/routes/works/+page.svelte";
+import { WORKS_PAGE_CONTEXT_KEY, WorksPageContext } from "$/works/WorksPageContext.svelte";
 
 let {
     work,
@@ -11,7 +11,7 @@ let {
     work: WorkEntry,
 } = $props();
 
-const worksGalleryContext = getContext<WorksGalleryContext>(WORKS_GALLERY_CONTEXT);
+const worksGalleryContext = getContext<WorksPageContext>(WORKS_PAGE_CONTEXT_KEY);
 </script>
 
 {#if work.image !== null}

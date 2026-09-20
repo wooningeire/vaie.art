@@ -74,7 +74,6 @@ let {
 
 <style lang="scss">
 @use "$/styles/mixins";
-@use "./gallery.scss";
 
 gallery-button {
     position: relative;

@@ -1,32 +1,32 @@
 <script lang="ts">
 import { workTags } from "$/works/workTags";
-import WorkTagCategory from "./GalleryTagCategory.svelte";
+import WorksGalleryTagCategory from "./WorksGalleryTagCategory.svelte";
 
 </script>
 
-<gallery-search>
-    <WorkTagCategory
+<works-gallery-search>
+    <WorksGalleryTagCategory
         label="Medium"
         tags={workTags.medium}
     />
 
-    <WorkTagCategory
+    <WorksGalleryTagCategory
         label="Subject"
         tags={workTags.subject}
     />
 
-    <WorkTagCategory
+    <WorksGalleryTagCategory
         label="Tools"
         tags={workTags.tools}
     />
-</gallery-search>
+</works-gallery-search>
 
 <style lang="scss">
 @use "$/styles/mixins.scss";
 @use "$/styles/colors.scss";
 @use "$/styles/fonts.scss";
 
-gallery-search {
+works-gallery-search {
     display: flex;
     flex-direction: column;
     gap: 1em;

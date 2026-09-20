@@ -1,6 +1,6 @@
 <script lang="ts">
-import GalleryImageViewerOverlay from "@/gallery/GalleryImageViewerOverlay.svelte";
-import type { WorkEntry } from "./WorkEntry";
+import WorkEntryOverlay from "./WorkEntryOverlay.svelte";
+import type { WorkEntry } from "../WorkEntry";
 
 let {
     entry,
@@ -70,7 +70,8 @@ const closeFullResolutionViewer = () => {
 </work-entry-detail>
 
 {#if entry.image !== null && fullResolutionViewerOpen}
-    <GalleryImageViewerOverlay
+    <WorkEntryOverlay
+        label={entry.label}
         image={entry.image}
         onClose={closeFullResolutionViewer}
     />
@@ -100,6 +101,8 @@ work-entry-detail-description {
 
     display: flex;
     flex-direction: column;
+
+    padding: 2em;
 }
 
 button {
@@ -119,15 +122,6 @@ button {
         max-width: 100%;
         max-height: 20em;
     }
-}
-
-gallery-image-details {
-    flex: 1 1 50%;
-
-    display: grid;
-    gap: 1rem;
-
-    padding: 2em;
 }
 
 gallery-image-title {

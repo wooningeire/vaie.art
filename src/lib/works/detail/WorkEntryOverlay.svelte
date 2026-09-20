@@ -3,13 +3,15 @@ import { Draggable } from "@vaie/hui";
 import { onMount, tick } from "svelte";
 import { on } from "svelte/events";
 import type { ComponentProps } from "svelte";
-import type { GalleryImage } from "$/gallery-models/GalleryImage";
+import type { WorkEntryImageVariants } from "$/works/WorkEntryImage";
 
 let {
+    label,
     image,
     onClose,
 }: {
-    image: GalleryImage,
+    label: string,
+    image: WorkEntryImageVariants,
     onClose: () => void,
 } = $props();
 
@@ -308,7 +310,7 @@ onMount(() => {
                         <img
                             bind:this={imageElement}
                             src={image.full.src}
-                            alt={image.alt}
+                            alt={label}
                             width={image.full.width}
                             height={image.full.height}
                             draggable="false"
