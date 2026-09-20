@@ -293,6 +293,7 @@ onMount(() => {
                 <gallery-image-viewer-content
                     style:--viewer-image-width={zoomedWidth}
                     style:--viewer-image-height={zoomedHeight}
+                    class:zoomed-in={zoom >= 1}
                 >
                     {#if image.full.src.endsWith(".mp4")}
                         <video
@@ -406,12 +407,17 @@ gallery-image-viewer-content {
     display: grid;
     place-items: center;
 
+
     box-sizing: border-box;
     width: calc(var(--viewer-image-width) + 100svw);
     height: calc(var(--viewer-image-height) + 100svh);
     min-width: 100%;
     min-height: 100%;
     padding: 50svh 50svw;
+
+    &.zoomed-in {
+        image-rendering: crisp-edges;
+    }
 
     > img,
     > video {
