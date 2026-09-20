@@ -4,22 +4,26 @@ import Button from "@/generic/Button.svelte";
 
 let {
     large = false,
+    noButton = false,
 }: {
     large?: boolean,
+    noButton?: boolean,
 } = $props();
 </script>
 
 <a
-    href="/"
+    href={noButton ? null : "/"}
     aria-label="vaiezzell"
     class:large
 >
     <Button
         buttonStyle="image"
+        noBg={noButton}
     >
         <enhanced:img
             src={vaiezzellLogomark}
             alt="vaiezzell"
+            class:large
         />
     </Button>
 </a>
@@ -27,12 +31,13 @@ let {
 <style lang="scss">
 a {
     display: inline-block;
+}
 
-    img {
-        width: 15rem;
-    }
+img {
+    display: inline-block;
+    width: 15rem;
 
-    &.large img {
+    &.large {
         width: 20rem;
     }
 }

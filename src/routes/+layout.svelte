@@ -8,6 +8,7 @@ import { page } from "$app/state";
 import Logomark from "@/sidenav/Logomark.svelte";
 import Background from "@/Background.svelte";
 import GallerySearch from "@/gallery/GallerySearch.svelte";
+    import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
 
 
 let {children} = $props();
@@ -32,32 +33,25 @@ const isHomepage = $derived(page.url.pathname === "/");
         </main>
 
         <nav>
-            {#key isHomepage}
-                <nav-items>
-                    <NavItem
-                        href="/works"
-                        label="works"
-                    />
-                    <NavItem
-                        href="/characters"
-                        label="characters"
-                    />
-                </nav-items>
-            {/key}
+            <background-credit>
+                Background art by <a href="https://www.furaffinity.net/view/61807537" target="_blank">Sapphi</a>
+            </background-credit>
+            
+            <SocialLinksConcise />
+
+            <nav-items>
+                <NavItem
+                    href="/works"
+                    label="works"
+                />
+                <NavItem
+                    href="/characters"
+                    label="characters"
+                />
+            </nav-items>
+
+            <Logomark noButton={isHomepage} />
         </nav>
-
-        {#if !isHomepage}
-            <logomark-container
-            >
-                <Logomark />
-            </logomark-container>
-
-            {#if page.url.pathname === "/works"}
-                <GallerySearch />
-            {/if}
-        {:else}
-            <HomepageBottom />
-        {/if}
     </frame-small>
 </frame-full>
 
@@ -77,37 +71,18 @@ frame-full {
 frame-small {
     grid-area: 1/1;
 
-    display: grid;
-    grid-template-columns: 15em 1fr;
-    grid-template-rows: 1fr auto;
+    display: flex;
     gap: 3em;
 
     width: 100vw;
     height: 100vh;
     height: 100svh;
-    padding: 1rem;
+}
 
-    nav {
-        grid-area: 1/1;
-    }
-
-    > logomark-container {
-        grid-area: 2/1;
-    }
-    
-
-    > main {
-        grid-area: 1/2;
-    }
-
-    > :global(homepage-bottom) {
-        grid-area: 2/1 / 3/3;
-    }
-
-    
-    > :global(gallery-search) {
-        grid-area: 2/2;
-    }
+main {
+    flex-basis: 0;
+    flex-grow: 1;
+    flex-shrink: 1;
 }
 
 
@@ -116,6 +91,11 @@ nav {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
+
+    gap: 3em;
+
+
+    padding: 3em;
 }
 
 nav-items {

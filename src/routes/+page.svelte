@@ -11,4 +11,7 @@ import { SITENAME } from "$/constants";
 </home-page>
 
 <style lang="scss">
+home-page {
+    display: grid;
+}
 </style>

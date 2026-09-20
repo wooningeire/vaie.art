@@ -9,6 +9,7 @@ let {
     buttonStyle = "text",
     red = false,
     emph = false,
+    noBg = false,
     ...buttonProps
 }: {
     children: Snippet,
@@ -17,10 +18,14 @@ let {
     displayClass?: string,
     red?: boolean,
     emph?: boolean,
+    noBg?: boolean,
 } & HTMLButtonAttributes = $props();
 </script>
 
-<button {...buttonProps}>
+<button
+    class:no-bg={noBg}
+    {...buttonProps}
+>
     <button-display
         class:key-held={keyHeld}
         class:text-button={buttonStyle === "text"}
@@ -28,6 +33,7 @@ let {
         class:red
         class:emph
         class={displayClass}
+        class:no-bg={noBg}
     >
         {@render children?.()}
     </button-display>
@@ -52,13 +58,16 @@ button {
     border: none;
     background: none;
 
-    cursor: pointer;
 
     font-family: fonts.$font-title;
 
 
     --bg-col: linear-gradient(#{$bg-col}, #{$bg-col});
 
+    
+    &:not(.no-bg) {
+        cursor: pointer;
+    }
     
     &[disabled] {
         pointer-events: none;
@@ -67,17 +76,10 @@ button {
 
     button-display {
         display: block;
-
         border-radius: 1rem;
-        background: var(--bg-col);
-        box-shadow:
-            $outset-box-shadow,
-            $inset-box-shadow;
 
         pointer-events: none;
         overflow: hidden;
-
-        backdrop-filter: blur(4px);
 
         transition:
             transform 0.25s cubic-bezier(0,2.75,.47,1),
@@ -106,10 +108,19 @@ button {
         &.icon-button {
             padding: 0.5rem;
         }
+
+        &:not(.no-bg) {
+            background: var(--bg-col);
+            box-shadow:
+                $outset-box-shadow,
+                $inset-box-shadow;
+
+            backdrop-filter: blur(4px);
+        }
     }
 
-    &:is(:hover, :focus-visible) > button-display,
-    button-display.key-held {
+    &:is(:hover, :focus-visible) > button-display:not(.no-bg),
+    button-display.key-held:not(.no-bg) {
         transform: translateY(-0.125rem) scale(1.05);
 
         animation: sliding-background 1s infinite linear;
@@ -139,9 +150,9 @@ button {
     }
 }
 
-:global(a:active) button-display,
-button:active > button-display,
-button-display.key-held {
+:global(a:active) button-display:not(.no-bg),
+button:active > button-display:not(.no-bg),
+button-display.key-held:not(.no-bg) {
     transform: translateY(0.0625rem) scale(0.95);
 }
 </style>
