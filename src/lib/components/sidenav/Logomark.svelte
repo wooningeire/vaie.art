@@ -1,13 +1,6 @@
-<script lang="ts" module>
-import { swapout } from "@/betterCrossfade.svelte";
-
-const {receive, rectWatcher} = swapout();
-</script>
-
 <script lang="ts">
 import vaiezzellLogomark from "$/assets/vaiezzell logomark.png";
-    import Button from "@/generic/Button.svelte";
-    import { page } from "$app/state";
+import Button from "@/generic/Button.svelte";
 
 let {
     large = false,
@@ -19,8 +12,6 @@ let {
 <a
     href="/"
     aria-label="vaiezzell"
-    {@attach rectWatcher.watch}
-    in:receive
     class:large
 >
     <Button

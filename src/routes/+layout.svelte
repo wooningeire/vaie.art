@@ -2,31 +2,17 @@
 import "./index.scss";
 
 import favicon from "$lib/assets/vaiezzell favicon.png";
-import BackgroundCanvas from "./Canvas.svelte";
 import HomepageBottom from "@/sidenav/HomepageBottom.svelte";
 import NavItem from "@/sidenav/NavItem.svelte";
 import { page } from "$app/state";
 import Logomark from "@/sidenav/Logomark.svelte";
-import { lingerForOneFrame, RectWatcher, swapout } from "@/betterCrossfade.svelte";
-    import { backInOut, elasticInOut } from "svelte/easing";
-    import Background from "@/Background.svelte";
-    import GallerySearch from "@/gallery/GallerySearch.svelte";
+import Background from "@/Background.svelte";
+import GallerySearch from "@/gallery/GallerySearch.svelte";
 
 
 let {children} = $props();
 
 const isHomepage = $derived(page.url.pathname === "/");
-
-
-const {
-    receive: navReceive,
-    rectWatcher: navRectWatcher,
-} = swapout({
-    duration: 450,
-    easing: backInOut,
-});
-
-const logomarkRectWatcher = new RectWatcher();
 </script>
 
 <svelte:head>
@@ -47,11 +33,7 @@ const logomarkRectWatcher = new RectWatcher();
 
         <nav>
             {#key isHomepage}
-                <nav-items
-                    {@attach navRectWatcher.watch}
-                    in:navReceive
-                    out:lingerForOneFrame={navRectWatcher}
-                >
+                <nav-items>
                     <NavItem
                         href="/works"
                         label="works"
@@ -66,8 +48,6 @@ const logomarkRectWatcher = new RectWatcher();
 
         {#if !isHomepage}
             <logomark-container
-                {@attach logomarkRectWatcher.watch}
-                out:lingerForOneFrame={logomarkRectWatcher}
             >
                 <Logomark />
             </logomark-container>

@@ -1,7 +1,5 @@
 <script lang="ts">
 import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
-import { quartIn, quartOut } from "svelte/easing";
-import { fly, type FlyParams, type TransitionConfig } from "svelte/transition";
 import Logomark from "./Logomark.svelte";
 import { removeFromPageFlow } from "@/betterCrossfade.svelte";
 
@@ -13,27 +11,15 @@ import { removeFromPageFlow } from "@/betterCrossfade.svelte";
     </logomark-container>
     
     <homepage-bottom-right>
-        <social-links-container
-            in:fly={{duration: 250, easing: quartOut, y: 100}}
-            out:fly={{duration: 250, easing: quartIn, delay: 100, y: 100}}
-            class="keep"
-        >
+        <social-links-container>
             <SocialLinksConcise />
         </social-links-container>
 
-        <background-credit
-            in:fly={{duration: 250, easing: quartOut, delay: 200, y: 100}}
-            out:fly={{duration: 250, easing: quartIn, delay: 200, y: 100}}
-            class="keep"
-        >
+        <background-credit>
             Background art by <a href="https://www.furaffinity.net/view/61807537" target="_blank">Sapphi</a>
         </background-credit>
 
-        <biography-headlines
-            in:fly={{duration: 250, easing: quartOut, delay: 100, y: 100}}
-            out:fly={{duration: 250, easing: quartIn, y: 100}}
-            class="keep"
-        >
+        <biography-headlines>
             <biography-headline>software dragon ΘΔ!</biography-headline>
             <biography-headline>digital media generalist!</biography-headline>
             <biography-headline>computer graphics studier!</biography-headline>
