@@ -1,6 +1,6 @@
 <script lang="ts">
 import type { PageData } from "./$types";
-import { workEntries } from "$/gallery-models/galleryProjectList";
+import { workEntries } from "$/works/entries-data/entries";
 import { SITENAME } from "$/constants";
 import WorkEntryDetail from "$/works/detail/WorkEntryDetail.svelte";
 

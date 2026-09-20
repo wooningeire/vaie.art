@@ -1,5 +1,5 @@
 import { error } from "@sveltejs/kit";
-import { workEntries } from "$/gallery-models/galleryProjectList";
+import { workEntries } from "$/works/entries-data/entries";
 import type { PageLoad } from "./$types";
 
 export const load: PageLoad = ({ params }) => {

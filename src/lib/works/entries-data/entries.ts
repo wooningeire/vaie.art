@@ -1,7 +1,7 @@
-import { WorkEntry } from "../works/WorkEntry";
-import { workTags } from "../works/workTags";
+import { WorkEntry } from "$/works/WorkEntry";
+import { workTags } from "$/works/workTags";
 
-import BookwyrmDgcCrossoverDescription from "$/gallery-info/BookwyrmDgcCrossoverDescription.svx";
+import BookwyrmDgcCrossoverDescription from "$/works/entries-data/bookwyrm-dgc-crossover/Description.svx";
 import { generatedMediaAssets } from "./generatedMediaAssets";
 import { generatedGalleryImages } from "./generatedGalleryImages";
 

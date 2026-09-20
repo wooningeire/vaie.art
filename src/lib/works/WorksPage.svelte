@@ -1,6 +1,6 @@
 <script lang="ts">
 import WorksGallery from "$/works/gallery/WorksGallery.svelte";
-import { workEntries } from "$/gallery-models/galleryProjectList";
+import { workEntries } from "$/works/entries-data/entries";
 import { setContext } from "svelte";
 import WorkEntryDetail from "$/works/detail/WorkEntryDetail.svelte";
 import {WorksPageContext, WORKS_PAGE_CONTEXT_KEY} from "./WorksPageContext.svelte";
