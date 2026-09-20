@@ -1,6 +1,10 @@
 <script lang="ts">
 import WorkEntryOverlay from "./WorkEntryOverlay.svelte";
 import type { WorkEntry } from "../WorkEntry";
+    import { workEntryParents } from "../entries-data/entries";
+    import { onWorkClick } from "../gallery/entry/onWorkClick";
+    import { WORKS_PAGE_CONTEXT_KEY, type WorksPageContext } from "../WorksPageContext.svelte";
+    import { getContext } from "svelte";
 
 let {
     entry,
@@ -22,18 +26,57 @@ const closeFullResolutionViewer = () => {
     fullResolutionViewerOpen = false;
     previewButton?.focus({ preventScroll: true });
 };
+
+const workAncestry: WorkEntry[] = $derived.by(() => {
+    const ancestry: WorkEntry[] = [];
+
+    let currentWork = workEntryParents.get(entry) ?? null;
+    while (currentWork !== null) {
+        ancestry.push(currentWork);
+        currentWork = workEntryParents.get(currentWork) ?? null;
+    }
+
+    return ancestry.reverse();
+});
+
+const worksGalleryContext = getContext<WorksPageContext>(WORKS_PAGE_CONTEXT_KEY);
 </script>
 
 <work-entry-detail>
-    <work-entry-detail-media>
-        <button
-            bind:this={previewButton}
-            aria-label="Open full resolution image viewer"
-            aria-haspopup="dialog"
-            aria-expanded={fullResolutionViewerOpen}
-            onclick={openFullResolutionViewer}
-        >
-            {#if entry.image !== null}
+    <work-entry-detail-description>
+        <work-ancestry>
+            {#each workAncestry as ancestorWork, i (ancestorWork.id)}
+                <a
+                    href={ancestorWork.href}
+                    onclick={onWorkClick(worksGalleryContext, ancestorWork)}
+                >{ancestorWork.label}</a>
+
+                {#if i < workAncestry.length - 1}
+                    <work-ancestry-separator>/</work-ancestry-separator>
+                {/if}
+            {/each}
+        </work-ancestry>
+
+        <work-entry-detail-description-title>
+            {entry.label}
+        </work-entry-detail-description-title>
+
+        <work-entry-detail-description-body>
+            {#if Description !== null}
+                <Description />
+            {/if}
+        </work-entry-detail-description-body>
+    </work-entry-detail-description>
+    
+    {#if entry.image !== null}
+        <work-entry-detail-media>
+            <button
+                bind:this={previewButton}
+                aria-label="Open full resolution image viewer"
+                aria-haspopup="dialog"
+                aria-expanded={fullResolutionViewerOpen}
+                onclick={openFullResolutionViewer}
+            >
                 {#if entry.image.preview.src.endsWith(".mp4")}
                     <video
                         src={entry.image.preview.src}
@@ -52,21 +95,9 @@ const closeFullResolutionViewer = () => {
                         fetchpriority="high"
                     />
                 {/if}
-            {/if}
-        </button>
-    </work-entry-detail-media>
-
-    <work-entry-detail-description>
-        <gallery-image-title id="gallery-image-title">
-            {entry.label}
-        </gallery-image-title>
-
-        <gallery-image-description>
-            {#if Description !== null}
-                <Description />
-            {/if}
-        </gallery-image-description>
-    </work-entry-detail-description>
+            </button>
+        </work-entry-detail-media>
+    {/if}
 </work-entry-detail>
 
 {#if entry.image !== null && fullResolutionViewerOpen}
@@ -102,7 +133,9 @@ work-entry-detail-description {
     display: flex;
     flex-direction: column;
 
+    height: 100%;
     padding: 0 2em;
+    overflow-y: auto;
 }
 
 button {
@@ -124,14 +157,21 @@ button {
     }
 }
 
-gallery-image-title {
+work-ancestry {
+    display: flex;
+    gap: 1ch;
+
+    font-size: 0.8em;
+}
+
+work-entry-detail-description-title {
     @include fonts.heading;
 
     font-size: 2em;
     overflow-wrap: anywhere;
 }
 
-gallery-image-description {
+work-entry-detail-description-body {
     display: block;
 
     max-width: 48rem;

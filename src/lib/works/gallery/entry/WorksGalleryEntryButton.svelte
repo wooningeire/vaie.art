@@ -1,74 +1,79 @@
 <script lang="ts">
-import { type WorkEntryImageVariants } from "$/works/WorkEntryImage";
+import type { WorkEntry } from "$/works/WorkEntry";
+import Button from "@/generic/Button.svelte";
 
 let {
-    href = null,
-    imageVariants,
-    label,
-    external = false,
+    work,
     onClick = null,
 }: {
-    href?: string | null,
-    imageVariants: WorkEntryImageVariants,
-    label: string,
-    external?: boolean,
+    work: WorkEntry,
     onClick?: ((event: MouseEvent) => void) | null,
 } = $props();
 </script>
 
 <gallery-button>
     <a
-        {href}
-        rel={external ? "external" : null}
+        href={work.href}
+        rel={work.external ? "external" : null}
         onclick={onClick}
     >
-        <gallery-button-media
-            style:--aspect="{imageVariants.thumb.width} / {imageVariants.thumb.height}"
-        >
-            {#if imageVariants.thumb.src.endsWith(".mp4")}
-                <video
-                    src={imageVariants.thumb.src}
-                    width={imageVariants.thumb.width}
-                    height={imageVariants.thumb.height}
-                    class="bg"
-                    autoplay
-                    loop
-                    muted
-                    playsinline
-                ></video>
+        {#if work.image === null}
+            <Button style="height: 100%;">{work.label}</Button>
+        {:else}
+            <!-- TODO: doable wthout inline styles? -->
+            <Button
+                buttonStyle="image"
+                style="height: 100%; aspect-ratio: {work.image.thumb.width} / {work.image.thumb.height};"
+            >
+                <gallery-button-media
+                    style:--aspect="{work.image.thumb.width} / {work.image.thumb.height}"
+                >
+                    {#if work.image.thumb.src.endsWith(".mp4")}
+                        <video
+                            src={work.image.thumb.src}
+                            width={work.image.thumb.width}
+                            height={work.image.thumb.height}
+                            class="bg"
+                            autoplay
+                            loop
+                            muted
+                            playsinline
+                        ></video>
 
-                <video
-                    src={imageVariants.thumb.src}
-                    width={imageVariants.thumb.width}
-                    height={imageVariants.thumb.height}
-                    class="thumb"
-                    autoplay
-                    loop
-                    muted
-                    playsinline
-                ></video>
-            {:else}
-                <img
-                    src={imageVariants.thumb.src}
-                    alt={label}
-                    width={imageVariants.thumb.width}
-                    height={imageVariants.thumb.height}
-                    class="bg"
-                    loading="lazy"
-                    decoding="async"
-                />
+                        <video
+                            src={work.image.thumb.src}
+                            width={work.image.thumb.width}
+                            height={work.image.thumb.height}
+                            class="thumb"
+                            autoplay
+                            loop
+                            muted
+                            playsinline
+                        ></video>
+                    {:else}
+                        <img
+                            src={work.image.thumb.src}
+                            alt={work.label}
+                            width={work.image.thumb.width}
+                            height={work.image.thumb.height}
+                            class="bg"
+                            loading="lazy"
+                            decoding="async"
+                        />
 
-                <img
-                    src={imageVariants.thumb.src}
-                    alt={label}
-                    width={imageVariants.thumb.width}
-                    height={imageVariants.thumb.height}
-                    class="thumb"
-                    loading="lazy"
-                    decoding="async"
-                />
-            {/if}
-        </gallery-button-media>
+                        <img
+                            src={work.image.thumb.src}
+                            alt={work.label}
+                            width={work.image.thumb.width}
+                            height={work.image.thumb.height}
+                            class="thumb"
+                            loading="lazy"
+                            decoding="async"
+                        />
+                    {/if}
+                </gallery-button-media>
+            </Button>
+        {/if}
     </a>
 </gallery-button>
 
@@ -91,8 +96,6 @@ gallery-button {
 a {
 
     height: 100%;
-
-    overflow: hidden;
 
     opacity: 0.75;
 
@@ -121,8 +124,6 @@ gallery-button-media {
 
     height: 100%;
     aspect-ratio: var(--aspect);
-    min-width: 0;
-    min-height: 0;
 
     --aspect: 1 / 1;
 

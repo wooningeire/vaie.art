@@ -701,3 +701,10 @@ export const workEntries = {
     [poolToys.id]: poolToys,
     [floatyZane.id]: floatyZane,
 };
+
+export const workEntryParents = new Map<WorkEntry, WorkEntry | null>(Object.values(workEntries).map(work => [work, null]));
+for (const work of Object.values(workEntries)) {
+    for (const childWork of work.children) {
+        workEntryParents.set(childWork, work);
+    }
+}
