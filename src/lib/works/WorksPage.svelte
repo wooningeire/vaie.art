@@ -27,6 +27,8 @@ works-page {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    gap: 1em;
+
     min-width: 0;
     min-height: 0;
 

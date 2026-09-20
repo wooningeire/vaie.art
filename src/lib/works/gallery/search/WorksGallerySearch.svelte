@@ -31,7 +31,7 @@ works-gallery-search {
     flex-direction: column;
     gap: 1em;
     
-    width: 15em;
+    width: 12em;
     padding: 1em;
     overflow: auto;
 }

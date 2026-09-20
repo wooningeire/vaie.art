@@ -15,11 +15,13 @@ let {
     <WorksGallerySearch />
 
     <works-gallery-entry-list aria-live="polite">
-        {#each Object.entries(works) as [workId, work] (workId)}
-            {#if galleryState.activeTags.size === 0 || galleryState.activeTags[Symbol.iterator]().every(tagId => work.tags.includes(tagId))}
-                <WorksGalleryEntryView {work} />
-            {/if}
-        {/each}
+        <works-gallery-entry-list-scroller>
+            {#each Object.entries(works) as [workId, work] (workId)}
+                {#if galleryState.activeTags.size === 0 || galleryState.activeTags[Symbol.iterator]().every(tagId => work.tags.includes(tagId))}
+                    <WorksGalleryEntryView {work} />
+                {/if}
+            {/each}
+        </works-gallery-entry-list-scroller>
     </works-gallery-entry-list>
 </works-gallery>
 
@@ -40,14 +42,17 @@ works-gallery-entry-list {
     flex-grow: 1;
     flex-shrink: 1;
 
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.25em;
-
     overflow-y: auto;
 
     min-height: 0;
-    padding: 2em;
+    padding: 2em 0;
+}
+
+works-gallery-entry-list-scroller {
+    display: flex;
+    flex-wrap: wrap;
+
+    justify-content: center;
+    gap: 0.25em;
 }
 </style>

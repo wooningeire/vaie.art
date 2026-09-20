@@ -90,11 +90,12 @@ nav {
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
-
     gap: 3em;
 
+    padding: 1em;
 
-    padding: 3em;
+    background-color: oklch(0.2 0.05 200 / 0.75);
+    box-shadow: 0.25em 0 2em oklch(0 0 0 / 0.5);
 }
 
 nav-items {

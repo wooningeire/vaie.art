@@ -102,7 +102,7 @@ work-entry-detail-description {
     display: flex;
     flex-direction: column;
 
-    padding: 2em;
+    padding: 0 2em;
 }
 
 button {
