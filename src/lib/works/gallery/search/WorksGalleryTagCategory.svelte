@@ -9,8 +9,6 @@ let {
     label: string,
     tags: Record<string, string>,
 } = $props();
-
-$inspect(galleryState.activeTags);
 </script>
 
 <gallery-tag-category>
