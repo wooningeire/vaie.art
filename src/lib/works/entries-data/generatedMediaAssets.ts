@@ -7,8 +7,8 @@ export const generatedMediaAssets = {
         width: 1600,
         height: 817,
     },
-    "misc/pudle-cover": {
-        src: "/media/misc/pudle-cover.webp",
+    "pudle/pudle-cover": {
+        src: "/media/pudle/pudle-cover.webp",
         width: 1280,
         height: 300,
     },

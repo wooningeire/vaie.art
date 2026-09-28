@@ -10,9 +10,9 @@ const pudle = new WorkEntry({
     label: "Pudle",
     href: "/pudle",
     image: {
-        full: generatedMediaAssets["misc/pudle-cover"],
-        preview: generatedMediaAssets["misc/pudle-cover"],
-        thumb: generatedMediaAssets["misc/pudle-cover"],
+        full: generatedMediaAssets["pudle/pudle-cover"],
+        preview: generatedMediaAssets["pudle/pudle-cover"],
+        thumb: generatedMediaAssets["pudle/pudle-cover"],
     },
     tags: [workTags.medium.web],
     external: true,
