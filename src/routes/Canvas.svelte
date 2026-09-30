@@ -48,10 +48,8 @@ onMount(onResize);
 
 <style lang="scss">
 canvas-container {
-    grid-area: 1/1 / -1/-1;
-    height: 100%;
-
     display: grid;
+    height: 10em;
 
     > canvas {
         place-items: stretch;

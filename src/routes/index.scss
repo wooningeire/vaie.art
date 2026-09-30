@@ -29,25 +29,21 @@ body {
 
     font-family: "Averia Libre", sans-serif;
     font-weight: 200;
-    font-size: 0.8rem;
-    
-    @media screen and (min-width: responsive.$resize-threshold) {
-        font-size: 1rem;
-    }
+    font-size: 0.75rem;
 }
 
 a,
 button {
-    color: oklch(0.95 0.05 180 / 0.7);
+    color: oklch(0.9 0.08 350);
     text-decoration: none;
 
     &:hover,
     &:focus-within {
-        color: oklch(1 0.01 200);
+        color: oklch(1 0.01 350);
     }
 
     &:active {
-        color: oklch(0.95 0.05 180 / 0.1);
+        color: oklch(0.9 0.08 350 / 0.1);
     }
 }
 

@@ -2,15 +2,13 @@
 import "./index.scss";
 
 import favicon from "$lib/assets/vaiezzell favicon.png";
-import { page } from "$app/state";
-import Logomark from "@/sidenav/Logomark.svelte";
-    import Nav from "./Nav.svelte";
-    import Sep from "./Sep.svelte";
-
+import Nav from "./Nav.svelte";
+import Sep from "./Sep.svelte";
+import Header from "./Header.svelte";
+import Background from "@/Background.svelte";
+import Canvas from "./Canvas.svelte";
 
 let {children} = $props();
-
-const isHomepage = $derived(page.url.pathname === "/");
 </script>
 
 <svelte:head>
@@ -18,12 +16,12 @@ const isHomepage = $derived(page.url.pathname === "/");
 </svelte:head>
 
 <viewport-frame>
-    <page-frame>
-        <header>
-            <Logomark noButton={isHomepage} />
-        </header>
+    <Background />
 
-        <Sep />
+    <page-frame>
+        <Canvas />
+
+        <Header />
 
         <Nav />
 
@@ -52,11 +50,9 @@ page-frame {
     max-width: 100vw;
 
     display: flex;
+    gap: 1em;
     flex-direction: column;
     align-items: stretch;
-
-    border: 1px solid oklch(1 0 0 / 0.5);
-    box-shadow: -4px 4px oklch(0 0 0);
 }
 
 main {
