@@ -12,12 +12,13 @@ background- {
     position: fixed;
     align-self: stretch;
 
-    z-index: -1;
-
     width: 100%;
     height: 100%;
 
+    z-index: -1;
+    
     display: grid;
+    pointer-events: none;
 
     > * {
         grid-area: 1/1;
@@ -39,5 +40,7 @@ background-credit {
     align-self: flex-end;
     justify-self: flex-end;
     margin: 0 1em 1em 0;
+
+    pointer-events: auto;
 }
 </style>
