@@ -7,7 +7,6 @@ let {
     keyHeld = false,
     displayClass,
     buttonStyle = "text",
-    red = false,
     noBg = false,
     ...buttonProps
 }: {
@@ -15,7 +14,6 @@ let {
     keyHeld?: boolean,
     buttonStyle?: "text" | "image" | "icon",
     displayClass?: string,
-    red?: boolean,
     noBg?: boolean,
 } & HTMLButtonAttributes = $props();
 </script>
@@ -28,7 +26,6 @@ let {
         class:key-held={keyHeld}
         class:text-button={buttonStyle === "text"}
         class:icon-button={buttonStyle === "icon"}
-        class:red
         class={displayClass}
         class:no-bg={noBg}
     >
@@ -73,7 +70,7 @@ button {
 
     button-display {
         display: block;
-        border-radius: 1rem;
+        // border-radius: 1rem;
 
         pointer-events: none;
         overflow: hidden;
@@ -82,10 +79,6 @@ button {
             transform 0.25s cubic-bezier(0,2.75,.47,1),
             box-shadow 0.1s cubic-bezier(0,1,.47,1),
             filter 0.25s ease;
-
-        &.red {
-            --bg-col: oklch(0.99 0.15 350 / 0.75);
-        }
 
         &.text-button {
             padding: 0.25rem 1rem;
@@ -97,9 +90,9 @@ button {
 
         &:not(.no-bg) {
             background: var(--bg-col);
-            box-shadow:
-                $outset-box-shadow,
-                $inset-box-shadow;
+            // box-shadow:
+            //     $outset-box-shadow,
+            //     $inset-box-shadow;
 
             backdrop-filter: blur(4px);
         }
@@ -119,6 +112,8 @@ button {
             $bg-stripe-col 2rem,
         );
         background-size: calc(100% + 3rem) calc(100% + 3rem);
+
+        z-index: 1;
 
         @keyframes sliding-background {
             from {

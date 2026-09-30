@@ -16,7 +16,7 @@ background- {
     height: 100%;
 
     z-index: -1;
-    
+
     display: grid;
     pointer-events: none;
 
@@ -28,7 +28,6 @@ background- {
 img {
     width: 100%;
     height: 100%;
-
 
     opacity: 0.125;
 

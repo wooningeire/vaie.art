@@ -1,23 +1,40 @@
 <script>
 import NavItem from "@/sidenav/NavItem.svelte";
-import SocialLinksConcise from "@/sidenav/SocialLinksConcise.svelte";
+import Sep from "./Sep.svelte";
 
 </script>
 
 <nav>
-    <SocialLinksConcise />
+    <NavItem
+        href="/"
+        label="home"
+    />
 
-    <nav-items>
-        <NavItem
-            href="/works"
-            label="works"
-        />
-        <NavItem
-            href="/characters"
-            label="characters"
-        />
-    </nav-items>
+    <Sep />
+    
+    <NavItem
+        href="/works"
+        label="works"
+    />
+
+    <Sep />
+
+    <NavItem
+        href="/characters"
+        label="characters"
+    />
+
+    <Sep />
+
+    <NavItem
+        href="/links"
+        label="links"
+    />
 </nav>
 
 <style lang="scss">
+
+nav {
+    display: flex;
+}
 </style>

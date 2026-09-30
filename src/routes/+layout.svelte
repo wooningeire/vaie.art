@@ -38,8 +38,7 @@ let {children} = $props();
 
 viewport-frame {
     display: grid;
-    place-items: center;
-
+    justify-items: center;
 
     min-width: 18.75rem;
     min-height: 100vh;
@@ -48,22 +47,11 @@ viewport-frame {
 page-frame {
     width: 95ch;
     max-width: 100vw;
+    margin-top: 10em;
 
     display: flex;
-    gap: 1em;
+    gap: 1.5em;
     flex-direction: column;
     align-items: stretch;
-}
-
-main {
-    flex-basis: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
-}
-
-main {
-    display: grid;
-    min-width: 0;
-    min-height: 0;
 }
 </style>
