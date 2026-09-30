@@ -35,10 +35,10 @@ a {
 
 img {
     display: inline-block;
-    width: 15rem;
+    width: 10rem;
 
     &.large {
-        width: 20rem;
+        width: 15rem;
     }
 }
 </style>
