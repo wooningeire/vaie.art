@@ -1,5 +1,5 @@
 import { GalleryEntry } from "$/gallery/GalleryEntry";
-import { galleryTags } from "$/gallery/galleryTags";
+import { galleryTags } from "$/gallery/GalleryTag";
 import { image } from "./image.generated";
 
 export const pudle = new GalleryEntry({

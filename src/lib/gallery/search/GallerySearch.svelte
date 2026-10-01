@@ -1,5 +1,5 @@
 <script lang="ts">
-import { galleryTags } from "$/gallery/galleryTags";
+import { galleryTags } from "$/gallery/GalleryTag";
 import GalleryTagCategory from "./GalleryTagCategory.svelte";
 
 </script>

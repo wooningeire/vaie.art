@@ -1,5 +1,5 @@
 import { GalleryEntry } from "$/gallery/GalleryEntry";
-import { galleryTags } from "$/gallery/galleryTags";
+import { galleryTags } from "$/gallery/GalleryTag";
 
 import BookwyrmDgcCrossoverDescription from "$/gallery/entries-data/bookwyrm-dgc-crossover/Description.svx";
 import { generatedMediaAssets } from "./generatedMediaAssets";
@@ -73,7 +73,10 @@ const vaiezzellThumb = new GalleryEntry({
     id: "vaiezzell-thumb",
     label: "vaiezzell character thumbnail",
     image: generatedGalleryImages["gallery/art-fight-2026/characters/vaiezzell-2026-thumb"],
-    tags: [galleryTags.medium.illustration],
+    tags: [
+        galleryTags.medium.illustration,
+        galleryTags.tools.krita,
+    ],
 });
 
 const iywralyxThumb = new GalleryEntry({

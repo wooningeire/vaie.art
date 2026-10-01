@@ -1,13 +1,14 @@
 <script lang="ts">
 import Button from "@/generic/Button.svelte";
 import { galleryState } from "./GalleryState.svelte";
+import type { GalleryTag } from "../GalleryTag";
 
 let {
     label,
     tags,
 }: {
     label: string,
-    tags: Record<string, string>,
+    tags: Record<string, GalleryTag>,
 } = $props();
 </script>
 
@@ -15,24 +16,24 @@ let {
     <h3>{label}</h3>
 
     <gallery-tag-category-items>
-        {#each Object.entries(tags) as [tagId, tagLabel]}
+        {#each Object.values(tags) as tag (tag.id)}
             <Button
                 onclick={() => {
-                    if (galleryState.activeTags.has(tagId)) {
-                        galleryState.activeTags.delete(tagId);
+                    if (galleryState.activeTags.has(tag)) {
+                        galleryState.activeTags.delete(tag);
                     } else {
-                        galleryState.activeTags.add(tagId);
+                        galleryState.activeTags.add(tag);
                     }
                 }}
             >
                 <gallery-tag-toggle>
                     <input
                         type="checkbox"
-                        checked={galleryState.activeTags.has(tagId)}
+                        checked={galleryState.activeTags.has(tag)}
                     />
 
                     <gallery-tag-label>
-                        {tagLabel}
+                        {tag.label}
                     </gallery-tag-label>
                 </gallery-tag-toggle>
             </Button>

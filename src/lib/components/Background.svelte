@@ -14,6 +14,8 @@ background- {
 
     width: 100%;
     height: 100%;
+    top: 0;
+    left: 0;
 
     z-index: -1;
 
@@ -36,9 +38,9 @@ img {
 }
 
 background-credit {
-    align-self: flex-end;
+    align-self: flex-start;
     justify-self: flex-end;
-    margin: 0 1em 1em 0;
+    margin: 1em;
 
     pointer-events: auto;
 }

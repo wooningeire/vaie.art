@@ -20,7 +20,7 @@ const filteredWorks = $derived.by(() => {
 
     const filteredWorks: GalleryEntry[] = [];
     for (const entry of Object.values(entries)) {
-        if (galleryState.activeTags[Symbol.iterator]().every(tagId => entry.tags.includes(tagId))) {
+        if (galleryState.activeTags[Symbol.iterator]().every(tag => entry.tags.includes(tag))) {
             filteredWorks.push(entry);
         }
     }
@@ -34,12 +34,13 @@ const filteredWorks = $derived.by(() => {
     <gallery-entry-list aria-live="polite">
         <gallery-entry-list-scroller>
             {#each filteredWorks as work (work.id)}
-                {@const delay = Math.random() * 100}
+                {@const animationDelay = Math.random() * 25}
+                {@const transitionDelay = Math.random() * 100}
 
                 <gallery-entry-view-container
-                    animate:flip={{duration: 500, easing: cubicInOut, delay}}
-                    in:fly={{duration: 250, y: 50, easing: cubicOut, delay}}
-                    out:fly={{duration: 250, y: 50, easing: cubicIn, delay}}
+                    animate:flip={{duration: 500, easing: cubicInOut, delay: animationDelay}}
+                    in:fly={{duration: 250, y: 50, easing: cubicOut, delay: transitionDelay}}
+                    out:fly={{duration: 250, y: 50, easing: cubicIn, delay: transitionDelay}}
                 >
                     <WorksGalleryEntryView entry={work} />
                 </gallery-entry-view-container>
