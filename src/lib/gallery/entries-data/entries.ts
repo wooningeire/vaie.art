@@ -1,11 +1,11 @@
-import { WorkEntry } from "$/works/WorkEntry";
-import { workTags } from "$/works/workTags";
+import { GalleryEntry } from "$/gallery/GalleryEntry";
+import { galleryTags } from "$/gallery/galleryTags";
 
-import BookwyrmDgcCrossoverDescription from "$/works/entries-data/bookwyrm-dgc-crossover/Description.svx";
+import BookwyrmDgcCrossoverDescription from "$/gallery/entries-data/bookwyrm-dgc-crossover/Description.svx";
 import { generatedMediaAssets } from "./generatedMediaAssets";
 import { generatedGalleryImages } from "./generatedGalleryImages";
 
-const pudle = new WorkEntry({
+const pudle = new GalleryEntry({
     id: "pudle",
     label: "Pudle",
     href: "/pudle",
@@ -14,52 +14,52 @@ const pudle = new WorkEntry({
         preview: generatedMediaAssets["pudle/pudle-cover"],
         thumb: generatedMediaAssets["pudle/pudle-cover"],
     },
-    tags: [workTags.medium.web],
+    tags: [galleryTags.medium.web],
     external: true,
 });
 
-const vaiezzellRef = new WorkEntry({
+const vaiezzellRef = new GalleryEntry({
     id: "vaiezzell-ref",
     label: "vaiezzell reference sheet",
     image: generatedGalleryImages["gallery/vaiezzell-ref"],
     tags: [
-        workTags.medium.illustration,
-        workTags.tools.krita,
+        galleryTags.medium.illustration,
+        galleryTags.tools.krita,
     ],
 });
 
-const curiRef = new WorkEntry({
+const curiRef = new GalleryEntry({
     id: "curi-ref",
     label: "Curi reference sheet",
     image: generatedGalleryImages["gallery/astra-refs/curi"],
     tags: [
-        workTags.medium.illustration,
-        workTags.tools.krita,
+        galleryTags.medium.illustration,
+        galleryTags.tools.krita,
     ],
 });
 
-const staariaRef = new WorkEntry({
+const staariaRef = new GalleryEntry({
     id: "staaria-ref",
     label: "Staaria reference sheet",
     image: generatedGalleryImages["gallery/astra-refs/staaria"],
     tags: [
-        workTags.medium.illustration,
-        workTags.tools.krita,
+        galleryTags.medium.illustration,
+        galleryTags.tools.krita,
     ],
 });
 
-const pyrinthRef = new WorkEntry({
+const pyrinthRef = new GalleryEntry({
     id: "pyrinth-ref",
     label: "Pyrinth reference sheet",
     image: generatedGalleryImages["gallery/astra-refs/pyrinth"],
     tags: [
-        workTags.medium.illustration,
-        workTags.subject.macro,
-        workTags.tools.krita,
+        galleryTags.medium.illustration,
+        galleryTags.subject.macro,
+        galleryTags.tools.krita,
     ],
 });
 
-const astraRefs = new WorkEntry({
+const astraRefs = new GalleryEntry({
     id: "astra-refs",
     label: "Astroral Aurora System reference sheets",
     children: [
@@ -69,21 +69,21 @@ const astraRefs = new WorkEntry({
     ],
 });
 
-const vaiezzellThumb = new WorkEntry({
+const vaiezzellThumb = new GalleryEntry({
     id: "vaiezzell-thumb",
     label: "vaiezzell character thumbnail",
     image: generatedGalleryImages["gallery/art-fight-2026/characters/vaiezzell-2026-thumb"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const iywralyxThumb = new WorkEntry({
+const iywralyxThumb = new GalleryEntry({
     id: "iywralyx-thumb",
     label: "Iywralyx character thumbnail",
     image: generatedGalleryImages["gallery/art-fight-2026/characters/iywralyx-2026-thumb"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const artfight2026Characters = new WorkEntry({
+const artfight2026Characters = new GalleryEntry({
     id: "artfight-2026-characters",
     label: "Characters",
     children: [
@@ -92,77 +92,77 @@ const artfight2026Characters = new WorkEntry({
     ],
 });
 
-const warp = new WorkEntry({
+const warp = new GalleryEntry({
     id: "warp",
     label: "Galactic noodles",
     image: generatedGalleryImages["gallery/art-fight-2026/attacks/warp"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const aheniru = new WorkEntry({
+const aheniru = new GalleryEntry({
     id: "aheniru",
     label: "What are you doing in the river...?",
     image: generatedGalleryImages["gallery/art-fight-2026/attacks/aheniru"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const amonnonza = new WorkEntry({
+const amonnonza = new GalleryEntry({
     id: "amonnonza",
     label: "Nightgazer",
     image: generatedGalleryImages["gallery/art-fight-2026/attacks/amonnonza"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const snowsquall = new WorkEntry({
+const snowsquall = new GalleryEntry({
     id: "snowsquall",
     label: "Ant problem",
     image: generatedGalleryImages["gallery/art-fight-2026/attacks/snowsquall"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const jinsym = new WorkEntry({
+const jinsym = new GalleryEntry({
     id: "jinsym",
     label: "Duskflight",
     image: generatedGalleryImages["gallery/art-fight-2026/attacks/jinsym"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const viscerall = new WorkEntry({
+const viscerall = new GalleryEntry({
     id: "viscerall",
     label: "Scrapyard?",
     image: generatedGalleryImages["gallery/art-fight-2026/attacks/vviiscerall"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const wwco = new WorkEntry({
+const wwco = new GalleryEntry({
     id: "wwco",
     label: "Through size and space",
     image: generatedGalleryImages["gallery/art-fight-2026/attacks/wwco"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const tiffymew = new WorkEntry({
+const tiffymew = new GalleryEntry({
     id: "tiffymew",
     label: "Midtown reading session",
     image: generatedGalleryImages["gallery/art-fight-2026/attacks/tiffymew"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const captainraven = new WorkEntry({
+const captainraven = new GalleryEntry({
     id: "captainraven",
     label: "Cave chase!",
     image: generatedGalleryImages["gallery/art-fight-2026/attacks/captainraven"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const rhaeloth = new WorkEntry({
+const rhaeloth = new GalleryEntry({
     id: "rhaeloth",
     label: "Who's this little critter?",
     image: generatedGalleryImages["gallery/art-fight-2026/attacks/rhaeloth"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const artfight2026Attacks = new WorkEntry({
+const artfight2026Attacks = new GalleryEntry({
     id: "artfight-2026-attacks",
     label: "Attacks",
     children: [
@@ -179,7 +179,7 @@ const artfight2026Attacks = new WorkEntry({
     ],
 });
 
-const artfight2026 = new WorkEntry({
+const artfight2026 = new GalleryEntry({
     id: "artfight-2026",
     label: "Art Fight 2026",
     children: [
@@ -188,57 +188,57 @@ const artfight2026 = new WorkEntry({
     ],
 });
 
-const bookwyrmDgcCrossover = new WorkEntry({
+const bookwyrmDgcCrossover = new GalleryEntry({
     id: "bookwyrm-dgc-crossover",
     label: "Bookwyrm DGC crossover",
     image: generatedGalleryImages["gallery/bookwyrm-dgc-crossover-1"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
     descriptionComponent: BookwyrmDgcCrossoverDescription,
 });
 
-const spaxDragon = new WorkEntry({
+const spaxDragon = new GalleryEntry({
     id: "spax-dragon",
     label: "Spax dragon",
     image: generatedGalleryImages["gallery/spax-dragon"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const dragnbratty = new WorkEntry({
+const dragnbratty = new GalleryEntry({
     id: "dragnbratty",
     label: "dragnbratty",
     image: generatedGalleryImages["gallery/vaie-dragn-emoji/dragnbrattynew"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const dragnmelting = new WorkEntry({
+const dragnmelting = new GalleryEntry({
     id: "dragnmelting",
     label: "dragnmelting",
     image: generatedGalleryImages["gallery/vaie-dragn-emoji/dragnmeltingweak"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const dragnskull = new WorkEntry({
+const dragnskull = new GalleryEntry({
     id: "dragnskull",
     label: "dragnskull",
     image: generatedGalleryImages["gallery/vaie-dragn-emoji/dragnskull"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const dragnwinghug = new WorkEntry({
+const dragnwinghug = new GalleryEntry({
     id: "dragnwinghug",
     label: "dragnwinghug",
     image: generatedGalleryImages["gallery/vaie-dragn-emoji/dragnwinghug"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const zanayell = new WorkEntry({
+const zanayell = new GalleryEntry({
     id: "zanayell",
     label: "zanayell",
     image: generatedGalleryImages["gallery/vaie-dragn-emoji/zanayell"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const vaieDragnEmoji = new WorkEntry({
+const vaieDragnEmoji = new GalleryEntry({
     id: "vaie-dragn-emoji",
     label: "vaie dragn emoji",
     children: [
@@ -250,133 +250,133 @@ const vaieDragnEmoji = new WorkEntry({
     ],
 });
 
-const pretBath = new WorkEntry({
+const pretBath = new GalleryEntry({
     id: "pret-bath",
     label: "Pret gamer bath",
     image: generatedGalleryImages["gallery/pretbath"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const bigAsha = new WorkEntry({
+const bigAsha = new GalleryEntry({
     id: "big-asha",
     label: "Big Asha",
     image: generatedGalleryImages["gallery/bigasha"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const mawdelynRef = new WorkEntry({
+const mawdelynRef = new GalleryEntry({
     id: "mawdelyn-ref",
     label: "Mawdelyn reference sheet",
     image: generatedGalleryImages["gallery/mawdelyn-ref"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const wiresAirport = new WorkEntry({
+const wiresAirport = new GalleryEntry({
     id: "wires-airport",
     label: "wires airport",
     image: generatedGalleryImages["gallery/wires-airport"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const iywralyxRef = new WorkEntry({
+const iywralyxRef = new GalleryEntry({
     id: "iywralyx-ref",
     label: "Iywralyx reference sheet",
     image: generatedGalleryImages["gallery/iywralyx"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const anshuSit = new WorkEntry({
+const anshuSit = new GalleryEntry({
     id: "anshu-sit",
     label: "Anshu sit",
     image: generatedGalleryImages["gallery/anshu-sit"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const terskaylModeling = new WorkEntry({
+const terskaylModeling = new GalleryEntry({
     id: "terskayl-modeling",
     label: "Terskayl modeling",
     image: generatedGalleryImages["gallery/terskayl-2"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const vaiezzellPfp2025 = new WorkEntry({
+const vaiezzellPfp2025 = new GalleryEntry({
     id: "vaiezzell-pfp-2025",
     label: "vaiezzell pfp 2025",
     image: generatedGalleryImages["gallery/vaiezzell-pfp-2025"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const vaiezzellCircle = new WorkEntry({
+const vaiezzellCircle = new GalleryEntry({
     id: "vaiezzell-circle",
     label: "vaiezzell circle pfp",
     image: generatedGalleryImages["gallery/vaiezzell-circle"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const silverStadium = new WorkEntry({
+const silverStadium = new GalleryEntry({
     id: "silver-stadium",
     label: "Silver stadium",
     image: generatedGalleryImages["gallery/silver-vaie"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const jankmanBorzoi = new WorkEntry({
+const jankmanBorzoi = new GalleryEntry({
     id: "jankman-borzoi",
     label: "Jankman with borzoi",
     image: generatedGalleryImages["gallery/jankman-borzoi"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const automaton = new WorkEntry({
+const automaton = new GalleryEntry({
     id: "automaton",
     label: "Automaton dragon",
     image: generatedGalleryImages["gallery/dragonraffle/automaton"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const dragonInRuralMiddleAmerica = new WorkEntry({
+const dragonInRuralMiddleAmerica = new GalleryEntry({
     id: "dragon-in-rural-middle-america",
     label: "Dragon in rural middle america",
     image: generatedGalleryImages["gallery/dragonraffle/dragon-in-rural-middle-america"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const dragonOnLawn = new WorkEntry({
+const dragonOnLawn = new GalleryEntry({
     id: "dragon-on-lawn",
     label: "Dragon on lawn",
     image: generatedGalleryImages["gallery/dragonraffle/dragon-on-lawn"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const spacefarer = new WorkEntry({
+const spacefarer = new GalleryEntry({
     id: "spacefarer",
     label: "Spacefarer",
     image: generatedGalleryImages["gallery/dragonraffle/lexi"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const cherryBlossom = new WorkEntry({
+const cherryBlossom = new GalleryEntry({
     id: "cherry-blossom",
     label: "Cherry blossom",
     image: generatedGalleryImages["gallery/dragonraffle/milli"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const tradeOffer = new WorkEntry({
+const tradeOffer = new GalleryEntry({
     id: "trade-offer",
     label: "Trade offer",
     image: generatedGalleryImages["gallery/dragonraffle/nuts"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const unnickDragonKiss = new WorkEntry({
+const unnickDragonKiss = new GalleryEntry({
     id: "unnick-dragon-kiss",
     label: "unnick dragon kiss",
     image: generatedGalleryImages["gallery/dragonraffle/unnick-dragon-kiss"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const dragonraffle = new WorkEntry({
+const dragonraffle = new GalleryEntry({
     id: "dragonraffle",
     label: "Dragonraffle",
     children: [
@@ -390,203 +390,203 @@ const dragonraffle = new WorkEntry({
     ],
 });
 
-const whoTheHellIsJankman = new WorkEntry({
+const whoTheHellIsJankman = new GalleryEntry({
     id: "who-the-hell-is-jankman",
     label: "Who the hell is Jankman?",
     image: generatedGalleryImages["gallery/who-the-hell-is-jankman"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const zanawyrm = new WorkEntry({
+const zanawyrm = new GalleryEntry({
     id: "zanawyrm",
     label: "Zanawyrm",
     image: generatedGalleryImages["gallery/zanawyrm"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const trainStation = new WorkEntry({
+const trainStation = new GalleryEntry({
     id: "train-station",
     label: "train station",
     image: generatedGalleryImages["gallery/terskayl-train-station-signed-vaiezzell"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const coldLight = new WorkEntry({
+const coldLight = new GalleryEntry({
     id: "cold-light",
     label: "Cold light",
     image: generatedGalleryImages["gallery/just-gotta-ok-tired-of-ms-paint-now"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const inSkylight = new WorkEntry({
+const inSkylight = new GalleryEntry({
     id: "in-skylight",
     label: "In skylight",
     image: generatedGalleryImages["gallery/in-skylight"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const fruitThief = new WorkEntry({
+const fruitThief = new GalleryEntry({
     id: "fruit-thief",
     label: "Fruit thief",
     image: generatedGalleryImages["gallery/linky-drinkf"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const lounge = new WorkEntry({
+const lounge = new GalleryEntry({
     id: "lounge",
     label: "Lounge",
     image: generatedGalleryImages["gallery/render-test"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const aquafrust = new WorkEntry({
+const aquafrust = new GalleryEntry({
     id: "aquafrust",
     label: "Aquafrust",
     image: generatedGalleryImages["gallery/aquafrust"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const graffiti = new WorkEntry({
+const graffiti = new GalleryEntry({
     id: "graffiti",
     label: "The most stylish of breath weapons",
     image: generatedGalleryImages["gallery/graffiti"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const colors = new WorkEntry({
+const colors = new GalleryEntry({
     id: "colors",
     label: "Colors",
     image: generatedGalleryImages["gallery/colors"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const deweyDoughball = new WorkEntry({
+const deweyDoughball = new GalleryEntry({
     id: "dewey-doughball",
     label: "Dewey doughball",
     image: generatedGalleryImages["gallery/db"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const fireHydrant = new WorkEntry({
+const fireHydrant = new GalleryEntry({
     id: "fire-hydrant",
     label: "Fire hydran't",
     image: generatedGalleryImages["gallery/fh"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const pond = new WorkEntry({
+const pond = new GalleryEntry({
     id: "pond",
     label: "Pond",
     image: generatedGalleryImages["gallery/pondy"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const bulb = new WorkEntry({
+const bulb = new GalleryEntry({
     id: "bulb",
     label: "Bulb",
     image: generatedGalleryImages["gallery/bulb/bulb"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const danceyDragon = new WorkEntry({
+const danceyDragon = new GalleryEntry({
     id: "dancey-dragon",
     label: "Dancey dragon",
     image: generatedGalleryImages["gallery/dancey"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const nightFlight = new WorkEntry({
+const nightFlight = new GalleryEntry({
     id: "night-flight",
     label: "Night flight",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/conkyf-alpha"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const studious = new WorkEntry({
+const studious = new GalleryEntry({
     id: "studious",
     label: "Studious",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/twf2ff"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const poweruser = new WorkEntry({
+const poweruser = new GalleryEntry({
     id: "poweruser",
     label: "Poweruser",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/drawmeadragon-p4rp"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const gust = new WorkEntry({
+const gust = new GalleryEntry({
     id: "gust",
     label: "Gust",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/gustf"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const hotelPrank = new WorkEntry({
+const hotelPrank = new GalleryEntry({
     id: "hotel-prank",
     label: "Hotel prank",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/poopyf-alpha"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const desktopPet = new WorkEntry({
+const desktopPet = new GalleryEntry({
     id: "desktop-pet",
     label: "Desktop pet",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/epif"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const mushrooms = new WorkEntry({
+const mushrooms = new GalleryEntry({
     id: "mushrooms",
     label: "Mushrooms",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/tocky2f-alpha"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const samcluster = new WorkEntry({
+const samcluster = new GalleryEntry({
     id: "samcluster",
     label: "Samcluster",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/samclusterf"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const matsubara = new WorkEntry({
+const matsubara = new GalleryEntry({
     id: "matsubara",
     label: "Matsubara",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/matsf"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const squareNoodle = new WorkEntry({
+const squareNoodle = new GalleryEntry({
     id: "square-noodle",
     label: "Square noodle",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/squaresquaref"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const vanished = new WorkEntry({
+const vanished = new GalleryEntry({
     id: "vanished",
     label: "Vanished",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/vanv"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const banana = new WorkEntry({
+const banana = new GalleryEntry({
     id: "banana",
     label: "banana",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/bananaf"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const sampcane = new WorkEntry({
+const sampcane = new GalleryEntry({
     id: "sampcane",
     label: "Sampcane",
     image: generatedGalleryImages["gallery/discord-bio-easter-egg/sampcanef"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const discordBioEasterEgg = new WorkEntry({
+const discordBioEasterEgg = new GalleryEntry({
     id: "discord-bio-easter-egg",
     label: "Discord bio easter egg",
     children: [
@@ -606,21 +606,21 @@ const discordBioEasterEgg = new WorkEntry({
     ],
 });
 
-const poolToys = new WorkEntry({
+const poolToys = new GalleryEntry({
     id: "pool-toys",
     label: "Pool toys",
     image: generatedGalleryImages["gallery/swimmy"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-const floatyZane = new WorkEntry({
+const floatyZane = new GalleryEntry({
     id: "floaty-zane",
     label: "Floaty Zane",
     image: generatedGalleryImages["gallery/zaneb"],
-    tags: [workTags.medium.illustration],
+    tags: [galleryTags.medium.illustration],
 });
 
-export const workEntries = {
+export const galleryEntries = {
     [pudle.id]: pudle,
     [vaiezzellRef.id]: vaiezzellRef,
     [curiRef.id]: curiRef,
@@ -702,8 +702,8 @@ export const workEntries = {
     [floatyZane.id]: floatyZane,
 };
 
-export const workEntryParents = new Map<WorkEntry, WorkEntry | null>(Object.values(workEntries).map(work => [work, null]));
-for (const work of Object.values(workEntries)) {
+export const workEntryParents = new Map<GalleryEntry, GalleryEntry | null>(Object.values(galleryEntries).map(work => [work, null]));
+for (const work of Object.values(galleryEntries)) {
     for (const childWork of work.children) {
         workEntryParents.set(childWork, work);
     }

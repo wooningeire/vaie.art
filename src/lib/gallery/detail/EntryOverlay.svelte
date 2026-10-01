@@ -3,7 +3,7 @@ import { Draggable } from "@vaie/hui";
 import { onMount, tick } from "svelte";
 import { on } from "svelte/events";
 import type { ComponentProps } from "svelte";
-import type { WorkEntryImageVariants } from "$/works/WorkEntryImage";
+import type { GalleryEntryImageVariants } from "$/gallery/GalleryEntryImage";
 
 let {
     label,
@@ -11,7 +11,7 @@ let {
     onClose,
 }: {
     label: string,
-    image: WorkEntryImageVariants,
+    image: GalleryEntryImageVariants,
     onClose: () => void,
 } = $props();
 

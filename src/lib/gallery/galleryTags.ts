@@ -1,4 +1,4 @@
-export const workTags = {
+export const galleryTags = {
     medium: {
         web: "web",
         illustration: "illustration",

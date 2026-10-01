@@ -1,18 +1,18 @@
 import type { Component } from "svelte";
-import type { WorkEntryImageVariants } from "./WorkEntryImage";
+import type { GalleryEntryImageVariants } from "./GalleryEntryImage";
 
-export class WorkEntry {
+export class GalleryEntry {
     readonly id: string;
     readonly label: string;
     readonly descShort: string;
-    readonly image: WorkEntryImageVariants | null;
+    readonly image: GalleryEntryImageVariants | null;
     readonly href: string;
     readonly tags: string[];
     readonly descriptionComponent: Component | null;
     readonly infoComponent: Component | null;
     readonly external: boolean;
     readonly hasGalleryImagePage: boolean;
-    readonly children: WorkEntry[];
+    readonly children: GalleryEntry[];
     readonly hasChildren: boolean;
     readonly hasLink: boolean;
 
@@ -32,14 +32,14 @@ export class WorkEntry {
         id: string,
         label: string,
         descShort?: string,
-        image?: WorkEntryImageVariants | null,
+        image?: GalleryEntryImageVariants | null,
         href?: string | null,
         tags?: string[],
         descriptionComponent?: Component | null,
         infoComponent?: Component | null,
         external?: boolean,
         hasGalleryImagePage?: boolean,
-        children?: WorkEntry[],
+        children?: GalleryEntry[],
     }) {
         this.id = id;
         this.label = label;

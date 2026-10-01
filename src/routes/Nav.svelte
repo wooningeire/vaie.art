@@ -13,8 +13,8 @@ import Sep from "./Sep.svelte";
     <Sep />
     
     <NavItem
-        href="/works"
-        label="works"
+        href="/gallery"
+        label="gallery"
     />
 
     <Sep />

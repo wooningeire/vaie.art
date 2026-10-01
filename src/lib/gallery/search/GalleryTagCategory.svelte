@@ -25,16 +25,16 @@ let {
                     }
                 }}
             >
-                <works-gallery-tag-toggle>
+                <gallery-tag-toggle>
                     <input
                         type="checkbox"
                         checked={galleryState.activeTags.has(tagId)}
                     />
 
-                    <works-gallery-tag-label>
+                    <gallery-tag-label>
                         {tagLabel}
-                    </works-gallery-tag-label>
-                </works-gallery-tag-toggle>
+                    </gallery-tag-label>
+                </gallery-tag-toggle>
             </Button>
         {/each}
     </gallery-tag-category-items>
@@ -57,7 +57,7 @@ gallery-tag-category-items {
     gap: 0.5em;
 }
 
-works-gallery-tag-toggle {
+gallery-tag-toggle {
     display: flex;
     gap: 0.5em;
 }

@@ -1,15 +1,15 @@
 <script lang="ts">
-import WorkEntryOverlay from "./WorkEntryOverlay.svelte";
-import type { WorkEntry } from "../WorkEntry";
-    import { workEntryParents } from "../entries-data/entries";
-    import { onWorkClick } from "../gallery/entry/onWorkClick";
-    import { WORKS_PAGE_CONTEXT_KEY, type WorksPageContext } from "../WorksPageContext.svelte";
-    import { getContext } from "svelte";
+import WorkEntryOverlay from "./EntryOverlay.svelte";
+import type { GalleryEntry } from "../GalleryEntry";
+import { workEntryParents } from "../entries-data/entries";
+import { onGalleryEntryClick } from "../entry/onGalleryEntryClick";
+import { GALLERY_CONTEXT_KEY, type GalleryContext } from "../GalleryContext.svelte";
+import { getContext } from "svelte";
 
 let {
     entry,
 }: {
-    entry: WorkEntry,
+    entry: GalleryEntry,
 } = $props();
 
 
@@ -27,8 +27,8 @@ const closeFullResolutionViewer = () => {
     previewButton?.focus({ preventScroll: true });
 };
 
-const workAncestry: WorkEntry[] = $derived.by(() => {
-    const ancestry: WorkEntry[] = [];
+const workAncestry: GalleryEntry[] = $derived.by(() => {
+    const ancestry: GalleryEntry[] = [];
 
     let currentWork = workEntryParents.get(entry) ?? null;
     while (currentWork !== null) {
@@ -39,7 +39,7 @@ const workAncestry: WorkEntry[] = $derived.by(() => {
     return ancestry.reverse();
 });
 
-const worksGalleryContext = getContext<WorksPageContext>(WORKS_PAGE_CONTEXT_KEY);
+const galleryContext = getContext<GalleryContext>(GALLERY_CONTEXT_KEY);
 </script>
 
 <work-entry-detail>
@@ -48,7 +48,7 @@ const worksGalleryContext = getContext<WorksPageContext>(WORKS_PAGE_CONTEXT_KEY)
             {#each workAncestry as ancestorWork, i (ancestorWork.id)}
                 <a
                     href={ancestorWork.href}
-                    onclick={onWorkClick(worksGalleryContext, ancestorWork)}
+                    onclick={onGalleryEntryClick(galleryContext, ancestorWork)}
                 >{ancestorWork.label}</a>
 
                 {#if i < workAncestry.length - 1}

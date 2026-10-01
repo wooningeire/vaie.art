@@ -1,8 +1,8 @@
 <script lang="ts">
 import type { PageData } from "./$types";
-import { workEntries } from "$/works/entries-data/entries";
+import { galleryEntries } from "$/gallery/entries-data/entries";
 import { SITENAME } from "$/constants";
-import WorkEntryDetail from "$/works/detail/WorkEntryDetail.svelte";
+import WorkEntryDetail from "$/gallery/detail/EntryDetail.svelte";
 
 let {
     data,
@@ -10,7 +10,7 @@ let {
     data: PageData,
 } = $props();
 
-const entry = $derived(workEntries[data.entryId]);
+const entry = $derived(galleryEntries[data.entryId]);
 
 const canonicalUrl = $derived(`https://vaie.art/works/${entry.id}`);
 </script>

@@ -1,12 +1,12 @@
 <script lang="ts">
-import type { WorkEntry } from "$/works/WorkEntry";
+import type { GalleryEntry } from "$/gallery/GalleryEntry";
 import Button from "@/generic/Button.svelte";
 
 let {
     work,
     onClick = null,
 }: {
-    work: WorkEntry,
+    work: GalleryEntry,
     onClick?: ((event: MouseEvent) => void) | null,
 } = $props();
 </script>
@@ -86,7 +86,7 @@ gallery-button {
     display: inline-grid;
     place-items: stretch;
 
-    height: 9.5em;
+    height: 8em;
 
     > * {
         grid-area: 1/1;
