@@ -6,13 +6,18 @@ import GalleryTagCategory from "./GalleryTagCategory.svelte";
 
 <gallery-search>
     <GalleryTagCategory
-        label="Medium"
-        tags={galleryTags.medium}
+        label="Subject"
+        tags={galleryTags.subject}
     />
 
     <GalleryTagCategory
-        label="Subject"
-        tags={galleryTags.subject}
+        label="Purpose"
+        tags={galleryTags.purpose}
+    />
+
+    <GalleryTagCategory
+        label="Medium"
+        tags={galleryTags.medium}
     />
 
     <GalleryTagCategory

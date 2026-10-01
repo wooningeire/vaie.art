@@ -40,12 +40,12 @@ let {
 viewport-frame {
     display: grid;
     justify-items: center;
-
+    gap: 1.5em;
     grid-template-columns: 1fr 95ch 1fr;
     grid-template-rows: auto 1fr;
 
     min-width: 115ch;
-    min-height: 100vh;
+    height: 100vh;
 
     > page-top {
         place-self: stretch;

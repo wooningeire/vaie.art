@@ -35,12 +35,15 @@ const filteredWorks = $derived.by(() => {
         <gallery-entry-list-scroller>
             {#each filteredWorks as work (work.id)}
                 {@const animationDelay = Math.random() * 25}
+                {@const animationDuration = Math.random() * 200 + 400}
+
                 {@const transitionDelay = Math.random() * 100}
+                {@const transitionDuration = Math.random() * 100 + 200}
 
                 <gallery-entry-view-container
-                    animate:flip={{duration: 500, easing: cubicInOut, delay: animationDelay}}
-                    in:fly={{duration: 250, y: 50, easing: cubicOut, delay: transitionDelay}}
-                    out:fly={{duration: 250, y: 50, easing: cubicIn, delay: transitionDelay}}
+                    animate:flip={{duration: animationDuration, easing: cubicInOut, delay: animationDelay}}
+                    in:fly={{duration: transitionDuration, y: 50, easing: cubicOut, delay: transitionDelay}}
+                    out:fly={{duration: transitionDuration, y: 50, easing: cubicIn, delay: transitionDelay}}
                 >
                     <WorksGalleryEntryView entry={work} />
                 </gallery-entry-view-container>

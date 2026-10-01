@@ -1,7 +1,7 @@
 <script lang="ts">
 import WorkEntryOverlay from "./EntryOverlay.svelte";
 import type { GalleryEntry } from "../GalleryEntry";
-import { workEntryParents } from "../entries-data/entries";
+import { entryParents } from "../entries-data/entries";
 import { onGalleryEntryClick } from "../entry/onGalleryEntryClick";
 import { GALLERY_CONTEXT_KEY, type GalleryContext } from "../GalleryContext.svelte";
 import { getContext } from "svelte";
@@ -30,10 +30,10 @@ const closeFullResolutionViewer = () => {
 const workAncestry: GalleryEntry[] = $derived.by(() => {
     const ancestry: GalleryEntry[] = [];
 
-    let currentWork = workEntryParents.get(entry) ?? null;
+    let currentWork = entryParents.get(entry) ?? null;
     while (currentWork !== null) {
         ancestry.push(currentWork);
-        currentWork = workEntryParents.get(currentWork) ?? null;
+        currentWork = entryParents.get(currentWork) ?? null;
     }
 
     return ancestry.reverse();

@@ -1,5 +1,6 @@
 import type { Component } from "svelte";
 import type { GalleryEntryImageVariants } from "./GalleryEntryImage";
+import type { GalleryTag } from "./GalleryTag";
 
 export class GalleryEntry {
     readonly id: string;
@@ -7,7 +8,7 @@ export class GalleryEntry {
     readonly descShort: string;
     readonly image: GalleryEntryImageVariants | null;
     readonly href: string;
-    readonly tags: string[];
+    readonly tags: GalleryTag[];
     readonly descriptionComponent: Component | null;
     readonly infoComponent: Component | null;
     readonly external: boolean;
@@ -34,7 +35,7 @@ export class GalleryEntry {
         descShort?: string,
         image?: GalleryEntryImageVariants | null,
         href?: string | null,
-        tags?: string[],
+        tags?: GalleryTag[],
         descriptionComponent?: Component | null,
         infoComponent?: Component | null,
         external?: boolean,
