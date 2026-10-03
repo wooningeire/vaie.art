@@ -1,4 +1,4 @@
-use anyhow::{Result, anyhow};
+use anyhow::{Context, Result, anyhow};
 use image::imageops::{FilterType, resize};
 use image::{ImageReader, RgbaImage};
 use std::fs;
@@ -11,7 +11,11 @@ pub fn write_still_webp(
     max_size: u32,
     quality: f32,
 ) -> Result<()> {
-    let image = ImageReader::open(input_file)?.decode()?.to_rgba8();
+    let image = ImageReader::open(input_file)?
+        .with_guessed_format()?
+        .decode()
+        .with_context(|| format!("failed to decode image {}", input_file.display()))?
+        .to_rgba8();
     let image = resize_to_fit(image, max_size);
     let encoded = encode_rgba_webp(image.as_raw(), image.width(), image.height(), quality)?;
 

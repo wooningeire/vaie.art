@@ -29,11 +29,11 @@ impl Options {
         }
 
         Ok(Options {
-            input: PathBuf::from("src/lib/works/entries-data"),
+            input: PathBuf::from("src/lib/gallery/entries-data"),
             output: PathBuf::from("static/media"),
             static_root: PathBuf::from("static"),
-            metadata_output: PathBuf::from("src/lib/works/entries-data/generatedGalleryImages.ts"),
-            media_assets_output: PathBuf::from("src/lib/works/entries-data/generatedMediaAssets.ts"),
+            metadata_output: PathBuf::from("src/lib/gallery/entries-data/generatedGalleryImages.ts"),
+            media_assets_output: PathBuf::from("src/lib/gallery/entries-data/generatedMediaAssets.ts"),
             preview_size: 1600,
             thumb_size: 480,
             preview_quality: 90.0,

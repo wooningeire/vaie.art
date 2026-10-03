@@ -5,6 +5,35 @@ import BookwyrmDgcCrossoverDescription from "$/gallery/entries-data/bookwyrm-dgc
 import { generatedMediaAssets } from "./generatedMediaAssets";
 import { generatedGalleryImages } from "./generatedGalleryImages";
 
+const zangReview = new GalleryEntry({
+    id: "zang-review",
+    label: "Did you leave a review?",
+    image: generatedGalleryImages["gallery/zangreview"],
+    tags: [
+        galleryTags.author.vaiezzell,
+        galleryTags.subject.macro,
+        galleryTags.subject.destruction,
+        galleryTags.purpose.illustration,
+        galleryTags.medium.raster,
+        galleryTags.tools.krita,
+    ],
+});
+
+const siivaDragons = new GalleryEntry({
+    id: "siiva-dragons",
+    label: "Fusion collab dragons",
+    image: generatedGalleryImages["gallery/siiva-dragons"],
+    tags: [
+        galleryTags.author.vaiezzell,
+        galleryTags.subject.macro,
+        galleryTags.subject.sizediff,
+        galleryTags.subject.destruction,
+        galleryTags.purpose.illustration,
+        galleryTags.medium.raster,
+        galleryTags.tools.krita,
+    ],
+});
+
 const pudle = new GalleryEntry({
     id: "pudle",
     label: "Pudle",
@@ -15,6 +44,7 @@ const pudle = new GalleryEntry({
         thumb: generatedMediaAssets["pudle/pudle-cover"],
     },
     tags: [
+        galleryTags.author.vaiezzell,
         galleryTags.medium.web,
     ],
     external: true,
@@ -25,6 +55,7 @@ const vaiezzellRef = new GalleryEntry({
     label: "vaiezzell reference sheet",
     image: generatedGalleryImages["gallery/vaiezzell-ref"],
     tags: [
+        galleryTags.author.vaiezzell,
         galleryTags.purpose.refsheet,
         galleryTags.purpose.illustration,
         galleryTags.medium.raster,
@@ -932,6 +963,8 @@ const floatyZane = new GalleryEntry({
 });
 
 export const galleryEntries = {
+    [zangReview.id]: zangReview,
+    [siivaDragons.id]: siivaDragons,
     [pudle.id]: pudle,
     [vaiezzellRef.id]: vaiezzellRef,
     [curiRef.id]: curiRef,

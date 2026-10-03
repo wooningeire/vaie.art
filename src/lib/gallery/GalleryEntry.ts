@@ -46,7 +46,7 @@ export class GalleryEntry {
         this.label = label;
         this.descShort = descShort;
         this.image = image;
-        this.href = href ?? `/works/${id}`;
+        this.href = href ?? `/gallery/${id}`;
         this.tags = tags;
         this.descriptionComponent = descriptionComponent;
         this.infoComponent = infoComponent;

@@ -10,7 +10,7 @@ use crate::convert_media::output_paths::{
 };
 use crate::convert_media::scan::{collect_image_files, should_regenerate};
 use crate::convert_media::webp_output::write_still_webp;
-use anyhow::Result;
+use anyhow::{Context, Result};
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -50,14 +50,16 @@ fn run_with_options(options: &Options) -> Result<()> {
     for file in files {
         let status = match media_kind_of(&file, options)? {
             MediaKind::Gallery => {
-                let result = convert_gallery_image(&file, options)?;
+                let result = convert_gallery_image(&file, options)
+                    .with_context(|| format!("failed to convert gallery image {}", file.display()))?;
                 let status = result.status;
 
                 gallery_conversion_results.push(result);
                 status
             }
             MediaKind::Static => {
-                let result = convert_static_image(&file, options)?;
+                let result = convert_static_image(&file, options)
+                    .with_context(|| format!("failed to convert static image {}", file.display()))?;
                 let status = result.status;
 
                 static_conversion_results.push(result);

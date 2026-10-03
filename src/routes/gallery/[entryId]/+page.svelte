@@ -12,7 +12,7 @@ let {
 
 const entry = $derived(galleryEntries[data.entryId]);
 
-const canonicalUrl = $derived(`https://vaie.art/works/${entry.id}`);
+const canonicalUrl = $derived(`https://vaie.art/gallery/${entry.id}`);
 </script>
 
 <svelte:head>
