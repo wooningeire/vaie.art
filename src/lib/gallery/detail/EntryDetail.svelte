@@ -43,31 +43,6 @@ const galleryContext = getContext<GalleryContext>(GALLERY_CONTEXT_KEY);
 </script>
 
 <work-entry-detail>
-    <work-entry-detail-description>
-        <work-ancestry>
-            {#each workAncestry as ancestorWork, i (ancestorWork.id)}
-                <a
-                    href={ancestorWork.href}
-                    onclick={onGalleryEntryClick(galleryContext, ancestorWork)}
-                >{ancestorWork.label}</a>
-
-                {#if i < workAncestry.length - 1}
-                    <work-ancestry-separator>/</work-ancestry-separator>
-                {/if}
-            {/each}
-        </work-ancestry>
-
-        <work-entry-detail-description-title>
-            {entry.label}
-        </work-entry-detail-description-title>
-
-        <work-entry-detail-description-body>
-            {#if Description !== null}
-                <Description />
-            {/if}
-        </work-entry-detail-description-body>
-    </work-entry-detail-description>
-    
     {#if entry.image !== null}
         <work-entry-detail-media>
             <button
@@ -98,6 +73,31 @@ const galleryContext = getContext<GalleryContext>(GALLERY_CONTEXT_KEY);
             </button>
         </work-entry-detail-media>
     {/if}
+
+    <work-entry-detail-description>
+        <work-ancestry>
+            {#each workAncestry as ancestorWork, i (ancestorWork.id)}
+                <a
+                    href={ancestorWork.href}
+                    onclick={onGalleryEntryClick(galleryContext, ancestorWork)}
+                >{ancestorWork.label}</a>
+
+                {#if i < workAncestry.length - 1}
+                    <work-ancestry-separator>/</work-ancestry-separator>
+                {/if}
+            {/each}
+        </work-ancestry>
+
+        <work-entry-detail-description-title>
+            {entry.label}
+        </work-entry-detail-description-title>
+
+        <work-entry-detail-description-body>
+            {#if Description !== null}
+                <Description />
+            {/if}
+        </work-entry-detail-description-body>
+    </work-entry-detail-description>
 </work-entry-detail>
 
 {#if entry.image !== null && fullResolutionViewerOpen}
@@ -113,6 +113,7 @@ const galleryContext = getContext<GalleryContext>(GALLERY_CONTEXT_KEY);
 
 work-entry-detail {
     display: flex;
+    flex-direction: column;
     align-items: stretch;
     gap: 1em;
 

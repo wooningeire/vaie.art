@@ -1,6 +1,6 @@
 <script>
 import NavItem from "@/sidenav/NavItem.svelte";
-import Sep from "./Sep.svelte";
+import Sep from "../../routes/Sep.svelte";
 
 </script>
 

@@ -47,10 +47,13 @@ import { SITENAME } from "$/constants";
 
 <style lang="scss">
 @use "$/styles/fonts.scss";
+@use "$/layout/layout.scss";
 
 homepage- {
     display: flex;
     gap: 1em;
+
+    width: layout.$main-area-width;
 }
 
 h3 {

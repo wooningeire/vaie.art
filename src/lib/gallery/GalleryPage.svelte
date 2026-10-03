@@ -25,20 +25,17 @@ setContext(GALLERY_CONTEXT_KEY, context);
 <style lang="scss">
 gallery-page {
     display: flex;
-    flex-direction: column;
     align-items: stretch;
     gap: 1em;
 
-    min-width: 0;
-    min-height: 0;
+    width: 100vw;
+    height: 100%;
 
     overflow: auto;
 }
 
 gallery-entry-detail-container {
-    flex-basis: 20em;
-    flex-shrink: 1;
-    min-height: 0;
+    flex: 0 1 30em;
 
     display: grid;
 }

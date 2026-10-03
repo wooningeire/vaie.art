@@ -2,10 +2,10 @@
 import "./index.scss";
 
 import favicon from "$lib/assets/vaiezzell favicon.png";
-import Nav from "./Nav.svelte";
-import Header from "./Header.svelte";
-import Background from "@/Background.svelte";
-import Canvas from "./Canvas.svelte";
+import Nav from "$/layout/Nav.svelte";
+import Header from "$/layout/Header.svelte";
+import Background from "$/layout/Background.svelte";
+import Canvas from "$/layout/wgpu-scene/Canvas.svelte";
 
 let {
     children,
@@ -36,29 +36,20 @@ let {
 @use "$/styles/responsive.scss";
 @use "$/styles/colors.scss";
 @use "$/styles/fonts.scss";
+@use "$/layout/layout.scss";
 
 viewport-frame {
-    display: grid;
-    justify-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 1.5em;
-    grid-template-columns: 1fr 95ch 1fr;
-    grid-template-rows: auto 1fr;
 
     min-width: 115ch;
     height: 100vh;
-
-    > page-top {
-        place-self: stretch;
-        grid-area: 1/2;
-    }
-
-    > main {
-        place-self: stretch;
-        grid-area: 2/2;
-    }
 }
 
 page-top {
+    width: layout.$main-area-width;
     padding-top: 5em;
 
     display: flex;
@@ -68,7 +59,9 @@ page-top {
 }
 
 main {
-    flex: 1 1 0;
+    display: grid;
+    place-items: stretch;
+
     overflow: auto;
 }
 </style>

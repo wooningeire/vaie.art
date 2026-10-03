@@ -15,6 +15,14 @@ export class GalleryTag {
 }
 
 export const galleryTags = {
+    author: {
+        vaiezzell: new GalleryTag({id: "author.vaiezzell", label: "vaiezzell"}),
+        sapphi: new GalleryTag({id: "author.sapphi", label: "Sapphi"}),
+        dragodi: new GalleryTag({id: "author.dragodi", label: "DragoDi"}),
+        wellory: new GalleryTag({id: "author.wellory", label: "Wellory"}),
+        terskayl: new GalleryTag({id: "author.terskayl", label: "Terskayl"}),
+    },
+
     subject: {
         macro: new GalleryTag({id: "subject.macro", label: "macro"}),
         sizediff: new GalleryTag({id: "subject.sizediff", label: "sizediff"}),

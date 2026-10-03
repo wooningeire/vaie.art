@@ -56,17 +56,14 @@ const filteredWorks = $derived.by(() => {
 @use "$/styles/mixins";
 
 gallery- {
-    flex-grow: 1;
-    flex-shrink: 1;
+    flex: 1 1 0;
 
     display: flex;
     overflow: hidden;
 }
 
 gallery-entry-list {
-    flex-basis: 0;
-    flex-grow: 1;
-    flex-shrink: 1;
+    flex: 1 1 0;
 
     overflow-y: auto;
 

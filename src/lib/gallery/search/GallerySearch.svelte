@@ -6,6 +6,11 @@ import GalleryTagCategory from "./GalleryTagCategory.svelte";
 
 <gallery-search>
     <GalleryTagCategory
+        label="Author"
+        tags={galleryTags.author}
+    />
+
+    <GalleryTagCategory
         label="Subject"
         tags={galleryTags.subject}
     />
