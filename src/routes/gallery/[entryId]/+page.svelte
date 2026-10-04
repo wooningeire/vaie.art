@@ -2,7 +2,7 @@
 import type { PageData } from "./$types";
 import { galleryEntries } from "$/gallery/entries-data/entries";
 import { SITENAME } from "$/constants";
-import WorkEntryDetail from "$/gallery/detail/EntryDetail.svelte";
+import EntryDetail from "$/gallery/detail/EntryDetail.svelte";
 
 let {
     data,
@@ -42,4 +42,15 @@ const canonicalUrl = $derived(`https://vaie.art/gallery/${entry.id}`);
     {/if}
 </svelte:head>
 
-<WorkEntryDetail {entry} />
+<entry-detail-page>
+    <EntryDetail {entry} />
+</entry-detail-page>
+
+<style lang="scss">
+@use "$/layout/layout.scss";
+
+entry-detail-page {
+    max-width: layout.$main-area-width;
+    width: 100vw;
+}
+</style>

@@ -1,15 +1,20 @@
 <script lang="ts">
-import WorkEntryOverlay from "./EntryOverlay.svelte";
+import FullscreenEntryViewer from "./FullscreenEntryViewer.svelte";
 import type { GalleryEntry } from "../GalleryEntry";
 import { entryParents } from "../entries-data/entries";
 import { onGalleryEntryClick } from "../entry/onGalleryEntryClick";
 import { GALLERY_CONTEXT_KEY, type GalleryContext } from "../GalleryContext.svelte";
 import { getContext } from "svelte";
+    import Button from "@/generic/Button.svelte";
 
 let {
     entry,
+    limitPreviewHeight = false,
+    displayPopout = false,
 }: {
     entry: GalleryEntry,
+    limitPreviewHeight?: boolean,
+    displayPopout?: boolean,
 } = $props();
 
 
@@ -51,6 +56,7 @@ const galleryContext = getContext<GalleryContext>(GALLERY_CONTEXT_KEY);
                 aria-haspopup="dialog"
                 aria-expanded={fullResolutionViewerOpen}
                 onclick={openFullResolutionViewer}
+                class:limit-preview-height={limitPreviewHeight}
             >
                 {#if entry.image.preview.src.endsWith(".mp4")}
                     <video
@@ -75,6 +81,14 @@ const galleryContext = getContext<GalleryContext>(GALLERY_CONTEXT_KEY);
     {/if}
 
     <work-entry-detail-description>
+        {#if displayPopout}
+            <popout-button>
+                <a href={entry.href}>
+                    <Button>show without gallery</Button>
+                </a>
+            </popout-button>
+        {/if}
+
         <work-ancestry>
             {#each workAncestry as ancestorWork, i (ancestorWork.id)}
                 <a
@@ -95,13 +109,17 @@ const galleryContext = getContext<GalleryContext>(GALLERY_CONTEXT_KEY);
         <work-entry-detail-description-body>
             {#if Description !== null}
                 <Description />
+            {:else}
+                <no-description-notice>
+                    I didn’t write anything about this entry yet…!
+                </no-description-notice>
             {/if}
         </work-entry-detail-description-body>
     </work-entry-detail-description>
 </work-entry-detail>
 
 {#if entry.image !== null && fullResolutionViewerOpen}
-    <WorkEntryOverlay
+    <FullscreenEntryViewer
         label={entry.label}
         image={entry.image}
         onClose={closeFullResolutionViewer}
@@ -117,26 +135,20 @@ work-entry-detail {
     align-items: stretch;
     gap: 1em;
 
-    min-width: 0;
+    overflow-y: auto;
 }
 
 work-entry-detail-media {
-    flex: 1 1 0;
-    height: 100%;
-
     display: grid;
     place-items: center;
 }
 
 work-entry-detail-description {
-    flex: 1 1 0;
-
     display: flex;
     flex-direction: column;
 
     height: 100%;
     padding: 0 2em;
-    overflow-y: auto;
 }
 
 button {
@@ -154,8 +166,15 @@ button {
     > img,
     > video {
         max-width: 100%;
+    }
+
+    &.limit-preview-height > :is(img, video) {
         max-height: 20em;
     }
+}
+
+popout-button {
+    margin-bottom: 2em;
 }
 
 work-ancestry {
@@ -169,20 +188,21 @@ work-entry-detail-description-title {
     @include fonts.heading;
 
     font-size: 2em;
-    overflow-wrap: anywhere;
 }
 
 work-entry-detail-description-body {
     display: block;
 
-    max-width: 48rem;
-    min-width: 0;
+    margin-top: 1em;
 
     line-height: 1.5;
-    overflow-wrap: anywhere;
 
     :global(p) {
         margin-block: 0;
     }
+}
+
+no-description-notice {
+    opacity: 0.5;
 }
 </style>

@@ -17,7 +17,11 @@ setContext(GALLERY_CONTEXT_KEY, context);
         {#if context.selectedEntry === null}
             <gallery-entry-detail-empty>details will appear here!</gallery-entry-detail-empty>
         {:else}
-            <EntryDetail entry={context.selectedEntry} />
+            <EntryDetail
+                entry={context.selectedEntry}
+                limitPreviewHeight
+                displayPopout
+            />
         {/if}
     </gallery-entry-detail-container>
 </gallery-page>
@@ -38,6 +42,10 @@ gallery-entry-detail-container {
     flex: 0 1 30em;
 
     display: grid;
+
+    @media screen and (max-width: 1200px) {
+        display: none;
+    }
 }
 
 gallery-entry-detail-empty {

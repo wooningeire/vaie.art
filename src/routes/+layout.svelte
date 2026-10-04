@@ -59,6 +59,8 @@ page-top {
 }
 
 main {
+    flex-grow: 1;
+
     display: grid;
     place-items: stretch;
 
