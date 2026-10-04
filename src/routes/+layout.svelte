@@ -44,12 +44,12 @@ viewport-frame {
     align-items: center;
     gap: 1.5em;
 
-    min-width: 115ch;
     height: 100vh;
 }
 
 page-top {
-    width: layout.$main-area-width;
+    max-width: layout.$main-area-width;
+    width: 100vw;
     padding-top: 5em;
 
     display: flex;

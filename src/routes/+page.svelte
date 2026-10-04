@@ -53,7 +53,8 @@ homepage- {
     display: flex;
     gap: 1em;
 
-    width: layout.$main-area-width;
+    max-width: layout.$main-area-width;
+    width: 100vw;
 }
 
 h3 {

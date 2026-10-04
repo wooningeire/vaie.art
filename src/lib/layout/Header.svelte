@@ -1,25 +1,17 @@
 <header>
-    <header-item class="emph">
-        <a href="/">
-            vaie.art
-        </a>
-    </header-item>
+    <a href="/" class="emph">
+        vaie.art
+    </a>
 
-    <header-item>
-        <subtle->i.e.</subtle-> <span class="emph">vaiezzell’s den!</span>
-    </header-item>
-
-    <header-item>
-        /ˈveɪzəl/
-    </header-item>
+    <subtle->i.e.</subtle->
+    
+    <with-undernote><span class="emph">vaiezzell</span><undernote->/ˈveɪ zəl/</undernote-></with-undernote><span class="emph">’s den!</span>
 </header>
 
 <style lang="scss">
 @use "$/styles/fonts.scss";
 
 header {
-    display: flex;
-    gap: 1rem;
     align-items: stretch;
 }
 
@@ -31,5 +23,18 @@ header {
 
 subtle- {
     font-size: 1.5em;
+}
+
+with-undernote {
+    position: relative;
+}
+
+undernote- {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, 100%);
+
+    opacity: 0.5;
 }
 </style>
