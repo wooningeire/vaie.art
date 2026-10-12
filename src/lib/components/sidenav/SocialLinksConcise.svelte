@@ -5,7 +5,8 @@ import GithubSvg from "@/social-icons/Github.svg.svelte";
 import KofiSvg from "@/social-icons/Kofi.svg.svelte";
 import ArtfightSvg from "@/social-icons/Artfight.svg.svelte";
 import BlueskySvg from "@/social-icons/Bluesky.svg.svelte";
-    import Sep from "#/routes/Sep.svelte";
+import DiscordSvg from "@/social-icons/Discord.svg.svelte";
+import Sep from "#/routes/Sep.svelte";
 </script>
 
 <social-links>
@@ -45,12 +46,29 @@ import BlueskySvg from "@/social-icons/Bluesky.svg.svelte";
             <BlueskySvg />
         {/snippet}
     </SocialLink>
+    
+    <SocialLink
+        href="https://discord.com/users/188852618456596480"
+        label="Discord"
+    >
+        {#snippet icon()}
+            <DiscordSvg />
+        {/snippet}
+    </SocialLink>
 
     <sep-vertical>
         <Sep />
     </sep-vertical>
 
-    <sep-horizontal>
+    <sep-horizontal
+        style:--y="1"
+    >
+        <Sep />
+    </sep-horizontal>
+
+    <sep-horizontal
+        style:--y="2"
+    >
         <Sep />
     </sep-horizontal>
 </social-links>
@@ -67,13 +85,15 @@ social-links {
     > sep-vertical {
         display: grid;
         place-items: stretch;
-        grid-area: 1/2 / 4/3;
+        grid-area: 1/2 / 6/3;
     }
 
     > sep-horizontal {
+        --y: 0;
+
         display: grid;
         place-items: stretch;
-        grid-area: 2/1 / 3/-1;
+        grid-area: calc(var(--y) * 2)/1 / calc(var(--y) * 2 + 1)/-1;
     }
     
     :global(path) {
